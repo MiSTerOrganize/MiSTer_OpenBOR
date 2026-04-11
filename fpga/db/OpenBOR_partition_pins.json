@@ -376,6 +376,30 @@
 					"strict" : false
 				},
 				{
+					"name" : "VGA_HS",
+					"strict" : false
+				},
+				{
+					"name" : "SDIO_DAT[0]",
+					"strict" : false
+				},
+				{
+					"name" : "SDIO_DAT[1]",
+					"strict" : false
+				},
+				{
+					"name" : "SDIO_DAT[2]",
+					"strict" : false
+				},
+				{
+					"name" : "SDIO_DAT[3]",
+					"strict" : false
+				},
+				{
+					"name" : "SDIO_CMD",
+					"strict" : false
+				},
+				{
 					"name" : "SDRAM_DQ[0]",
 					"strict" : false
 				},
@@ -437,30 +461,6 @@
 				},
 				{
 					"name" : "SDRAM_DQ[15]",
-					"strict" : false
-				},
-				{
-					"name" : "VGA_HS",
-					"strict" : false
-				},
-				{
-					"name" : "SDIO_DAT[0]",
-					"strict" : false
-				},
-				{
-					"name" : "SDIO_DAT[1]",
-					"strict" : false
-				},
-				{
-					"name" : "SDIO_DAT[2]",
-					"strict" : false
-				},
-				{
-					"name" : "SDIO_DAT[3]",
-					"strict" : false
-				},
-				{
-					"name" : "SDIO_CMD",
 					"strict" : false
 				},
 				{

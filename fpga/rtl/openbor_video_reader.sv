@@ -533,18 +533,18 @@ end
 
 // -- Dual-Clock FIFO --------------------------------------------------
 // 64-bit wide, stores raw DDR3 beats (4 RGB565 pixels per entry).
-// Depth 128 to comfortably hold the bigger 80-beat scanlines (vs 32 for PICO-8).
+// Depth 256 to hold 2 preloaded scanlines (80 beats each = 160 total).
 wire [63:0] fifo_rd_data;
 wire        fifo_empty;
 reg         fifo_rd;
 
 dcfifo #(
     .intended_device_family ("Cyclone V"),
-    .lpm_numwords           (128),
+    .lpm_numwords           (256),
     .lpm_showahead          ("ON"),
     .lpm_type               ("dcfifo"),
     .lpm_width              (64),
-    .lpm_widthu             (7),
+    .lpm_widthu             (8),
     .overflow_checking      ("ON"),
     .rdsync_delaypipe       (4),
     .underflow_checking     ("ON"),

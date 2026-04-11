@@ -1,5 +1,5 @@
 Analysis & Synthesis report for OpenBOR
-Sat Apr 11 12:56:20 2026
+Sat Apr 11 15:22:15 2026
 Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 
 
@@ -65,14 +65,14 @@ Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
  57. Source assignments for emu:emu|sdram:sdr|altddio_out:sdramclk_ddr
  58. Source assignments for emu:emu|sdram:sdr|altddio_out:sdramclk_ddr|ddio_out_b2j:auto_generated
  59. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo
- 60. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated
- 61. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|a_graycounter_eu6:rdptr_g1p
- 62. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|a_graycounter_acc:wrptr_g1p
- 63. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|altsyncram_oua1:fifo_ram
- 64. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp
- 65. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12
- 66. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp
- 67. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15
+ 60. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated
+ 61. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|a_graycounter_fu6:rdptr_g1p
+ 62. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|a_graycounter_bcc:wrptr_g1p
+ 63. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|altsyncram_qua1:fifo_ram
+ 64. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp
+ 65. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12
+ 66. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp
+ 67. Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15
  68. Source assignments for osd:vga_osd|altsyncram:osd_buffer_rtl_0|altsyncram_96k1:auto_generated
  69. Source assignments for osd:hdmi_osd|altsyncram:osd_buffer_rtl_0|altsyncram_96k1:auto_generated
  70. Source assignments for shadowmask:HDMI_shadowmask|altsyncram:mask_lut_rtl_0|altsyncram_b9j1:auto_generated
@@ -80,9 +80,9 @@ Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
  72. Source assignments for yc_out:yc_out_fb|altshift_taps:phase[2].hsync_rtl_0|shift_taps_puu:auto_generated|altsyncram_kr91:altsyncram4
  73. Source assignments for ascal:ascal|altsyncram:o_v_poly_mem_rtl_0|altsyncram_f9j1:auto_generated
  74. Source assignments for altshift_taps:dv_d1_rtl_0|shift_taps_nuu:auto_generated|altsyncram_gr91:altsyncram4
- 75. Source assignments for ascal:ascal|altsyncram:o_h_poly_mem_rtl_0|altsyncram_f9j1:auto_generated
- 76. Source assignments for ascal:ascal|altsyncram:o_a_poly_mem_rtl_0|altsyncram_f9j1:auto_generated
- 77. Source assignments for ascal:ascal|altsyncram:pal1_mem_rtl_0|altsyncram_p9j1:auto_generated
+ 75. Source assignments for ascal:ascal|altsyncram:pal1_mem_rtl_0|altsyncram_p9j1:auto_generated
+ 76. Source assignments for ascal:ascal|altsyncram:o_h_poly_mem_rtl_0|altsyncram_f9j1:auto_generated
+ 77. Source assignments for ascal:ascal|altsyncram:o_a_poly_mem_rtl_0|altsyncram_f9j1:auto_generated
  78. Source assignments for ascal:ascal|altshift_taps:o_vpix_inner[2].r_rtl_0|shift_taps_1gv:auto_generated|altsyncram_ar91:altsyncram4
  79. Source assignments for yc_out:yc_out|altshift_taps:phase[2].y_rtl_0|shift_taps_guu:auto_generated|altsyncram_2r91:altsyncram4
  80. Source assignments for ascal:ascal|altsyncram:o_dpram_rtl_0|altsyncram_g5k1:auto_generated
@@ -140,9 +140,9 @@ Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 132. Parameter Settings for Inferred Entity Instance: yc_out:yc_out_fb|altshift_taps:phase[2].hsync_rtl_0
 133. Parameter Settings for Inferred Entity Instance: ascal:ascal|altsyncram:o_v_poly_mem_rtl_0
 134. Parameter Settings for Inferred Entity Instance: altshift_taps:dv_d1_rtl_0
-135. Parameter Settings for Inferred Entity Instance: ascal:ascal|altsyncram:o_h_poly_mem_rtl_0
-136. Parameter Settings for Inferred Entity Instance: ascal:ascal|altsyncram:o_a_poly_mem_rtl_0
-137. Parameter Settings for Inferred Entity Instance: ascal:ascal|altsyncram:pal1_mem_rtl_0
+135. Parameter Settings for Inferred Entity Instance: ascal:ascal|altsyncram:pal1_mem_rtl_0
+136. Parameter Settings for Inferred Entity Instance: ascal:ascal|altsyncram:o_h_poly_mem_rtl_0
+137. Parameter Settings for Inferred Entity Instance: ascal:ascal|altsyncram:o_a_poly_mem_rtl_0
 138. Parameter Settings for Inferred Entity Instance: ascal:ascal|altshift_taps:o_vpix_inner[2].r_rtl_0
 139. Parameter Settings for Inferred Entity Instance: yc_out:yc_out|altshift_taps:phase[2].y_rtl_0
 140. Parameter Settings for Inferred Entity Instance: ascal:ascal|altsyncram:o_dpram_rtl_0
@@ -203,16 +203,16 @@ agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Sat Apr 11 12:56:19 2026       ;
+; Analysis & Synthesis Status     ; Successful - Sat Apr 11 15:22:15 2026       ;
 ; Quartus Prime Version           ; 17.0.0 Build 595 04/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; OpenBOR                                     ;
 ; Top-level Entity Name           ; sys_top                                     ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 13052                                       ;
+; Total registers                 ; 13061                                       ;
 ; Total pins                      ; 145                                         ;
 ; Total virtual pins              ; 0                                           ;
-; Total block memory bits         ; 450,020                                     ;
+; Total block memory bits         ; 458,212                                     ;
 ; Total DSP Blocks                ; 35                                          ;
 ; Total HSSI RX PCSs              ; 0                                           ;
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
@@ -319,18 +319,18 @@ agreement for further details.
 ; Number detected on machine ; 8           ;
 ; Maximum allowed            ; 8           ;
 ;                            ;             ;
-; Average used               ; 1.84        ;
+; Average used               ; 2.29        ;
 ; Maximum used               ; 8           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;  12.0%      ;
-;     Processor 3            ;  12.0%      ;
-;     Processor 4            ;  12.0%      ;
-;     Processor 5            ;  12.0%      ;
-;     Processor 6            ;  12.0%      ;
-;     Processor 7            ;  12.0%      ;
-;     Processor 8            ;  12.0%      ;
+;     Processor 2            ;  18.6%      ;
+;     Processor 3            ;  18.5%      ;
+;     Processor 4            ;  18.5%      ;
+;     Processor 5            ;  18.4%      ;
+;     Processor 6            ;  18.4%      ;
+;     Processor 7            ;  18.4%      ;
+;     Processor 8            ;  18.1%      ;
 +----------------------------+-------------+
 
 
@@ -410,15 +410,15 @@ agreement for further details.
 ; alt_sync_fifo.inc                      ; yes             ; Megafunction                                               ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/alt_sync_fifo.inc            ;           ;
 ; lpm_compare.inc                        ; yes             ; Megafunction                                               ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/lpm_compare.inc              ;           ;
 ; altsyncram_fifo.inc                    ; yes             ; Megafunction                                               ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altsyncram_fifo.inc          ;           ;
-; db/dcfifo_fvl1.tdf                     ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_fvl1.tdf                     ;           ;
-; db/a_graycounter_eu6.tdf               ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/a_graycounter_eu6.tdf               ;           ;
-; db/a_graycounter_acc.tdf               ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/a_graycounter_acc.tdf               ;           ;
-; db/altsyncram_oua1.tdf                 ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/altsyncram_oua1.tdf                 ;           ;
-; db/alt_synch_pipe_vnl.tdf              ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/alt_synch_pipe_vnl.tdf              ;           ;
-; db/dffpipe_gd9.tdf                     ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dffpipe_gd9.tdf                     ;           ;
-; db/alt_synch_pipe_0ol.tdf              ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/alt_synch_pipe_0ol.tdf              ;           ;
-; db/dffpipe_hd9.tdf                     ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dffpipe_hd9.tdf                     ;           ;
-; db/cmpr_0v5.tdf                        ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/cmpr_0v5.tdf                        ;           ;
+; db/dcfifo_jvl1.tdf                     ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_jvl1.tdf                     ;           ;
+; db/a_graycounter_fu6.tdf               ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/a_graycounter_fu6.tdf               ;           ;
+; db/a_graycounter_bcc.tdf               ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/a_graycounter_bcc.tdf               ;           ;
+; db/altsyncram_qua1.tdf                 ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/altsyncram_qua1.tdf                 ;           ;
+; db/alt_synch_pipe_1ol.tdf              ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/alt_synch_pipe_1ol.tdf              ;           ;
+; db/dffpipe_id9.tdf                     ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dffpipe_id9.tdf                     ;           ;
+; db/alt_synch_pipe_2ol.tdf              ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/alt_synch_pipe_2ol.tdf              ;           ;
+; db/dffpipe_jd9.tdf                     ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dffpipe_jd9.tdf                     ;           ;
+; db/cmpr_1v5.tdf                        ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/cmpr_1v5.tdf                        ;           ;
 ; db/altsyncram_96k1.tdf                 ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/altsyncram_96k1.tdf                 ;           ;
 ; db/altsyncram_b9j1.tdf                 ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/altsyncram_b9j1.tdf                 ;           ;
 ; db/altsyncram_tcj1.tdf                 ; yes             ; Auto-Generated Megafunction                                ; C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/altsyncram_tcj1.tdf                 ;           ;
@@ -452,21 +452,21 @@ agreement for further details.
 +---------------------------------------------+------------------------------------------------------------------------------------------------------------------------+
 ; Resource                                    ; Usage                                                                                                                  ;
 +---------------------------------------------+------------------------------------------------------------------------------------------------------------------------+
-; Estimate of Logic utilization (ALMs needed) ; 8685                                                                                                                   ;
+; Estimate of Logic utilization (ALMs needed) ; 8689                                                                                                                   ;
 ;                                             ;                                                                                                                        ;
-; Combinational ALUT usage for logic          ; 12793                                                                                                                  ;
-;     -- 7 input functions                    ; 162                                                                                                                    ;
-;     -- 6 input functions                    ; 2264                                                                                                                   ;
-;     -- 5 input functions                    ; 1477                                                                                                                   ;
-;     -- 4 input functions                    ; 1671                                                                                                                   ;
-;     -- <=3 input functions                  ; 7219                                                                                                                   ;
+; Combinational ALUT usage for logic          ; 12789                                                                                                                  ;
+;     -- 7 input functions                    ; 152                                                                                                                    ;
+;     -- 6 input functions                    ; 2294                                                                                                                   ;
+;     -- 5 input functions                    ; 1439                                                                                                                   ;
+;     -- 4 input functions                    ; 1694                                                                                                                   ;
+;     -- <=3 input functions                  ; 7210                                                                                                                   ;
 ;                                             ;                                                                                                                        ;
-; Dedicated logic registers                   ; 13046                                                                                                                  ;
+; Dedicated logic registers                   ; 13055                                                                                                                  ;
 ;                                             ;                                                                                                                        ;
 ; I/O pins                                    ; 145                                                                                                                    ;
 ; I/O registers                               ; 6                                                                                                                      ;
 ; Total MLAB memory bits                      ; 0                                                                                                                      ;
-; Total block memory bits                     ; 450020                                                                                                                 ;
+; Total block memory bits                     ; 458212                                                                                                                 ;
 ;                                             ;                                                                                                                        ;
 ; Total DSP Blocks                            ; 35                                                                                                                     ;
 ;                                             ;                                                                                                                        ;
@@ -476,7 +476,7 @@ agreement for further details.
 ;                                             ;                                                                                                                        ;
 ; Maximum fan-out node                        ; pll_hdmi:pll_hdmi|pll_hdmi_0002:pll_hdmi_inst|altera_pll:altera_pll_i|altera_cyclonev_pll:cyclonev_pll|cascade_wire[0] ;
 ; Maximum fan-out                             ; 5126                                                                                                                   ;
-; Total fan-out                               ; 106924                                                                                                                 ;
+; Total fan-out                               ; 107058                                                                                                                 ;
 ; Average fan-out                             ; 3.94                                                                                                                   ;
 +---------------------------------------------+------------------------------------------------------------------------------------------------------------------------+
 
@@ -486,8 +486,8 @@ agreement for further details.
 +--------------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------+--------------+
 ; Compilation Hierarchy Node                                   ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                                      ; Entity Name                ; Library Name ;
 +--------------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------+--------------+
-; |sys_top                                                     ; 12793 (1246)        ; 13046 (1335)              ; 450020            ; 35         ; 145  ; 0            ; |sys_top                                                                                                                                                                 ; sys_top                    ; work         ;
-;    |alsa:alsa|                                               ; 406 (406)           ; 524 (524)                 ; 0                 ; 0          ; 0    ; 0            ; |sys_top|alsa:alsa                                                                                                                                                       ; alsa                       ; work         ;
+; |sys_top                                                     ; 12789 (1249)        ; 13055 (1335)              ; 458212            ; 35         ; 145  ; 0            ; |sys_top                                                                                                                                                                 ; sys_top                    ; work         ;
+;    |alsa:alsa|                                               ; 409 (409)           ; 524 (524)                 ; 0                 ; 0          ; 0    ; 0            ; |sys_top|alsa:alsa                                                                                                                                                       ; alsa                       ; work         ;
 ;    |altddio_out:hdmiclk_ddr|                                 ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|altddio_out:hdmiclk_ddr                                                                                                                                         ; altddio_out                ; work         ;
 ;       |ddio_out_b2j:auto_generated|                          ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|altddio_out:hdmiclk_ddr|ddio_out_b2j:auto_generated                                                                                                             ; ddio_out_b2j               ; work         ;
 ;    |altddio_out:vgaclk_ddr|                                  ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|altddio_out:vgaclk_ddr                                                                                                                                          ; altddio_out                ; work         ;
@@ -496,7 +496,7 @@ agreement for further details.
 ;       |shift_taps_nuu:auto_generated|                        ; 7 (2)               ; 4 (2)                     ; 138               ; 0          ; 0    ; 0            ; |sys_top|altshift_taps:dv_d1_rtl_0|shift_taps_nuu:auto_generated                                                                                                         ; shift_taps_nuu             ; work         ;
 ;          |altsyncram_gr91:altsyncram4|                       ; 0 (0)               ; 0 (0)                     ; 138               ; 0          ; 0    ; 0            ; |sys_top|altshift_taps:dv_d1_rtl_0|shift_taps_nuu:auto_generated|altsyncram_gr91:altsyncram4                                                                             ; altsyncram_gr91            ; work         ;
 ;          |cntr_ohf:cntr1|                                    ; 5 (5)               ; 2 (2)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|altshift_taps:dv_d1_rtl_0|shift_taps_nuu:auto_generated|cntr_ohf:cntr1                                                                                          ; cntr_ohf                   ; work         ;
-;    |ascal:ascal|                                             ; 2928 (2922)         ; 4424 (4420)               ; 372832            ; 23         ; 0    ; 0            ; |sys_top|ascal:ascal                                                                                                                                                     ; ascal                      ; work         ;
+;    |ascal:ascal|                                             ; 2924 (2918)         ; 4424 (4420)               ; 372832            ; 23         ; 0    ; 0            ; |sys_top|ascal:ascal                                                                                                                                                     ; ascal                      ; work         ;
 ;       |altshift_taps:o_vpix_inner[2].r_rtl_0|                ; 6 (0)               ; 4 (0)                     ; 96                ; 0          ; 0    ; 0            ; |sys_top|ascal:ascal|altshift_taps:o_vpix_inner[2].r_rtl_0                                                                                                               ; altshift_taps              ; work         ;
 ;          |shift_taps_1gv:auto_generated|                     ; 6 (4)               ; 4 (2)                     ; 96                ; 0          ; 0    ; 0            ; |sys_top|ascal:ascal|altshift_taps:o_vpix_inner[2].r_rtl_0|shift_taps_1gv:auto_generated                                                                                 ; shift_taps_1gv             ; work         ;
 ;             |altsyncram_ar91:altsyncram4|                    ; 0 (0)               ; 0 (0)                     ; 96                ; 0          ; 0    ; 0            ; |sys_top|ascal:ascal|altshift_taps:o_vpix_inner[2].r_rtl_0|shift_taps_1gv:auto_generated|altsyncram_ar91:altsyncram4                                                     ; altsyncram_ar91            ; work         ;
@@ -547,41 +547,41 @@ agreement for further details.
 ;    |csync:csync_hdmi|                                        ; 45 (45)             ; 51 (51)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|csync:csync_hdmi                                                                                                                                                ; csync                      ; work         ;
 ;    |csync:csync_vga|                                         ; 44 (44)             ; 51 (51)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|csync:csync_vga                                                                                                                                                 ; csync                      ; work         ;
 ;    |ddr_svc:ddr_svc|                                         ; 26 (26)             ; 156 (156)                 ; 0                 ; 0          ; 0    ; 0            ; |sys_top|ddr_svc:ddr_svc                                                                                                                                                 ; ddr_svc                    ; work         ;
-;    |emu:emu|                                                 ; 1626 (229)          ; 1796 (189)                ; 8192              ; 0          ; 0    ; 0            ; |sys_top|emu:emu                                                                                                                                                         ; emu                        ; work         ;
-;       |hps_io:hps_io|                                        ; 685 (257)           ; 811 (255)                 ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|hps_io:hps_io                                                                                                                                           ; hps_io                     ; work         ;
-;          |video_calc:video_calc|                             ; 428 (428)           ; 556 (556)                 ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|hps_io:hps_io|video_calc:video_calc                                                                                                                     ; video_calc                 ; work         ;
-;       |openbor_video_top:native_video|                       ; 567 (0)             ; 677 (0)                   ; 8192              ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video                                                                                                                          ; openbor_video_top          ; work         ;
-;          |openbor_video_reader:reader|                       ; 520 (479)           ; 651 (573)                 ; 8192              ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader                                                                                              ; openbor_video_reader       ; work         ;
-;             |dcfifo:line_fifo|                               ; 41 (0)              ; 78 (0)                    ; 8192              ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo                                                                             ; dcfifo                     ; work         ;
-;                |dcfifo_fvl1:auto_generated|                  ; 41 (6)              ; 78 (24)                   ; 8192              ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated                                                  ; dcfifo_fvl1                ; work         ;
-;                   |a_graycounter_acc:wrptr_g1p|              ; 13 (13)             ; 11 (11)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|a_graycounter_acc:wrptr_g1p                      ; a_graycounter_acc          ; work         ;
-;                   |a_graycounter_eu6:rdptr_g1p|              ; 14 (14)             ; 11 (11)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|a_graycounter_eu6:rdptr_g1p                      ; a_graycounter_eu6          ; work         ;
-;                   |alt_synch_pipe_0ol:ws_dgrp|               ; 0 (0)               ; 16 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp                       ; alt_synch_pipe_0ol         ; work         ;
-;                      |dffpipe_hd9:dffpipe15|                 ; 0 (0)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15 ; dffpipe_hd9                ; work         ;
-;                   |alt_synch_pipe_vnl:rs_dgwp|               ; 0 (0)               ; 16 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp                       ; alt_synch_pipe_vnl         ; work         ;
-;                      |dffpipe_gd9:dffpipe12|                 ; 0 (0)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12 ; dffpipe_gd9                ; work         ;
-;                   |altsyncram_oua1:fifo_ram|                 ; 0 (0)               ; 0 (0)                     ; 8192              ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|altsyncram_oua1:fifo_ram                         ; altsyncram_oua1            ; work         ;
-;                   |cmpr_0v5:rdempty_eq_comp|                 ; 4 (4)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|cmpr_0v5:rdempty_eq_comp                         ; cmpr_0v5                   ; work         ;
-;                   |cmpr_0v5:wrfull_eq_comp|                  ; 4 (4)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|cmpr_0v5:wrfull_eq_comp                          ; cmpr_0v5                   ; work         ;
+;    |emu:emu|                                                 ; 1628 (231)          ; 1805 (189)                ; 16384             ; 0          ; 0    ; 0            ; |sys_top|emu:emu                                                                                                                                                         ; emu                        ; work         ;
+;       |hps_io:hps_io|                                        ; 689 (257)           ; 811 (255)                 ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|hps_io:hps_io                                                                                                                                           ; hps_io                     ; work         ;
+;          |video_calc:video_calc|                             ; 432 (432)           ; 556 (556)                 ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|hps_io:hps_io|video_calc:video_calc                                                                                                                     ; video_calc                 ; work         ;
+;       |openbor_video_top:native_video|                       ; 571 (0)             ; 686 (0)                   ; 16384             ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video                                                                                                                          ; openbor_video_top          ; work         ;
+;          |openbor_video_reader:reader|                       ; 524 (477)           ; 660 (573)                 ; 16384             ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader                                                                                              ; openbor_video_reader       ; work         ;
+;             |dcfifo:line_fifo|                               ; 47 (0)              ; 87 (0)                    ; 16384             ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo                                                                             ; dcfifo                     ; work         ;
+;                |dcfifo_jvl1:auto_generated|                  ; 47 (5)              ; 87 (27)                   ; 16384             ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated                                                  ; dcfifo_jvl1                ; work         ;
+;                   |a_graycounter_bcc:wrptr_g1p|              ; 18 (18)             ; 12 (12)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|a_graycounter_bcc:wrptr_g1p                      ; a_graycounter_bcc          ; work         ;
+;                   |a_graycounter_fu6:rdptr_g1p|              ; 17 (17)             ; 12 (12)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|a_graycounter_fu6:rdptr_g1p                      ; a_graycounter_fu6          ; work         ;
+;                   |alt_synch_pipe_1ol:rs_dgwp|               ; 0 (0)               ; 18 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp                       ; alt_synch_pipe_1ol         ; work         ;
+;                      |dffpipe_id9:dffpipe12|                 ; 0 (0)               ; 18 (18)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12 ; dffpipe_id9                ; work         ;
+;                   |alt_synch_pipe_2ol:ws_dgrp|               ; 0 (0)               ; 18 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp                       ; alt_synch_pipe_2ol         ; work         ;
+;                      |dffpipe_jd9:dffpipe15|                 ; 0 (0)               ; 18 (18)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15 ; dffpipe_jd9                ; work         ;
+;                   |altsyncram_qua1:fifo_ram|                 ; 0 (0)               ; 0 (0)                     ; 16384             ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|altsyncram_qua1:fifo_ram                         ; altsyncram_qua1            ; work         ;
+;                   |cmpr_1v5:rdempty_eq_comp|                 ; 4 (4)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|cmpr_1v5:rdempty_eq_comp                         ; cmpr_1v5                   ; work         ;
+;                   |cmpr_1v5:wrfull_eq_comp|                  ; 3 (3)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|cmpr_1v5:wrfull_eq_comp                          ; cmpr_1v5                   ; work         ;
 ;          |openbor_video_timing:timing|                       ; 47 (47)             ; 26 (26)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|openbor_video_top:native_video|openbor_video_timing:timing                                                                                              ; openbor_video_timing       ; work         ;
 ;       |pll:pll|                                              ; 1 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|pll:pll                                                                                                                                                 ; pll                        ; pll          ;
 ;          |pll_0002:pll_inst|                                 ; 1 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|pll:pll|pll_0002:pll_inst                                                                                                                               ; pll_0002                   ; pll          ;
 ;             |altera_pll:altera_pll_i|                        ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|pll:pll|pll_0002:pll_inst|altera_pll:altera_pll_i                                                                                                       ; altera_pll                 ; work         ;
-;       |sdram:sdr|                                            ; 144 (144)           ; 119 (119)                 ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|sdram:sdr                                                                                                                                               ; sdram                      ; work         ;
+;       |sdram:sdr|                                            ; 136 (136)           ; 119 (119)                 ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|sdram:sdr                                                                                                                                               ; sdram                      ; work         ;
 ;          |altddio_out:sdramclk_ddr|                          ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|sdram:sdr|altddio_out:sdramclk_ddr                                                                                                                      ; altddio_out                ; work         ;
 ;             |ddio_out_b2j:auto_generated|                    ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|emu:emu|sdram:sdr|altddio_out:sdramclk_ddr|ddio_out_b2j:auto_generated                                                                                          ; ddio_out_b2j               ; work         ;
-;    |mcp23009:mcp23009|                                       ; 171 (57)            ; 104 (42)                  ; 0                 ; 0          ; 0    ; 0            ; |sys_top|mcp23009:mcp23009                                                                                                                                               ; mcp23009                   ; work         ;
-;       |i2c:i2c|                                              ; 114 (114)           ; 62 (62)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|mcp23009:mcp23009|i2c:i2c                                                                                                                                       ; i2c                        ; work         ;
-;    |osd:hdmi_osd|                                            ; 888 (888)           ; 580 (580)                 ; 32768             ; 0          ; 0    ; 0            ; |sys_top|osd:hdmi_osd                                                                                                                                                    ; osd                        ; work         ;
+;    |mcp23009:mcp23009|                                       ; 172 (57)            ; 104 (42)                  ; 0                 ; 0          ; 0    ; 0            ; |sys_top|mcp23009:mcp23009                                                                                                                                               ; mcp23009                   ; work         ;
+;       |i2c:i2c|                                              ; 115 (115)           ; 62 (62)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|mcp23009:mcp23009|i2c:i2c                                                                                                                                       ; i2c                        ; work         ;
+;    |osd:hdmi_osd|                                            ; 893 (893)           ; 580 (580)                 ; 32768             ; 0          ; 0    ; 0            ; |sys_top|osd:hdmi_osd                                                                                                                                                    ; osd                        ; work         ;
 ;       |altsyncram:osd_buffer_rtl_0|                          ; 0 (0)               ; 0 (0)                     ; 32768             ; 0          ; 0    ; 0            ; |sys_top|osd:hdmi_osd|altsyncram:osd_buffer_rtl_0                                                                                                                        ; altsyncram                 ; work         ;
 ;          |altsyncram_96k1:auto_generated|                    ; 0 (0)               ; 0 (0)                     ; 32768             ; 0          ; 0    ; 0            ; |sys_top|osd:hdmi_osd|altsyncram:osd_buffer_rtl_0|altsyncram_96k1:auto_generated                                                                                         ; altsyncram_96k1            ; work         ;
-;    |osd:vga_osd|                                             ; 898 (898)           ; 644 (644)                 ; 32768             ; 0          ; 0    ; 0            ; |sys_top|osd:vga_osd                                                                                                                                                     ; osd                        ; work         ;
+;    |osd:vga_osd|                                             ; 900 (900)           ; 644 (644)                 ; 32768             ; 0          ; 0    ; 0            ; |sys_top|osd:vga_osd                                                                                                                                                     ; osd                        ; work         ;
 ;       |altsyncram:osd_buffer_rtl_0|                          ; 0 (0)               ; 0 (0)                     ; 32768             ; 0          ; 0    ; 0            ; |sys_top|osd:vga_osd|altsyncram:osd_buffer_rtl_0                                                                                                                         ; altsyncram                 ; work         ;
 ;          |altsyncram_96k1:auto_generated|                    ; 0 (0)               ; 0 (0)                     ; 32768             ; 0          ; 0    ; 0            ; |sys_top|osd:vga_osd|altsyncram:osd_buffer_rtl_0|altsyncram_96k1:auto_generated                                                                                          ; altsyncram_96k1            ; work         ;
 ;    |pll_audio:pll_audio|                                     ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|pll_audio:pll_audio                                                                                                                                             ; pll_audio                  ; pll_audio    ;
 ;       |pll_audio_0002:pll_audio_inst|                        ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|pll_audio:pll_audio|pll_audio_0002:pll_audio_inst                                                                                                               ; pll_audio_0002             ; pll_audio    ;
 ;          |altera_pll:altera_pll_i|                           ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|pll_audio:pll_audio|pll_audio_0002:pll_audio_inst|altera_pll:altera_pll_i                                                                                       ; altera_pll                 ; work         ;
-;    |pll_cfg_hdmi:pll_cfg_hdmi|                               ; 301 (204)           ; 192 (163)                 ; 0                 ; 0          ; 0    ; 0            ; |sys_top|pll_cfg_hdmi:pll_cfg_hdmi                                                                                                                                       ; pll_cfg_hdmi               ; pll_cfg      ;
+;    |pll_cfg_hdmi:pll_cfg_hdmi|                               ; 297 (200)           ; 192 (163)                 ; 0                 ; 0          ; 0    ; 0            ; |sys_top|pll_cfg_hdmi:pll_cfg_hdmi                                                                                                                                       ; pll_cfg_hdmi               ; pll_cfg      ;
 ;       |altera_std_synchronizer:altera_std_synchronizer_inst| ; 0 (0)               ; 3 (3)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|pll_cfg_hdmi:pll_cfg_hdmi|altera_std_synchronizer:altera_std_synchronizer_inst                                                                                  ; altera_std_synchronizer    ; work         ;
 ;       |dprio_mux:dprio_mux_inst|                             ; 57 (57)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|pll_cfg_hdmi:pll_cfg_hdmi|dprio_mux:dprio_mux_inst                                                                                                              ; dprio_mux                  ; pll_cfg      ;
 ;       |dyn_phase_shift:dyn_phase_shift_inst|                 ; 7 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|pll_cfg_hdmi:pll_cfg_hdmi|dyn_phase_shift:dyn_phase_shift_inst                                                                                                  ; dyn_phase_shift            ; pll_cfg      ;
@@ -600,7 +600,7 @@ agreement for further details.
 ;             |altera_cyclonev_pll:cyclonev_pll|               ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|pll_hdmi:pll_hdmi|pll_hdmi_0002:pll_hdmi_inst|altera_pll:altera_pll_i|altera_cyclonev_pll:cyclonev_pll                                                          ; altera_cyclonev_pll        ; work         ;
 ;                |altera_cyclonev_pll_base:fpll_0|             ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|pll_hdmi:pll_hdmi|pll_hdmi_0002:pll_hdmi_inst|altera_pll:altera_pll_i|altera_cyclonev_pll:cyclonev_pll|altera_cyclonev_pll_base:fpll_0                          ; altera_cyclonev_pll_base   ; work         ;
 ;             |dps_extra_kick:dps_extra_inst|                  ; 7 (7)               ; 6 (6)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|pll_hdmi:pll_hdmi|pll_hdmi_0002:pll_hdmi_inst|altera_pll:altera_pll_i|dps_extra_kick:dps_extra_inst                                                             ; dps_extra_kick             ; work         ;
-;    |pll_hdmi_adj:pll_hdmi_adj|                               ; 800 (800)           ; 502 (502)                 ; 0                 ; 0          ; 0    ; 0            ; |sys_top|pll_hdmi_adj:pll_hdmi_adj                                                                                                                                       ; pll_hdmi_adj               ; work         ;
+;    |pll_hdmi_adj:pll_hdmi_adj|                               ; 789 (789)           ; 502 (502)                 ; 0                 ; 0          ; 0    ; 0            ; |sys_top|pll_hdmi_adj:pll_hdmi_adj                                                                                                                                       ; pll_hdmi_adj               ; work         ;
 ;    |scanlines:VGA_scanlines|                                 ; 0 (0)               ; 12 (12)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|scanlines:VGA_scanlines                                                                                                                                         ; scanlines                  ; work         ;
 ;    |shadowmask:HDMI_shadowmask|                              ; 249 (249)           ; 255 (255)                 ; 2816              ; 0          ; 0    ; 0            ; |sys_top|shadowmask:HDMI_shadowmask                                                                                                                                      ; shadowmask                 ; work         ;
 ;       |altsyncram:mask_lut_rtl_0|                            ; 0 (0)               ; 0 (0)                     ; 2816              ; 0          ; 0    ; 0            ; |sys_top|shadowmask:HDMI_shadowmask|altsyncram:mask_lut_rtl_0                                                                                                            ; altsyncram                 ; work         ;
@@ -610,8 +610,8 @@ agreement for further details.
 ;    |sys_umuldiv:ar_muldiv|                                   ; 55 (1)              ; 109 (0)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|sys_umuldiv:ar_muldiv                                                                                                                                           ; sys_umuldiv                ; work         ;
 ;       |sys_udiv:udiv|                                        ; 26 (26)             ; 57 (57)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|sys_umuldiv:ar_muldiv|sys_udiv:udiv                                                                                                                             ; sys_udiv                   ; work         ;
 ;       |sys_umul:umul|                                        ; 28 (28)             ; 52 (52)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|sys_umuldiv:ar_muldiv|sys_umul:umul                                                                                                                             ; sys_umul                   ; work         ;
-;    |sysmem_lite:sysmem|                                      ; 243 (41)            ; 238 (39)                  ; 0                 ; 0          ; 0    ; 0            ; |sys_top|sysmem_lite:sysmem                                                                                                                                              ; sysmem_lite                ; work         ;
-;       |f2sdram_safe_terminator:f2sdram_safe_terminator_ram1| ; 86 (86)             ; 84 (84)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|sysmem_lite:sysmem|f2sdram_safe_terminator:f2sdram_safe_terminator_ram1                                                                                         ; f2sdram_safe_terminator    ; work         ;
+;    |sysmem_lite:sysmem|                                      ; 242 (41)            ; 238 (39)                  ; 0                 ; 0          ; 0    ; 0            ; |sys_top|sysmem_lite:sysmem                                                                                                                                              ; sysmem_lite                ; work         ;
+;       |f2sdram_safe_terminator:f2sdram_safe_terminator_ram1| ; 85 (85)             ; 84 (84)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|sysmem_lite:sysmem|f2sdram_safe_terminator:f2sdram_safe_terminator_ram1                                                                                         ; f2sdram_safe_terminator    ; work         ;
 ;       |f2sdram_safe_terminator:f2sdram_safe_terminator_ram2| ; 38 (38)             ; 35 (35)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|sysmem_lite:sysmem|f2sdram_safe_terminator:f2sdram_safe_terminator_ram2                                                                                         ; f2sdram_safe_terminator    ; work         ;
 ;       |f2sdram_safe_terminator:f2sdram_safe_terminator_vbuf| ; 76 (76)             ; 80 (80)                   ; 0                 ; 0          ; 0    ; 0            ; |sys_top|sysmem_lite:sysmem|f2sdram_safe_terminator:f2sdram_safe_terminator_vbuf                                                                                         ; f2sdram_safe_terminator    ; work         ;
 ;       |sysmem_HPS_fpga_interfaces:fpga_interfaces|           ; 2 (2)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |sys_top|sysmem_lite:sysmem|sysmem_HPS_fpga_interfaces:fpga_interfaces                                                                                                   ; sysmem_HPS_fpga_interfaces ; work         ;
@@ -661,7 +661,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; ascal:ascal|altsyncram:o_linf3[0].r[7]__9|altsyncram_d6n1:auto_generated|ALTSYNCRAM                                                                ; AUTO ; Simple Dual Port ; 256          ; 24           ; 256          ; 24           ; 6144  ; None ;
 ; ascal:ascal|altsyncram:o_v_poly_mem_rtl_0|altsyncram_f9j1:auto_generated|ALTSYNCRAM                                                                ; AUTO ; Simple Dual Port ; 256          ; 40           ; 256          ; 40           ; 10240 ; None ;
 ; ascal:ascal|altsyncram:pal1_mem_rtl_0|altsyncram_p9j1:auto_generated|ALTSYNCRAM                                                                    ; AUTO ; Simple Dual Port ; 128          ; 48           ; 128          ; 48           ; 6144  ; None ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|altsyncram_oua1:fifo_ram|ALTSYNCRAM ; AUTO ; Simple Dual Port ; 128          ; 64           ; 128          ; 64           ; 8192  ; None ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|altsyncram_qua1:fifo_ram|ALTSYNCRAM ; AUTO ; Simple Dual Port ; 256          ; 64           ; 256          ; 64           ; 16384 ; None ;
 ; osd:hdmi_osd|altsyncram:osd_buffer_rtl_0|altsyncram_96k1:auto_generated|ALTSYNCRAM                                                                 ; AUTO ; Simple Dual Port ; 4096         ; 8            ; 4096         ; 8            ; 32768 ; None ;
 ; osd:vga_osd|altsyncram:osd_buffer_rtl_0|altsyncram_96k1:auto_generated|ALTSYNCRAM                                                                  ; AUTO ; Simple Dual Port ; 4096         ; 8            ; 4096         ; 8            ; 32768 ; None ;
 ; shadowmask:HDMI_shadowmask|altsyncram:mask_lut_rtl_0|altsyncram_b9j1:auto_generated|ALTSYNCRAM                                                     ; AUTO ; Simple Dual Port ; 256          ; 11           ; 256          ; 11           ; 2816  ; None ;
@@ -893,39 +893,43 @@ Encoding Type:  One-Hot
 ; pll_cfg_hdmi:pll_cfg_hdmi|altera_std_synchronizer:altera_std_synchronizer_inst|dreg[0]                                                                                     ; yes                                                              ; yes                                        ;
 ; osd:vga_osd|ce_pix                                                                                                                                                         ; yes                                                              ; yes                                        ;
 ; pll_cfg_hdmi:pll_cfg_hdmi|altera_std_synchronizer:altera_std_synchronizer_inst|din_s1                                                                                      ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe14a[6] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe14a[7] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe14a[4] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe14a[5] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe14a[2] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe14a[3] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe14a[0] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe14a[1] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe13a[6] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe13a[7] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe13a[4] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe13a[5] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe13a[2] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe13a[3] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe13a[0] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12|dffe13a[1] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe17a[6] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe17a[7] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe17a[4] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe17a[5] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe17a[2] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe17a[3] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe17a[0] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe17a[1] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe16a[6] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe16a[7] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe16a[4] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe16a[5] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe16a[2] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe16a[3] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe16a[0] ; yes                                                              ; yes                                        ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15|dffe16a[1] ; yes                                                              ; yes                                        ;
-; Total number of protected registers is 42                                                                                                                                  ;                                                                  ;                                            ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe14a[8] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe14a[6] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe14a[7] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe14a[4] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe14a[5] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe14a[2] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe14a[3] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe14a[0] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe14a[1] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe13a[8] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe13a[6] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe13a[7] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe13a[4] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe13a[5] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe13a[2] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe13a[3] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe13a[0] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12|dffe13a[1] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe17a[8] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe17a[6] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe17a[7] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe17a[4] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe17a[5] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe17a[2] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe17a[3] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe17a[0] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe17a[1] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe16a[8] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe16a[6] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe16a[7] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe16a[4] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe16a[5] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe16a[2] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe16a[3] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe16a[0] ; yes                                                              ; yes                                        ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15|dffe16a[1] ; yes                                                              ; yes                                        ;
+; Total number of protected registers is 46                                                                                                                                  ;                                                                  ;                                            ;
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------+--------------------------------------------+
 
 
@@ -1707,7 +1711,6 @@ Encoding Type:  One-Hot
 ; ascal:ascal|i_intercnt[0,1]                                                                                             ; Stuck at GND due to stuck port data_in                                                                        ;
 ; ascal:ascal|i_inter                                                                                                     ; Stuck at GND due to stuck port data_in                                                                        ;
 ; ascal:ascal|o_inter                                                                                                     ; Stuck at GND due to stuck port data_in                                                                        ;
-; mcp23009:mcp23009|i2c:i2c|cnt[0]                                                                                        ; Stuck at GND due to stuck port data_in                                                                        ;
 ; ddr_svc:ddr_svc|ram_burst[1]                                                                                            ; Stuck at GND due to stuck port data_in                                                                        ;
 ; sysmem_lite:sysmem|f2sdram_safe_terminator:f2sdram_safe_terminator_ram2|write_burstcount_latch[1]                       ; Stuck at GND due to stuck port data_in                                                                        ;
 ; sysmem_lite:sysmem|f2sdram_safe_terminator:f2sdram_safe_terminator_ram2|burstcount_latch[1]                             ; Stuck at GND due to stuck port data_in                                                                        ;
@@ -1718,6 +1721,7 @@ Encoding Type:  One-Hot
 ; sysmem_lite:sysmem|f2sdram_safe_terminator:f2sdram_safe_terminator_ram2|write_terminating                               ; Stuck at GND due to stuck port data_in                                                                        ;
 ; sysmem_lite:sysmem|f2sdram_safe_terminator:f2sdram_safe_terminator_ram2|write_terminate_counter[0..7]                   ; Lost fanout                                                                                                   ;
 ; ddr_svc:ddr_svc|ram_burst[0]                                                                                            ; Merged with ddr_svc:ddr_svc|ch                                                                                ;
+; mcp23009:mcp23009|i2c:i2c|cnt[0]                                                                                        ; Stuck at GND due to stuck port data_in                                                                        ;
 ; vga_out:vga_out|pb_1r[1]                                                                                                ; Merged with vga_out:vga_out|din1[16]                                                                          ;
 ; vga_out:vga_scaler_out|pb_1r[1]                                                                                         ; Merged with vga_out:vga_scaler_out|din1[16]                                                                   ;
 ; yc_out:yc_out_fb|chroma_LUT_COS[6]                                                                                      ; Merged with yc_out:yc_out_fb|chroma_LUT_SIN[6]                                                                ;
@@ -2230,12 +2234,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 13046 ;
+; Total registers                              ; 13055 ;
 ; Number of registers using Synchronous Clear  ; 2684  ;
 ; Number of registers using Synchronous Load   ; 1736  ;
-; Number of registers using Asynchronous Clear ; 486   ;
+; Number of registers using Asynchronous Clear ; 495   ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 8270  ;
+; Number of registers using Clock Enable       ; 8272  ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -2257,17 +2261,17 @@ Encoding Type:  One-Hot
 ; audio_out:audio_out|sigma_delta_dac:sd_r|DACout                                                                                                       ; 1       ;
 ; emu:emu|sdram:sdr|refresh_count[0]                                                                                                                    ; 7       ;
 ; emu:emu|sdram:sdr|refresh_count[1]                                                                                                                    ; 7       ;
-; emu:emu|sdram:sdr|refresh_count[3]                                                                                                                    ; 9       ;
-; emu:emu|sdram:sdr|refresh_count[4]                                                                                                                    ; 9       ;
+; emu:emu|sdram:sdr|refresh_count[3]                                                                                                                    ; 8       ;
+; emu:emu|sdram:sdr|refresh_count[4]                                                                                                                    ; 8       ;
 ; emu:emu|sdram:sdr|refresh_count[5]                                                                                                                    ; 5       ;
 ; emu:emu|sdram:sdr|refresh_count[7]                                                                                                                    ; 5       ;
 ; emu:emu|sdram:sdr|refresh_count[12]                                                                                                                   ; 5       ;
 ; emu:emu|sdram:sdr|save_we                                                                                                                             ; 5       ;
-; mcp23009:mcp23009|i2c:i2c|SD_COUNTER[0]                                                                                                               ; 16      ;
-; mcp23009:mcp23009|i2c:i2c|SD_COUNTER[2]                                                                                                               ; 18      ;
-; mcp23009:mcp23009|i2c:i2c|SD_COUNTER[1]                                                                                                               ; 13      ;
-; mcp23009:mcp23009|i2c:i2c|SD_COUNTER[3]                                                                                                               ; 10      ;
-; mcp23009:mcp23009|i2c:i2c|SD_COUNTER[4]                                                                                                               ; 9       ;
+; mcp23009:mcp23009|i2c:i2c|SD_COUNTER[2]                                                                                                               ; 17      ;
+; mcp23009:mcp23009|i2c:i2c|SD_COUNTER[0]                                                                                                               ; 17      ;
+; mcp23009:mcp23009|i2c:i2c|SD_COUNTER[1]                                                                                                               ; 16      ;
+; mcp23009:mcp23009|i2c:i2c|SD_COUNTER[3]                                                                                                               ; 9       ;
+; mcp23009:mcp23009|i2c:i2c|SD_COUNTER[4]                                                                                                               ; 8       ;
 ; mcp23009:mcp23009|i2c:i2c|SD_COUNTER[5]                                                                                                               ; 5       ;
 ; mcp23009:mcp23009|i2c:i2c|SD[29]                                                                                                                      ; 5       ;
 ; mcp23009:mcp23009|i2c:i2c|SDO[3]                                                                                                                      ; 1       ;
@@ -2279,7 +2283,7 @@ Encoding Type:  One-Hot
 ; emu:emu|cnt[0]                                                                                                                                        ; 6       ;
 ; emu:emu|cnt[3]                                                                                                                                        ; 3       ;
 ; mcp23009:mcp23009|i2c:i2c|SDO[1]                                                                                                                      ; 1       ;
-; pll_cfg_hdmi:pll_cfg_hdmi|self_reset:self_reset_inst|local_reset                                                                                      ; 38      ;
+; pll_cfg_hdmi:pll_cfg_hdmi|self_reset:self_reset_inst|local_reset                                                                                      ; 36      ;
 ; mcp23009:mcp23009|i2c:i2c|SDO[0]                                                                                                                      ; 2       ;
 ; pll_cfg_hdmi:pll_cfg_hdmi|fpll_dprio_init:fpll_dprio_init_inst|mdio_dis                                                                               ; 1       ;
 ; pll_cfg_hdmi:pll_cfg_hdmi|fpll_dprio_init:fpll_dprio_init_inst|ser_shift_load                                                                         ; 1       ;
@@ -2317,16 +2321,16 @@ Encoding Type:  One-Hot
 ; HS[4]                                                                                                                                                 ; 2       ;
 ; HS[5]                                                                                                                                                 ; 2       ;
 ; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|reset_vid_sync[1]                                                                  ; 71      ;
-; HBP[7]                                                                                                                                                ; 1       ;
 ; HBP[4]                                                                                                                                                ; 1       ;
+; HBP[7]                                                                                                                                                ; 1       ;
 ; HBP[2]                                                                                                                                                ; 1       ;
 ; VBP[5]                                                                                                                                                ; 2       ;
 ; VBP[2]                                                                                                                                                ; 2       ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|a_graycounter_eu6:rdptr_g1p|counter5a0 ; 6       ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|a_graycounter_fu6:rdptr_g1p|counter5a0 ; 6       ;
 ; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|reset_vid_sync[0]                                                                  ; 1       ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|a_graycounter_acc:wrptr_g1p|counter8a0 ; 10      ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|a_graycounter_eu6:rdptr_g1p|parity6    ; 3       ;
-; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|a_graycounter_acc:wrptr_g1p|parity9    ; 6       ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|a_graycounter_bcc:wrptr_g1p|counter8a0 ; 9       ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|a_graycounter_fu6:rdptr_g1p|parity6    ; 3       ;
+; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|a_graycounter_bcc:wrptr_g1p|parity9    ; 7       ;
 ; aflt_rate[22]                                                                                                                                         ; 2       ;
 ; aflt_rate[19]                                                                                                                                         ; 2       ;
 ; aflt_rate[21]                                                                                                                                         ; 2       ;
@@ -2653,12 +2657,6 @@ Encoding Type:  One-Hot
 ; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |sys_top|vga_b[1]                                                                                           ;
 ; 6:1                ; 13 bits   ; 52 LEs        ; 52 LEs               ; 0 LEs                  ; No         ; |sys_top|VGA_R                                                                                              ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |sys_top|concat                                                                                             ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |sys_top|shadowmask:HDMI_shadowmask|hmax2[4]                                                                ;
-; 4:1                ; 6 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; Yes        ; |sys_top|shadowmask:HDMI_shadowmask|hmax2[3]                                                                ;
-; 3:1                ; 22 bits   ; 44 LEs        ; 0 LEs                ; 44 LEs                 ; Yes        ; |sys_top|osd:hdmi_osd|pixcnt[19]                                                                            ;
-; 4:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; Yes        ; |sys_top|shadowmask:HDMI_shadowmask|vcount[4]                                                               ;
-; 3:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |sys_top|mcp23009:mcp23009|i2c:i2c|SD_COUNTER[2]                                                            ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |sys_top|shadowmask:HDMI_shadowmask|ShiftLeft1                                                              ;
 ; 3:1                ; 29 bits   ; 58 LEs        ; 0 LEs                ; 58 LEs                 ; Yes        ; |sys_top|ddr_svc:ddr_svc|ram_address[27]                                                                    ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |sys_top|ddr_svc:ddr_svc|ready[0]                                                                           ;
 ; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |sys_top|ddr_svc:ddr_svc|ram_bcnt[5]                                                                        ;
@@ -2670,6 +2668,12 @@ Encoding Type:  One-Hot
 ; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |sys_top|ascal:ascal|o_v_poly_pix.b[0]                                                                      ;
 ; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |sys_top|ascal:ascal|o_v_poly_pix.g[7]                                                                      ;
 ; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |sys_top|ascal:ascal|o_v_poly_pix.r[2]                                                                      ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |sys_top|shadowmask:HDMI_shadowmask|vmax2[4]                                                                ;
+; 4:1                ; 6 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; Yes        ; |sys_top|shadowmask:HDMI_shadowmask|hmax2[3]                                                                ;
+; 3:1                ; 22 bits   ; 44 LEs        ; 0 LEs                ; 44 LEs                 ; Yes        ; |sys_top|osd:hdmi_osd|pixcnt[19]                                                                            ;
+; 4:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; Yes        ; |sys_top|shadowmask:HDMI_shadowmask|vcount[4]                                                               ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |sys_top|mcp23009:mcp23009|i2c:i2c|SD_COUNTER[2]                                                            ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |sys_top|shadowmask:HDMI_shadowmask|ShiftLeft1                                                              ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |sys_top|ascal:ascal|i_wdelay[2]                                                                            ;
 ; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |sys_top|ascal:ascal|o_alt[0]                                                                               ;
 ; 3:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; Yes        ; |sys_top|ascal:ascal|o_adrs[14]                                                                             ;
@@ -3222,7 +3226,7 @@ Encoding Type:  One-Hot
 
 
 +---------------------------------------------------------------------------------------------------------------------------------------+
-; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated ;
+; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated ;
 +---------------------------------------+-------+------+--------------------------------------------------------------------------------+
 ; Assignment                            ; Value ; From ; To                                                                             ;
 +---------------------------------------+-------+------+--------------------------------------------------------------------------------+
@@ -3235,7 +3239,7 @@ Encoding Type:  One-Hot
 
 
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|a_graycounter_eu6:rdptr_g1p ;
+; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|a_graycounter_fu6:rdptr_g1p ;
 +----------------+-------+------+-----------------------------------------------------------------------------------------------------------------------------------+
 ; Assignment     ; Value ; From ; To                                                                                                                                ;
 +----------------+-------+------+-----------------------------------------------------------------------------------------------------------------------------------+
@@ -3245,7 +3249,7 @@ Encoding Type:  One-Hot
 
 
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|a_graycounter_acc:wrptr_g1p ;
+; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|a_graycounter_bcc:wrptr_g1p ;
 +----------------+-------+------+-----------------------------------------------------------------------------------------------------------------------------------+
 ; Assignment     ; Value ; From ; To                                                                                                                                ;
 +----------------+-------+------+-----------------------------------------------------------------------------------------------------------------------------------+
@@ -3255,7 +3259,7 @@ Encoding Type:  One-Hot
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|altsyncram_oua1:fifo_ram ;
+; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|altsyncram_qua1:fifo_ram ;
 +---------------------------------+-------+------+---------------------------------------------------------------------------------------------------------------+
 ; Assignment                      ; Value ; From ; To                                                                                                            ;
 +---------------------------------+-------+------+---------------------------------------------------------------------------------------------------------------+
@@ -3264,7 +3268,7 @@ Encoding Type:  One-Hot
 
 
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp ;
+; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp ;
 +-----------------------------+------------------------+------+----------------------------------------------------------------------------------------------------+
 ; Assignment                  ; Value                  ; From ; To                                                                                                 ;
 +-----------------------------+------------------------+------+----------------------------------------------------------------------------------------------------+
@@ -3277,7 +3281,7 @@ Encoding Type:  One-Hot
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12 ;
+; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12 ;
 +---------------------------------+-------+------+---------------------------------------------------------------------------------------------------------------------------------------+
 ; Assignment                      ; Value ; From ; To                                                                                                                                    ;
 +---------------------------------+-------+------+---------------------------------------------------------------------------------------------------------------------------------------+
@@ -3286,7 +3290,7 @@ Encoding Type:  One-Hot
 
 
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp ;
+; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp ;
 +-----------------------------+------------------------+------+----------------------------------------------------------------------------------------------------+
 ; Assignment                  ; Value                  ; From ; To                                                                                                 ;
 +-----------------------------+------------------------+------+----------------------------------------------------------------------------------------------------+
@@ -3299,7 +3303,7 @@ Encoding Type:  One-Hot
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15 ;
+; Source assignments for emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15 ;
 +---------------------------------+-------+------+---------------------------------------------------------------------------------------------------------------------------------------+
 ; Assignment                      ; Value ; From ; To                                                                                                                                    ;
 +---------------------------------+-------+------+---------------------------------------------------------------------------------------------------------------------------------------+
@@ -3370,6 +3374,15 @@ Encoding Type:  One-Hot
 +---------------------------------+-------+------+-----------------------------------------------------------+
 
 
++---------------------------------------------------------------------------------------------+
+; Source assignments for ascal:ascal|altsyncram:pal1_mem_rtl_0|altsyncram_p9j1:auto_generated ;
++---------------------------------+-------+------+--------------------------------------------+
+; Assignment                      ; Value ; From ; To                                         ;
++---------------------------------+-------+------+--------------------------------------------+
+; OPTIMIZE_POWER_DURING_SYNTHESIS ; OFF   ; -    ; -                                          ;
++---------------------------------+-------+------+--------------------------------------------+
+
+
 +-------------------------------------------------------------------------------------------------+
 ; Source assignments for ascal:ascal|altsyncram:o_h_poly_mem_rtl_0|altsyncram_f9j1:auto_generated ;
 +---------------------------------+-------+------+------------------------------------------------+
@@ -3386,15 +3399,6 @@ Encoding Type:  One-Hot
 +---------------------------------+-------+------+------------------------------------------------+
 ; OPTIMIZE_POWER_DURING_SYNTHESIS ; OFF   ; -    ; -                                              ;
 +---------------------------------+-------+------+------------------------------------------------+
-
-
-+---------------------------------------------------------------------------------------------+
-; Source assignments for ascal:ascal|altsyncram:pal1_mem_rtl_0|altsyncram_p9j1:auto_generated ;
-+---------------------------------+-------+------+--------------------------------------------+
-; Assignment                      ; Value ; From ; To                                         ;
-+---------------------------------+-------+------+--------------------------------------------+
-; OPTIMIZE_POWER_DURING_SYNTHESIS ; OFF   ; -    ; -                                          ;
-+---------------------------------+-------+------+--------------------------------------------+
 
 
 +------------------------------------------------------------------------------------------------------------------------------------+
@@ -4844,21 +4848,21 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: emu:emu|hps_io:hps_io                                                                         ;
-+----------------+----------------------------------------------------------------------------------------------------------+----------------+
-; Parameter Name ; Value                                                                                                    ; Type           ;
-+----------------+----------------------------------------------------------------------------------------------------------+----------------+
-; CONF_STR       ; OpenBOR;;F0,PAK,Load PAK;-;J1,Attack,Jump,Special,Attack2,Start,Quit;jn,A,B,X,Y,Start,Select;-;V,v260411 ; String         ;
-; CONF_STR_BRAM  ; 0                                                                                                        ; Signed Integer ;
-; PS2DIV         ; 0                                                                                                        ; Signed Integer ;
-; WIDE           ; 0                                                                                                        ; Signed Integer ;
-; VDNUM          ; 1                                                                                                        ; Signed Integer ;
-; BLKSZ          ; 2                                                                                                        ; Signed Integer ;
-; PS2WE          ; 0                                                                                                        ; Signed Integer ;
-; STRLEN         ; 104                                                                                                      ; Signed Integer ;
-; F12KEYMOD      ; 0                                                                                                        ; Signed Integer ;
-+----------------+----------------------------------------------------------------------------------------------------------+----------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: emu:emu|hps_io:hps_io                                                                               ;
++----------------+----------------------------------------------------------------------------------------------------------------+----------------+
+; Parameter Name ; Value                                                                                                          ; Type           ;
++----------------+----------------------------------------------------------------------------------------------------------------+----------------+
+; CONF_STR       ; OpenBOR;;F0,PAK,Load PAK;-;J1,Attack,Jump,Special,Attack2,Start,Screenshot;jn,A,B,X,Y,Start,Select;-;V,v260411 ; String         ;
+; CONF_STR_BRAM  ; 0                                                                                                              ; Signed Integer ;
+; PS2DIV         ; 0                                                                                                              ; Signed Integer ;
+; WIDE           ; 0                                                                                                              ; Signed Integer ;
+; VDNUM          ; 1                                                                                                              ; Signed Integer ;
+; BLKSZ          ; 2                                                                                                              ; Signed Integer ;
+; PS2WE          ; 0                                                                                                              ; Signed Integer ;
+; STRLEN         ; 110                                                                                                            ; Signed Integer ;
+; F12KEYMOD      ; 0                                                                                                              ; Signed Integer ;
++----------------+----------------------------------------------------------------------------------------------------------------+----------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -5150,8 +5154,8 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; AUTO_CASCADE_CHAINS     ; ON          ; AUTO_CASCADE                                                                             ;
 ; IGNORE_CASCADE_BUFFERS  ; OFF         ; IGNORE_CASCADE                                                                           ;
 ; LPM_WIDTH               ; 64          ; Signed Integer                                                                           ;
-; LPM_NUMWORDS            ; 128         ; Signed Integer                                                                           ;
-; LPM_WIDTHU              ; 7           ; Signed Integer                                                                           ;
+; LPM_NUMWORDS            ; 256         ; Signed Integer                                                                           ;
+; LPM_WIDTHU              ; 8           ; Signed Integer                                                                           ;
 ; LPM_SHOWAHEAD           ; ON          ; Untyped                                                                                  ;
 ; UNDERFLOW_CHECKING      ; ON          ; Untyped                                                                                  ;
 ; OVERFLOW_CHECKING       ; ON          ; Untyped                                                                                  ;
@@ -5168,7 +5172,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; ADD_USEDW_MSB_BIT       ; OFF         ; Untyped                                                                                  ;
 ; WRITE_ACLR_SYNCH        ; OFF         ; Untyped                                                                                  ;
 ; READ_ACLR_SYNCH         ; OFF         ; Untyped                                                                                  ;
-; CBXI_PARAMETER          ; dcfifo_fvl1 ; Untyped                                                                                  ;
+; CBXI_PARAMETER          ; dcfifo_jvl1 ; Untyped                                                                                  ;
 +-------------------------+-------------+------------------------------------------------------------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
@@ -5508,6 +5512,67 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++----------------------------------------------------------------------------------------+
+; Parameter Settings for Inferred Entity Instance: ascal:ascal|altsyncram:pal1_mem_rtl_0 ;
++------------------------------------+----------------------+----------------------------+
+; Parameter Name                     ; Value                ; Type                       ;
++------------------------------------+----------------------+----------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                    ;
+; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                 ;
+; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY               ;
+; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE               ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE             ;
+; WIDTH_BYTEENA                      ; 1                    ; Untyped                    ;
+; OPERATION_MODE                     ; DUAL_PORT            ; Untyped                    ;
+; WIDTH_A                            ; 48                   ; Untyped                    ;
+; WIDTHAD_A                          ; 7                    ; Untyped                    ;
+; NUMWORDS_A                         ; 128                  ; Untyped                    ;
+; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                    ;
+; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                    ;
+; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                    ;
+; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                    ;
+; INDATA_ACLR_A                      ; NONE                 ; Untyped                    ;
+; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                    ;
+; WIDTH_B                            ; 48                   ; Untyped                    ;
+; WIDTHAD_B                          ; 7                    ; Untyped                    ;
+; NUMWORDS_B                         ; 128                  ; Untyped                    ;
+; INDATA_REG_B                       ; CLOCK1               ; Untyped                    ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                    ;
+; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                    ;
+; ADDRESS_REG_B                      ; CLOCK1               ; Untyped                    ;
+; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                    ;
+; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                    ;
+; INDATA_ACLR_B                      ; NONE                 ; Untyped                    ;
+; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                    ;
+; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                    ;
+; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                    ;
+; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                    ;
+; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                    ;
+; WIDTH_BYTEENA_A                    ; 1                    ; Untyped                    ;
+; WIDTH_BYTEENA_B                    ; 1                    ; Untyped                    ;
+; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                    ;
+; BYTE_SIZE                          ; 8                    ; Untyped                    ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                    ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                    ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                    ;
+; INIT_FILE                          ; UNUSED               ; Untyped                    ;
+; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                    ;
+; MAXIMUM_DEPTH                      ; 0                    ; Untyped                    ;
+; CLOCK_ENABLE_INPUT_A               ; NORMAL               ; Untyped                    ;
+; CLOCK_ENABLE_INPUT_B               ; NORMAL               ; Untyped                    ;
+; CLOCK_ENABLE_OUTPUT_A              ; NORMAL               ; Untyped                    ;
+; CLOCK_ENABLE_OUTPUT_B              ; NORMAL               ; Untyped                    ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                    ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                    ;
+; ENABLE_ECC                         ; FALSE                ; Untyped                    ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                    ;
+; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                    ;
+; DEVICE_FAMILY                      ; Cyclone V            ; Untyped                    ;
+; CBXI_PARAMETER                     ; altsyncram_p9j1      ; Untyped                    ;
++------------------------------------+----------------------+----------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +--------------------------------------------------------------------------------------------+
 ; Parameter Settings for Inferred Entity Instance: ascal:ascal|altsyncram:o_h_poly_mem_rtl_0 ;
 +------------------------------------+----------------------+--------------------------------+
@@ -5627,67 +5692,6 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; DEVICE_FAMILY                      ; Cyclone V            ; Untyped                        ;
 ; CBXI_PARAMETER                     ; altsyncram_f9j1      ; Untyped                        ;
 +------------------------------------+----------------------+--------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+----------------------------------------------------------------------------------------+
-; Parameter Settings for Inferred Entity Instance: ascal:ascal|altsyncram:pal1_mem_rtl_0 ;
-+------------------------------------+----------------------+----------------------------+
-; Parameter Name                     ; Value                ; Type                       ;
-+------------------------------------+----------------------+----------------------------+
-; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                    ;
-; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                 ;
-; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY               ;
-; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE               ;
-; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE             ;
-; WIDTH_BYTEENA                      ; 1                    ; Untyped                    ;
-; OPERATION_MODE                     ; DUAL_PORT            ; Untyped                    ;
-; WIDTH_A                            ; 48                   ; Untyped                    ;
-; WIDTHAD_A                          ; 7                    ; Untyped                    ;
-; NUMWORDS_A                         ; 128                  ; Untyped                    ;
-; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                    ;
-; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                    ;
-; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                    ;
-; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                    ;
-; INDATA_ACLR_A                      ; NONE                 ; Untyped                    ;
-; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                    ;
-; WIDTH_B                            ; 48                   ; Untyped                    ;
-; WIDTHAD_B                          ; 7                    ; Untyped                    ;
-; NUMWORDS_B                         ; 128                  ; Untyped                    ;
-; INDATA_REG_B                       ; CLOCK1               ; Untyped                    ;
-; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                    ;
-; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                    ;
-; ADDRESS_REG_B                      ; CLOCK1               ; Untyped                    ;
-; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                    ;
-; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                    ;
-; INDATA_ACLR_B                      ; NONE                 ; Untyped                    ;
-; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                    ;
-; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                    ;
-; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                    ;
-; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                    ;
-; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                    ;
-; WIDTH_BYTEENA_A                    ; 1                    ; Untyped                    ;
-; WIDTH_BYTEENA_B                    ; 1                    ; Untyped                    ;
-; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                    ;
-; BYTE_SIZE                          ; 8                    ; Untyped                    ;
-; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                    ;
-; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                    ;
-; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                    ;
-; INIT_FILE                          ; UNUSED               ; Untyped                    ;
-; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                    ;
-; MAXIMUM_DEPTH                      ; 0                    ; Untyped                    ;
-; CLOCK_ENABLE_INPUT_A               ; NORMAL               ; Untyped                    ;
-; CLOCK_ENABLE_INPUT_B               ; NORMAL               ; Untyped                    ;
-; CLOCK_ENABLE_OUTPUT_A              ; NORMAL               ; Untyped                    ;
-; CLOCK_ENABLE_OUTPUT_B              ; NORMAL               ; Untyped                    ;
-; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                    ;
-; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                    ;
-; ENABLE_ECC                         ; FALSE                ; Untyped                    ;
-; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                    ;
-; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                    ;
-; DEVICE_FAMILY                      ; Cyclone V            ; Untyped                    ;
-; CBXI_PARAMETER                     ; altsyncram_p9j1      ; Untyped                    ;
-+------------------------------------+----------------------+----------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -5972,6 +5976,17 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     -- OUTDATA_REG_B                      ; UNREGISTERED                                         ;
 ;     -- RAM_BLOCK_TYPE                     ; AUTO                                                 ;
 ;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                            ;
+; Entity Instance                           ; ascal:ascal|altsyncram:pal1_mem_rtl_0                ;
+;     -- OPERATION_MODE                     ; DUAL_PORT                                            ;
+;     -- WIDTH_A                            ; 48                                                   ;
+;     -- NUMWORDS_A                         ; 128                                                  ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                         ;
+;     -- WIDTH_B                            ; 48                                                   ;
+;     -- NUMWORDS_B                         ; 128                                                  ;
+;     -- ADDRESS_REG_B                      ; CLOCK1                                               ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                         ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                 ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                            ;
 ; Entity Instance                           ; ascal:ascal|altsyncram:o_h_poly_mem_rtl_0            ;
 ;     -- OPERATION_MODE                     ; DUAL_PORT                                            ;
 ;     -- WIDTH_A                            ; 40                                                   ;
@@ -5990,17 +6005,6 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     -- OUTDATA_REG_A                      ; UNREGISTERED                                         ;
 ;     -- WIDTH_B                            ; 40                                                   ;
 ;     -- NUMWORDS_B                         ; 256                                                  ;
-;     -- ADDRESS_REG_B                      ; CLOCK1                                               ;
-;     -- OUTDATA_REG_B                      ; UNREGISTERED                                         ;
-;     -- RAM_BLOCK_TYPE                     ; AUTO                                                 ;
-;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                            ;
-; Entity Instance                           ; ascal:ascal|altsyncram:pal1_mem_rtl_0                ;
-;     -- OPERATION_MODE                     ; DUAL_PORT                                            ;
-;     -- WIDTH_A                            ; 48                                                   ;
-;     -- NUMWORDS_A                         ; 128                                                  ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                         ;
-;     -- WIDTH_B                            ; 48                                                   ;
-;     -- NUMWORDS_B                         ; 128                                                  ;
 ;     -- ADDRESS_REG_B                      ; CLOCK1                                               ;
 ;     -- OUTDATA_REG_B                      ; UNREGISTERED                                         ;
 ;     -- RAM_BLOCK_TYPE                     ; AUTO                                                 ;
@@ -6028,7 +6032,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Entity Instance            ; emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo ;
 ;     -- FIFO Type           ; Dual Clock                                                                          ;
 ;     -- LPM_WIDTH           ; 64                                                                                  ;
-;     -- LPM_NUMWORDS        ; 128                                                                                 ;
+;     -- LPM_NUMWORDS        ; 256                                                                                 ;
 ;     -- LPM_SHOWAHEAD       ; ON                                                                                  ;
 ;     -- USE_EAB             ; ON                                                                                  ;
 +----------------------------+-------------------------------------------------------------------------------------+
@@ -6408,10 +6412,10 @@ Note: In order to hide this table in the UI and the text report file, please set
 +--------------------------------------------+--------+
 ; arriav_clkselect                           ; 2      ;
 ; arriav_ddio_out                            ; 3      ;
-; arriav_ff                                  ; 13046  ;
-;     CLR                                    ; 145    ;
+; arriav_ff                                  ; 13055  ;
+;     CLR                                    ; 152    ;
 ;     ENA                                    ; 4999   ;
-;     ENA CLR                                ; 316    ;
+;     ENA CLR                                ; 318    ;
 ;     ENA CLR SCLR                           ; 9      ;
 ;     ENA CLR SLD                            ; 16     ;
 ;     ENA SCLR                               ; 1616   ;
@@ -6434,7 +6438,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; arriav_hps_interface_peripheral_uart       ; 1      ;
 ; arriav_hps_interface_tpiu_trace            ; 1      ;
 ; arriav_io_obuf                             ; 66     ;
-; arriav_lcell_comb                          ; 12797  ;
+; arriav_lcell_comb                          ; 12793  ;
 ;     arith                                  ; 4455   ;
 ;         0 data inputs                      ; 73     ;
 ;         1 data inputs                      ; 1974   ;
@@ -6442,16 +6446,16 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;         3 data inputs                      ; 389    ;
 ;         4 data inputs                      ; 182    ;
 ;         5 data inputs                      ; 202    ;
-;     extend                                 ; 162    ;
-;         7 data inputs                      ; 162    ;
-;     normal                                 ; 6955   ;
+;     extend                                 ; 152    ;
+;         7 data inputs                      ; 152    ;
+;     normal                                 ; 6961   ;
 ;         0 data inputs                      ; 11     ;
 ;         1 data inputs                      ; 133    ;
-;         2 data inputs                      ; 722    ;
-;         3 data inputs                      ; 1086   ;
-;         4 data inputs                      ; 1464   ;
-;         5 data inputs                      ; 1275   ;
-;         6 data inputs                      ; 2264   ;
+;         2 data inputs                      ; 729    ;
+;         3 data inputs                      ; 1070   ;
+;         4 data inputs                      ; 1487   ;
+;         5 data inputs                      ; 1237   ;
+;         6 data inputs                      ; 2294   ;
 ;     shared                                 ; 1225   ;
 ;         0 data inputs                      ; 103    ;
 ;         1 data inputs                      ; 259    ;
@@ -6477,7 +6481,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:20     ;
+; Top            ; 00:00:29     ;
 +----------------+--------------+
 
 
@@ -6487,7 +6491,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
-    Info: Processing started: Sat Apr 11 12:55:10 2026
+    Info: Processing started: Sat Apr 11 15:21:17 2026
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off OpenBOR -c OpenBOR
 Info (16303): High Performance Effort optimization mode selected -- timing performance will be prioritized at the potential cost of increased compilation time
     Info (16304): Mode behavior is affected by advanced setting Physical Synthesis Effort Level (default for this mode is Normal)
@@ -6629,152 +6633,6 @@ Info (12128): Elaborating entity "f2sdram_safe_terminator" for hierarchy "sysmem
 Info (12128): Elaborating entity "sysmem_HPS_fpga_interfaces" for hierarchy "sysmem_lite:sysmem|sysmem_HPS_fpga_interfaces:fpga_interfaces" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/sys/sysmem.sv Line: 223
 Info (12128): Elaborating entity "ddr_svc" for hierarchy "ddr_svc:ddr_svc" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/sys/sys_top.v Line: 692
 Info (12128): Elaborating entity "ascal" for hierarchy "ascal:ascal" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/sys/sys_top.v Line: 831
-Info (19000): Inferred 9 megafunctions from design logic
-    Info (276029): Inferred altsyncram megafunction from the following design logic: "ascal:ascal|altsyncram:i_mem[0].r[7]__1" 
-        Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
-        Info (286033): Parameter WIDTH_A set to 24
-        Info (286033): Parameter WIDTHAD_A set to 11
-        Info (286033): Parameter NUMWORDS_A set to 2048
-        Info (286033): Parameter WIDTH_B set to 24
-        Info (286033): Parameter WIDTHAD_B set to 11
-        Info (286033): Parameter NUMWORDS_B set to 2048
-        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
-        Info (286033): Parameter OUTDATA_REG_B set to UNREGISTERED
-        Info (286033): Parameter ADDRESS_ACLR_B set to NONE
-        Info (286033): Parameter OUTDATA_ACLR_B set to NONE
-        Info (286033): Parameter ADDRESS_REG_B set to CLOCK0
-        Info (286033): Parameter INDATA_ACLR_A set to NONE
-        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
-        Info (286033): Parameter READ_DURING_WRITE_MODE_MIXED_PORTS set to OLD_DATA
-        Info (286033): Parameter RDCONTROL_REG_B set to CLOCK0
-    Info (276029): Inferred altsyncram megafunction from the following design logic: "ascal:ascal|altsyncram:o_line0[0].r[7]__2" 
-        Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
-        Info (286033): Parameter WIDTH_A set to 24
-        Info (286033): Parameter WIDTHAD_A set to 11
-        Info (286033): Parameter NUMWORDS_A set to 2048
-        Info (286033): Parameter WIDTH_B set to 24
-        Info (286033): Parameter WIDTHAD_B set to 11
-        Info (286033): Parameter NUMWORDS_B set to 2048
-        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
-        Info (286033): Parameter OUTDATA_REG_B set to UNREGISTERED
-        Info (286033): Parameter ADDRESS_ACLR_B set to NONE
-        Info (286033): Parameter OUTDATA_ACLR_B set to NONE
-        Info (286033): Parameter ADDRESS_REG_B set to CLOCK0
-        Info (286033): Parameter INDATA_ACLR_A set to NONE
-        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
-        Info (286033): Parameter READ_DURING_WRITE_MODE_MIXED_PORTS set to OLD_DATA
-    Info (276029): Inferred altsyncram megafunction from the following design logic: "ascal:ascal|altsyncram:o_line1[0].r[7]__3" 
-        Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
-        Info (286033): Parameter WIDTH_A set to 24
-        Info (286033): Parameter WIDTHAD_A set to 11
-        Info (286033): Parameter NUMWORDS_A set to 2048
-        Info (286033): Parameter WIDTH_B set to 24
-        Info (286033): Parameter WIDTHAD_B set to 11
-        Info (286033): Parameter NUMWORDS_B set to 2048
-        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
-        Info (286033): Parameter OUTDATA_REG_B set to UNREGISTERED
-        Info (286033): Parameter ADDRESS_ACLR_B set to NONE
-        Info (286033): Parameter OUTDATA_ACLR_B set to NONE
-        Info (286033): Parameter ADDRESS_REG_B set to CLOCK0
-        Info (286033): Parameter INDATA_ACLR_A set to NONE
-        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
-        Info (286033): Parameter READ_DURING_WRITE_MODE_MIXED_PORTS set to OLD_DATA
-    Info (276029): Inferred altsyncram megafunction from the following design logic: "ascal:ascal|altsyncram:o_line2[0].r[7]__4" 
-        Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
-        Info (286033): Parameter WIDTH_A set to 24
-        Info (286033): Parameter WIDTHAD_A set to 11
-        Info (286033): Parameter NUMWORDS_A set to 2048
-        Info (286033): Parameter WIDTH_B set to 24
-        Info (286033): Parameter WIDTHAD_B set to 11
-        Info (286033): Parameter NUMWORDS_B set to 2048
-        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
-        Info (286033): Parameter OUTDATA_REG_B set to UNREGISTERED
-        Info (286033): Parameter ADDRESS_ACLR_B set to NONE
-        Info (286033): Parameter OUTDATA_ACLR_B set to NONE
-        Info (286033): Parameter ADDRESS_REG_B set to CLOCK0
-        Info (286033): Parameter INDATA_ACLR_A set to NONE
-        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
-        Info (286033): Parameter READ_DURING_WRITE_MODE_MIXED_PORTS set to OLD_DATA
-    Info (276029): Inferred altsyncram megafunction from the following design logic: "ascal:ascal|altsyncram:o_line3[0].r[7]__5" 
-        Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
-        Info (286033): Parameter WIDTH_A set to 24
-        Info (286033): Parameter WIDTHAD_A set to 11
-        Info (286033): Parameter NUMWORDS_A set to 2048
-        Info (286033): Parameter WIDTH_B set to 24
-        Info (286033): Parameter WIDTHAD_B set to 11
-        Info (286033): Parameter NUMWORDS_B set to 2048
-        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
-        Info (286033): Parameter OUTDATA_REG_B set to UNREGISTERED
-        Info (286033): Parameter ADDRESS_ACLR_B set to NONE
-        Info (286033): Parameter OUTDATA_ACLR_B set to NONE
-        Info (286033): Parameter ADDRESS_REG_B set to CLOCK0
-        Info (286033): Parameter INDATA_ACLR_A set to NONE
-        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
-        Info (286033): Parameter READ_DURING_WRITE_MODE_MIXED_PORTS set to OLD_DATA
-    Info (276029): Inferred altsyncram megafunction from the following design logic: "ascal:ascal|altsyncram:o_linf0[0].r[7]__6" 
-        Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
-        Info (286033): Parameter WIDTH_A set to 24
-        Info (286033): Parameter WIDTHAD_A set to 8
-        Info (286033): Parameter NUMWORDS_A set to 256
-        Info (286033): Parameter WIDTH_B set to 24
-        Info (286033): Parameter WIDTHAD_B set to 8
-        Info (286033): Parameter NUMWORDS_B set to 256
-        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
-        Info (286033): Parameter OUTDATA_REG_B set to UNREGISTERED
-        Info (286033): Parameter ADDRESS_ACLR_B set to NONE
-        Info (286033): Parameter OUTDATA_ACLR_B set to NONE
-        Info (286033): Parameter ADDRESS_REG_B set to CLOCK0
-        Info (286033): Parameter INDATA_ACLR_A set to NONE
-        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
-        Info (286033): Parameter READ_DURING_WRITE_MODE_MIXED_PORTS set to OLD_DATA
-    Info (276029): Inferred altsyncram megafunction from the following design logic: "ascal:ascal|altsyncram:o_linf1[0].r[7]__7" 
-        Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
-        Info (286033): Parameter WIDTH_A set to 24
-        Info (286033): Parameter WIDTHAD_A set to 8
-        Info (286033): Parameter NUMWORDS_A set to 256
-        Info (286033): Parameter WIDTH_B set to 24
-        Info (286033): Parameter WIDTHAD_B set to 8
-        Info (286033): Parameter NUMWORDS_B set to 256
-        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
-        Info (286033): Parameter OUTDATA_REG_B set to UNREGISTERED
-        Info (286033): Parameter ADDRESS_ACLR_B set to NONE
-        Info (286033): Parameter OUTDATA_ACLR_B set to NONE
-        Info (286033): Parameter ADDRESS_REG_B set to CLOCK0
-        Info (286033): Parameter INDATA_ACLR_A set to NONE
-        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
-        Info (286033): Parameter READ_DURING_WRITE_MODE_MIXED_PORTS set to OLD_DATA
-    Info (276029): Inferred altsyncram megafunction from the following design logic: "ascal:ascal|altsyncram:o_linf2[0].r[7]__8" 
-        Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
-        Info (286033): Parameter WIDTH_A set to 24
-        Info (286033): Parameter WIDTHAD_A set to 8
-        Info (286033): Parameter NUMWORDS_A set to 256
-        Info (286033): Parameter WIDTH_B set to 24
-        Info (286033): Parameter WIDTHAD_B set to 8
-        Info (286033): Parameter NUMWORDS_B set to 256
-        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
-        Info (286033): Parameter OUTDATA_REG_B set to UNREGISTERED
-        Info (286033): Parameter ADDRESS_ACLR_B set to NONE
-        Info (286033): Parameter OUTDATA_ACLR_B set to NONE
-        Info (286033): Parameter ADDRESS_REG_B set to CLOCK0
-        Info (286033): Parameter INDATA_ACLR_A set to NONE
-        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
-        Info (286033): Parameter READ_DURING_WRITE_MODE_MIXED_PORTS set to OLD_DATA
-    Info (276029): Inferred altsyncram megafunction from the following design logic: "ascal:ascal|altsyncram:o_linf3[0].r[7]__9" 
-        Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
-        Info (286033): Parameter WIDTH_A set to 24
-        Info (286033): Parameter WIDTHAD_A set to 8
-        Info (286033): Parameter NUMWORDS_A set to 256
-        Info (286033): Parameter WIDTH_B set to 24
-        Info (286033): Parameter WIDTHAD_B set to 8
-        Info (286033): Parameter NUMWORDS_B set to 256
-        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
-        Info (286033): Parameter OUTDATA_REG_B set to UNREGISTERED
-        Info (286033): Parameter ADDRESS_ACLR_B set to NONE
-        Info (286033): Parameter OUTDATA_ACLR_B set to NONE
-        Info (286033): Parameter ADDRESS_REG_B set to CLOCK0
-        Info (286033): Parameter INDATA_ACLR_A set to NONE
-        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
-        Info (286033): Parameter READ_DURING_WRITE_MODE_MIXED_PORTS set to OLD_DATA
 Info (12128): Elaborating entity "altsyncram" for hierarchy "ascal:ascal|altsyncram:i_mem[0].r[7]__1"
 Info (12130): Elaborated megafunction instantiation "ascal:ascal|altsyncram:i_mem[0].r[7]__1"
 Info (12133): Instantiated megafunction "ascal:ascal|altsyncram:i_mem[0].r[7]__1" with the following parameter:
@@ -7289,43 +7147,43 @@ Info (12128): Elaborating entity "dcfifo" for hierarchy "emu:emu|openbor_video_t
 Info (12130): Elaborated megafunction instantiation "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/rtl/openbor_video_reader.sv Line: 568
 Info (12133): Instantiated megafunction "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo" with the following parameter: File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/rtl/openbor_video_reader.sv Line: 568
     Info (12134): Parameter "intended_device_family" = "Cyclone V"
-    Info (12134): Parameter "lpm_numwords" = "128"
+    Info (12134): Parameter "lpm_numwords" = "256"
     Info (12134): Parameter "lpm_showahead" = "ON"
     Info (12134): Parameter "lpm_type" = "dcfifo"
     Info (12134): Parameter "lpm_width" = "64"
-    Info (12134): Parameter "lpm_widthu" = "7"
+    Info (12134): Parameter "lpm_widthu" = "8"
     Info (12134): Parameter "overflow_checking" = "ON"
     Info (12134): Parameter "rdsync_delaypipe" = "4"
     Info (12134): Parameter "underflow_checking" = "ON"
     Info (12134): Parameter "use_eab" = "ON"
     Info (12134): Parameter "wrsync_delaypipe" = "4"
-Info (12021): Found 1 design units, including 1 entities, in source file db/dcfifo_fvl1.tdf
-    Info (12023): Found entity 1: dcfifo_fvl1 File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_fvl1.tdf Line: 37
-Info (12128): Elaborating entity "dcfifo_fvl1" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated" File: c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/dcfifo.tdf Line: 191
-Info (12021): Found 1 design units, including 1 entities, in source file db/a_graycounter_eu6.tdf
-    Info (12023): Found entity 1: a_graycounter_eu6 File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/a_graycounter_eu6.tdf Line: 25
-Info (12128): Elaborating entity "a_graycounter_eu6" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|a_graycounter_eu6:rdptr_g1p" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_fvl1.tdf Line: 50
-Info (12021): Found 1 design units, including 1 entities, in source file db/a_graycounter_acc.tdf
-    Info (12023): Found entity 1: a_graycounter_acc File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/a_graycounter_acc.tdf Line: 25
-Info (12128): Elaborating entity "a_graycounter_acc" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|a_graycounter_acc:wrptr_g1p" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_fvl1.tdf Line: 51
-Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_oua1.tdf
-    Info (12023): Found entity 1: altsyncram_oua1 File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/altsyncram_oua1.tdf Line: 28
-Info (12128): Elaborating entity "altsyncram_oua1" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|altsyncram_oua1:fifo_ram" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_fvl1.tdf Line: 52
-Info (12021): Found 1 design units, including 1 entities, in source file db/alt_synch_pipe_vnl.tdf
-    Info (12023): Found entity 1: alt_synch_pipe_vnl File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/alt_synch_pipe_vnl.tdf Line: 27
-Info (12128): Elaborating entity "alt_synch_pipe_vnl" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_fvl1.tdf Line: 59
-Info (12021): Found 1 design units, including 1 entities, in source file db/dffpipe_gd9.tdf
-    Info (12023): Found entity 1: dffpipe_gd9 File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dffpipe_gd9.tdf Line: 25
-Info (12128): Elaborating entity "dffpipe_gd9" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_vnl:rs_dgwp|dffpipe_gd9:dffpipe12" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/alt_synch_pipe_vnl.tdf Line: 35
-Info (12021): Found 1 design units, including 1 entities, in source file db/alt_synch_pipe_0ol.tdf
-    Info (12023): Found entity 1: alt_synch_pipe_0ol File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/alt_synch_pipe_0ol.tdf Line: 27
-Info (12128): Elaborating entity "alt_synch_pipe_0ol" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_fvl1.tdf Line: 60
-Info (12021): Found 1 design units, including 1 entities, in source file db/dffpipe_hd9.tdf
-    Info (12023): Found entity 1: dffpipe_hd9 File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dffpipe_hd9.tdf Line: 25
-Info (12128): Elaborating entity "dffpipe_hd9" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|alt_synch_pipe_0ol:ws_dgrp|dffpipe_hd9:dffpipe15" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/alt_synch_pipe_0ol.tdf Line: 35
-Info (12021): Found 1 design units, including 1 entities, in source file db/cmpr_0v5.tdf
-    Info (12023): Found entity 1: cmpr_0v5 File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/cmpr_0v5.tdf Line: 23
-Info (12128): Elaborating entity "cmpr_0v5" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_fvl1:auto_generated|cmpr_0v5:rdempty_eq_comp" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_fvl1.tdf Line: 61
+Info (12021): Found 1 design units, including 1 entities, in source file db/dcfifo_jvl1.tdf
+    Info (12023): Found entity 1: dcfifo_jvl1 File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_jvl1.tdf Line: 37
+Info (12128): Elaborating entity "dcfifo_jvl1" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated" File: c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/dcfifo.tdf Line: 191
+Info (12021): Found 1 design units, including 1 entities, in source file db/a_graycounter_fu6.tdf
+    Info (12023): Found entity 1: a_graycounter_fu6 File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/a_graycounter_fu6.tdf Line: 25
+Info (12128): Elaborating entity "a_graycounter_fu6" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|a_graycounter_fu6:rdptr_g1p" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_jvl1.tdf Line: 50
+Info (12021): Found 1 design units, including 1 entities, in source file db/a_graycounter_bcc.tdf
+    Info (12023): Found entity 1: a_graycounter_bcc File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/a_graycounter_bcc.tdf Line: 25
+Info (12128): Elaborating entity "a_graycounter_bcc" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|a_graycounter_bcc:wrptr_g1p" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_jvl1.tdf Line: 51
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_qua1.tdf
+    Info (12023): Found entity 1: altsyncram_qua1 File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/altsyncram_qua1.tdf Line: 28
+Info (12128): Elaborating entity "altsyncram_qua1" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|altsyncram_qua1:fifo_ram" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_jvl1.tdf Line: 52
+Info (12021): Found 1 design units, including 1 entities, in source file db/alt_synch_pipe_1ol.tdf
+    Info (12023): Found entity 1: alt_synch_pipe_1ol File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/alt_synch_pipe_1ol.tdf Line: 27
+Info (12128): Elaborating entity "alt_synch_pipe_1ol" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_jvl1.tdf Line: 59
+Info (12021): Found 1 design units, including 1 entities, in source file db/dffpipe_id9.tdf
+    Info (12023): Found entity 1: dffpipe_id9 File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dffpipe_id9.tdf Line: 25
+Info (12128): Elaborating entity "dffpipe_id9" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_1ol:rs_dgwp|dffpipe_id9:dffpipe12" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/alt_synch_pipe_1ol.tdf Line: 35
+Info (12021): Found 1 design units, including 1 entities, in source file db/alt_synch_pipe_2ol.tdf
+    Info (12023): Found entity 1: alt_synch_pipe_2ol File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/alt_synch_pipe_2ol.tdf Line: 27
+Info (12128): Elaborating entity "alt_synch_pipe_2ol" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_jvl1.tdf Line: 60
+Info (12021): Found 1 design units, including 1 entities, in source file db/dffpipe_jd9.tdf
+    Info (12023): Found entity 1: dffpipe_jd9 File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dffpipe_jd9.tdf Line: 25
+Info (12128): Elaborating entity "dffpipe_jd9" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|alt_synch_pipe_2ol:ws_dgrp|dffpipe_jd9:dffpipe15" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/alt_synch_pipe_2ol.tdf Line: 35
+Info (12021): Found 1 design units, including 1 entities, in source file db/cmpr_1v5.tdf
+    Info (12023): Found entity 1: cmpr_1v5 File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/cmpr_1v5.tdf Line: 23
+Info (12128): Elaborating entity "cmpr_1v5" for hierarchy "emu:emu|openbor_video_top:native_video|openbor_video_reader:reader|dcfifo:line_fifo|dcfifo_jvl1:auto_generated|cmpr_1v5:rdempty_eq_comp" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/db/dcfifo_jvl1.tdf Line: 61
 Warning (12030): Port "extclk" on the entity instantiation of "cyclonev_pll" is connected to a signal of width 1. The formal width of the signal in the module is 2.  The extra bits will be left dangling without any fan-out logic. File: c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altera_pll.v Line: 2224
 Warning (14284): Synthesized away the following node(s):
     Warning (14285): Synthesized away the following LCELL buffer node(s):
@@ -7729,19 +7587,19 @@ Warning (21074): Design contains 3 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "HDMI_TX_INT" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/sys/sys_top.v Line: 44
     Warning (15610): No output dependent on input pin "SD_SPI_MISO" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/sys/sys_top.v Line: 100
     Warning (15610): No output dependent on input pin "ADC_SDO" File: C:/Users/miste/Downloads/MiSTer_OpenBOR/fpga/sys/sys_top.v Line: 110
-Info (21057): Implemented 21845 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 21846 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 16 input pins
     Info (21059): Implemented 97 output pins
     Info (21060): Implemented 32 bidirectional pins
-    Info (21061): Implemented 20705 logic cells
+    Info (21061): Implemented 20706 logic cells
     Info (21064): Implemented 936 RAM segments
     Info (21065): Implemented 3 PLLs
     Info (21062): Implemented 35 DSP elements
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 46 warnings
-    Info: Peak virtual memory: 6585 megabytes
-    Info: Processing ended: Sat Apr 11 12:56:20 2026
-    Info: Elapsed time: 00:01:10
-    Info: Total CPU time (on all processors): 00:01:50
+    Info: Peak virtual memory: 5578 megabytes
+    Info: Processing ended: Sat Apr 11 15:22:15 2026
+    Info: Elapsed time: 00:00:58
+    Info: Total CPU time (on all processors): 00:01:43
 
 
 +------------------------------------------+

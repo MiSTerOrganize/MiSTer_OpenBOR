@@ -16,7 +16,7 @@
  *   bit 6  = Button 2 (X)    → FLAG_SPECIAL (Special)
  *   bit 7  = Button 3 (Y)    → FLAG_ATTACK2 (Attack2)
  *   bit 8  = Button 4 (Start) → FLAG_START
- *   bit 9  = Button 5 (Select) → exit(0) (Quit)
+ *   bit 9  = Button 5 (Select) → FLAG_SCREENSHOT
  *
  * Copyright (C) 2026 MiSTer Organize — GPL-3.0
  */
@@ -42,8 +42,8 @@ void control_update(s_playercontrols ** playercontrols, int numplayers)
         {
             uint32_t joy = NativeVideoWriter_ReadJoystick(player);
 
-            /* Select button = immediate quit (daemon relaunches) */
-            if (joy & 0x200) exit(0);
+            /* Select button = screenshot */
+            if (joy & 0x200) k |= FLAG_SCREENSHOT;
 
             /* Map MiSTer joystick bits to OpenBOR flags */
             if (joy & 0x001) k |= FLAG_MOVERIGHT;

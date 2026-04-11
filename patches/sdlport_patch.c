@@ -73,9 +73,16 @@ int main(int argc, char *argv[])
     chdir(rootDir);
 #endif
     dirExists(paksDir, 1);
+#ifdef MISTER_NATIVE_VIDEO
+    /* Saves go to /media/fat/saves/OpenBOR/ (redirected in utils.c).
+     * ScreenShots not used (no button mapped to FLAG_SCREENSHOT).
+     * Don't create local Saves/ or ScreenShots/ folders. */
+    dirExists(logsDir, 1);
+#else
     dirExists(savesDir, 1);
     dirExists(logsDir, 1);
     dirExists(screenShotsDir, 1);
+#endif
 
 #ifdef ANDROID
     if(dirExists("/mnt/usbdrive/OpenBOR/Paks", 0))

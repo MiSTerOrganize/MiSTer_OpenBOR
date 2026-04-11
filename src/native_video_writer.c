@@ -129,16 +129,17 @@ void NativeVideoWriter_WriteFrame(const void* pixels, int width, int height,
         }
     }
     else if (bpp == 8 && palette) {
-        /* 8bpp paletted — convert through palette to RGB565 */
+        /* 8bpp paletted — convert through palette to RGB565.
+         * OpenBOR s_screen palette: 3 bytes per entry (R, G, B), 256 entries. */
         const uint8_t* src = (const uint8_t*)pixels;
         const uint8_t* pal = (const uint8_t*)palette;
         for (int y = 0; y < height; y++) {
             const uint8_t* row = src + y * pitch;
             for (int x = 0; x < width; x++) {
                 uint8_t idx = row[x];
-                uint8_t r = pal[idx * 4 + 0];
-                uint8_t g = pal[idx * 4 + 1];
-                uint8_t b = pal[idx * 4 + 2];
+                uint8_t r = pal[idx * 3 + 0];
+                uint8_t g = pal[idx * 3 + 1];
+                uint8_t b = pal[idx * 3 + 2];
                 dst[y * NV_FRAME_WIDTH + x] =
                     (uint16_t)(((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3));
             }

@@ -133,7 +133,7 @@ endif
     write(os.path.join(obor, 'openbor.c'), src)
     print("  pausemenu() replaced.")
 
-    # ── 3. Patch sdl/video.c — intercept SDL_Flip ────────────────────
+    # ── 3. Patch sdl/video.c — intercept video_copy_screen ─────────
     print("Patching sdl/video.c (video intercept)...")
     src = read(os.path.join(obor, 'sdl/video.c'))
 
@@ -143,28 +143,22 @@ endif
         '#include "openbor.h"\n#ifdef MISTER_NATIVE_VIDEO\n#include "native_video_writer.h"\n#endif'
     )
 
-    # Replace SDL_Flip block
-    old_flip = """#if SDL2
-\tSDL_BlitSurface(screen, NULL, SDL_GetWindowSurface(window), NULL);
-\tSDL_UpdateWindowSurface(window);
-#else
-\tSDL_Flip(screen);
-#endif"""
+    # Intercept at the top of video_copy_screen() — read directly from
+    # the raw s_screen buffer (clean 8bpp data + palette), convert to
+    # RGB565, write to DDR3, and return. This bypasses the entire SDL
+    # rendering pipeline, matching the 3SX approach.
+    src = src.replace(
+        "int video_copy_screen(s_screen* src)\n{\n\tunsigned char *sp;",
+        "int video_copy_screen(s_screen* src)\n{\n#ifdef MISTER_NATIVE_VIDEO\n"
+        "\tNativeVideoWriter_WriteFrame(src->data, src->width, src->height,\n"
+        "\t\tsrc->width * bytes_per_pixel, bytes_per_pixel * 8, src->palette);\n"
+        "\treturn 1;\n"
+        "#endif\n"
+        "\tunsigned char *sp;"
+    )
 
-    new_flip = """#ifdef MISTER_NATIVE_VIDEO
-\tNativeVideoWriter_WriteFrame(screen->pixels, screen->w, screen->h,
-\t\tscreen->pitch, screen->format->BitsPerPixel,
-\t\tscreen->format->palette ? screen->format->palette->colors : NULL);
-#elif SDL2
-\tSDL_BlitSurface(screen, NULL, SDL_GetWindowSurface(window), NULL);
-\tSDL_UpdateWindowSurface(window);
-#else
-\tSDL_Flip(screen);
-#endif"""
-
-    src = src.replace(old_flip, new_flip)
     write(os.path.join(obor, 'sdl/video.c'), src)
-    print("  SDL_Flip intercepted.")
+    print("  video_copy_screen intercepted.")
 
     # ── 4. Patch sdl/control.c — replace control_update() ────────────
     print("Patching sdl/control.c (input mapping)...")
