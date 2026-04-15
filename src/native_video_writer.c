@@ -154,15 +154,19 @@ void NativeVideoWriter_WriteFrame(const void* pixels, int width, int height,
         }
     }
     else if (bpp == 32) {
-        /* 32bpp RGBA/BGRA — convert to RGB565 */
+        /* 32bpp -- OpenBOR's SDL 1.2 surface is laid out byte-0=R,
+         * byte-1=G, byte-2=B, byte-3=A (RGBA). Extracting r from byte 0
+         * and b from byte 2 matches what the FPGA decoder expects in
+         * RGB565 (r in high bits). The older BGRA assumption produced
+         * a uniform blue tint in gameplay (first reported 2026-04-15). */
         const uint8_t* src = (const uint8_t*)pixels;
         for (int y = 0; y < height; y++) {
             const uint8_t* row = src + y * pitch;
             for (int x = 0; x < width; x++) {
                 int i = x * 4;
-                uint8_t b = row[i + 0];
+                uint8_t r = row[i + 0];
                 uint8_t g = row[i + 1];
-                uint8_t r = row[i + 2];
+                uint8_t b = row[i + 2];
                 dst[y * NV_FRAME_WIDTH + x] =
                     (uint16_t)(((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3));
             }

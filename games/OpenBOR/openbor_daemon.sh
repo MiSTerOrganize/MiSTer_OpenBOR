@@ -42,7 +42,13 @@ while true; do
         fi
         export SDL_VIDEODRIVER=dummy
         cd "$GAMEDIR"
-        ./OpenBOR > /dev/null 2>&1 &
+        # Rotate the diagnostic log on every launch so we can inspect
+        # what NativeVideoWriter / NativeAudioWriter reported and which
+        # PAK path was chosen (stderr has "first frame %dx%d bpp=%d",
+        # "MiSTer OSD: cached PAK", etc).
+        mkdir -p Logs
+        mv -f Logs/OpenBOR.log Logs/OpenBOR.prev.log 2>/dev/null
+        ./OpenBOR > Logs/OpenBOR.log 2>&1 &
         CHILD=$!
         echo $CHILD > "$PIDFILE"
     fi

@@ -225,11 +225,8 @@ localparam CONF_STR = {
 	"OpenBOR;;",
 	"FC0,PAK,Load PAK;",
 	"-;",
-	// Screenshot removed -- OpenBOR's FLAG_SCREENSHOT path isn't wired
-	// on this core, so no button maps to it. Select intentionally
-	// does nothing.
-	"J1,Attack,Jump,Special,Attack2,Start;",
-	"jn,A,B,X,Y,Start;",
+	"J1,Attack,Jump,Special,Attack2,Start,Screenshot;",
+	"jn,A,B,X,Y,Start,Select;",
 	"-;",
 	"V,v",`BUILD_DATE 
 };
