@@ -10,6 +10,11 @@ REPO="MiSTerOrganize/MiSTer_OpenBOR"
 BRANCH="main"
 BASE_URL="https://raw.githubusercontent.com/$REPO/$BRANCH"
 
+# Bump this when a new RBF is committed to _Console/.
+# Kept as a hardcoded constant so the installer never calls api.github.com
+# (rate-limited, and violates CLAUDE.md "ALL downloads from raw.githubusercontent.com").
+RBF_NAME="OpenBOR_20260411.rbf"
+
 echo "=== OpenBOR Installer for MiSTer ==="
 echo ""
 
@@ -32,12 +37,8 @@ mkdir -p /media/fat/docs/OpenBOR
 
 FAIL=0
 
-echo "  Downloading FPGA core..."
+echo "  Downloading FPGA core ($RBF_NAME)..."
 rm -f /media/fat/_Console/OpenBOR_*.rbf /media/fat/_Console/OpenBOR.rbf
-RBF_NAME=$(wget -q -O - "https://api.github.com/repos/$REPO/contents/_Console" | grep -o '"OpenBOR_[0-9]*.rbf"' | tr -d '"')
-if [ -z "$RBF_NAME" ]; then
-    RBF_NAME="OpenBOR.rbf"
-fi
 wget -q --show-progress -O "/media/fat/_Console/$RBF_NAME" "$BASE_URL/_Console/$RBF_NAME" || FAIL=1
 
 echo "  Downloading ARM binary..."
