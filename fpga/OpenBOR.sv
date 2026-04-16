@@ -225,10 +225,11 @@ localparam CONF_STR = {
 	"OpenBOR;;",
 	"FC0,PAK,Load PAK;",
 	"-;",
-	// Screenshot removed -- FLAG_SCREENSHOT is not wired on this core.
-	// Select intentionally unmapped.
-	"J1,Attack,Jump,Special,Attack2,Start;",
-	"jn,A,B,X,Y,Start;",
+	// Six buttons so MiSTer emits joystick bits 4..9. The 6th slot is
+	// a diagnostic hook -- it produces no OpenBOR gameplay flag, but
+	// control_patch reads its bit to trigger Select-press debug dumps.
+	"J1,Attack,Jump,Special,Attack2,Start,Debug;",
+	"jn,A,B,X,Y,Start,Select;",
 	"-;",
 	"V,v",`BUILD_DATE 
 };
