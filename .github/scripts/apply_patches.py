@@ -259,24 +259,37 @@ endif
         else:
             print(f"  WARN: blend fix pattern not found (already patched?):\n    {old[:60]}...")
 
-    # -- Default pixelformat/screenformat to PIXEL_32 -------------------
+    # -- Default pixelformat (and screenformat if it exists) to PIXEL_32
     # Many PAKs (e.g. "A Tale of Vengeance") ship without data/video.txt.
-    # OpenBOR's built-in defaults are PIXEL_8 for both globals, which
-    # means every character on screen has to share one 256-colour
-    # palette -- that's why enemies look miscoloured in such mods.
-    # Mods that combine characters from different games (SF/KOF/FF)
-    # expect PIXEL_32 so each character gets its own palette. Flip the
-    # defaults here; a PAK with an explicit colourdepth command still
-    # gets its wish because video.txt parsing runs later and overrides.
-    old_defaults = ("int pixelformat = PIXEL_8;\n"
-                    "int screenformat = PIXEL_8;")
-    new_defaults = ("int pixelformat = PIXEL_32;\n"
-                    "int screenformat = PIXEL_32;")
-    if old_defaults in pf:
-        pf = pf.replace(old_defaults, new_defaults)
-        print("  Default pixelformat/screenformat: PIXEL_8 -> PIXEL_32")
-    else:
-        print("  WARN: pixelformat default pattern not found")
+    # OpenBOR's built-in defaults back then were PIXEL_8 for both
+    # globals, which means every character on screen had to share one
+    # 256-colour palette -- that's why enemies looked miscoloured in
+    # such mods. Mods that combine characters from different games
+    # (SF/KOF/FF) expect PIXEL_32 so each character gets its own
+    # palette. Flip the defaults here; a PAK with an explicit
+    # colourdepth command still gets its wish because video.txt
+    # parsing runs later and overrides.
+    #
+    # v4153 drops the screenformat global entirely and its default
+    # pixelformat is PIXEL_x8 (per-model 8-bit palette) rather than
+    # PIXEL_8. Handle both layouts.
+    pf_variants = [
+        ("int pixelformat = PIXEL_8;\nint screenformat = PIXEL_8;",
+         "int pixelformat = PIXEL_32;\nint screenformat = PIXEL_32;"),
+        ("int pixelformat = PIXEL_x8;",
+         "int pixelformat = PIXEL_32;"),
+        ("int pixelformat = PIXEL_8;",
+         "int pixelformat = PIXEL_32;"),
+    ]
+    override_applied = False
+    for old_defaults, new_defaults in pf_variants:
+        if old_defaults in pf:
+            pf = pf.replace(old_defaults, new_defaults, 1)
+            print(f"  Default pixelformat override applied:\n    - {old_defaults!r}\n    + {new_defaults!r}")
+            override_applied = True
+            break
+    if not override_applied:
+        print("  WARN: no pixelformat default pattern matched")
 
     write(pf_path, pf)
     print(f"  {applied}/{len(fixes)} blend R/B fixes applied.")

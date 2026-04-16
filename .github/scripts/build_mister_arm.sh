@@ -105,13 +105,15 @@ CPPFLAGS="-I$SDL_PREFIX/include" LDFLAGS="-L$SDL_PREFIX/lib" \
 make -j$(nproc) --quiet
 make install --quiet
 
-# ── Clone OpenBOR 3979 source ────────────────────────────────────
-echo "=== Cloning OpenBOR Build 3979 ==="
+# ── Clone OpenBOR v4153 source (DCurrent fork) ───────────────────
+# v4153 is the closest tagged release to the requested build 4086;
+# r4086 predates DCurrent's tag history and isn't in rofl0r's svn
+# mirror either. v4153 is ~67 SVN revisions newer and still
+# supports PIXEL_8 / PIXEL_16 / PIXEL_32 colour depths.
+echo "=== Cloning OpenBOR v4153 ==="
 cd /tmp
-git clone --filter=blob:none https://github.com/rofl0r/openbor.git
-cd openbor
-git checkout svn
-git checkout 3b0a7187dba1de45b03ad0a0919e9fc04d8bc494
+git clone --depth 1 --branch v4153 https://github.com/DCurrent/openbor.git
+cd openbor/engine
 
 # ── Set version ──────────────────────────────────────────────────
 cat > version.h << 'VERSIONEOF'
@@ -120,7 +122,7 @@ cat > version.h << 'VERSIONEOF'
 #define VERSION_NAME "OpenBOR"
 #define VERSION_MAJOR "3"
 #define VERSION_MINOR "0"
-#define VERSION_BUILD "3979"
+#define VERSION_BUILD "4153"
 #define VERSION "v"VERSION_MAJOR"."VERSION_MINOR" Build "VERSION_BUILD
 #endif
 VERSIONEOF
@@ -135,7 +137,7 @@ cp /build/src/native_audio_writer.c .
 cp /build/src/native_audio_writer.h .
 
 # ── Apply Makefile patches ───────────────────────────────────────
-python3 /build/.github/scripts/apply_patches.py /tmp/openbor /build/patches
+python3 /build/.github/scripts/apply_patches.py /tmp/openbor/engine /build/patches
 
 # ── Build ────────────────────────────────────────────────────────
 echo "=== Building OpenBOR for MiSTer ==="
