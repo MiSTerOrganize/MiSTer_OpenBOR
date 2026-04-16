@@ -122,14 +122,28 @@ void NativeVideoWriter_WriteFrame(const void* pixels, int width, int height,
             "NativeVideoWriter[%s F%d]: %dx%d pitch=%d bpp=%d palette=%p\n",
             why, frame_no, width, height, pitch, bpp, palette);
 
-        /* Sample three points: top-left, center, bottom-right. */
-        int samples[3][2] = {
-            {0, 0},
-            {width / 2, height / 2},
-            {width - 1, height - 1},
-        };
-        int bypp = bpp / 8;
-        for (int i = 0; i < 3; i++) {
+        /* SELECT dumps a 4x4 grid across the frame so enemy pixels
+         * (which rarely line up with the three fixed BOOT samples)
+         * have a chance to show up. BOOT dumps stay terse. */
+        int grid = debug_dump_request ? 4 : 3;
+        int samples[16][2];
+        int nsamples = 0;
+        if (debug_dump_request) {
+            for (int gy = 0; gy < 4; gy++)
+                for (int gx = 0; gx < 4; gx++) {
+                    samples[nsamples][0] = (width  * (gx * 2 + 1)) / 8;
+                    samples[nsamples][1] = (height * (gy * 2 + 1)) / 8;
+                    nsamples++;
+                }
+        } else {
+            samples[0][0]=0;          samples[0][1]=0;
+            samples[1][0]=width/2;    samples[1][1]=height/2;
+            samples[2][0]=width-1;    samples[2][1]=height-1;
+            nsamples = 3;
+        }
+        (void)grid;
+        int bypp = bpp / 8; if (bypp < 1) bypp = 1;
+        for (int i = 0; i < nsamples; i++) {
             int sx = samples[i][0], sy = samples[i][1];
             const uint8_t *p = src + sy * pitch + sx * bypp;
             if (bpp == 32) {

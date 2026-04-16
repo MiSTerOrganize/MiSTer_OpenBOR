@@ -143,16 +143,29 @@ endif
         '#include "openbor.h"\n#ifdef MISTER_NATIVE_VIDEO\n#include "native_video_writer.h"\n#endif'
     )
 
-    # Intercept at the top of video_copy_screen() — read directly from
-    # the raw s_screen buffer (clean 8bpp data + palette), convert to
-    # RGB565, write to DDR3, and return. This bypasses the entire SDL
-    # rendering pipeline, matching the 3SX approach.
+    # Intercept at the top of video_copy_screen() and read the raw
+    # s_screen directly. Crucially: determine bpp from src->pixelformat,
+    # NOT from the global `bytes_per_pixel` which is the OUTPUT surface
+    # depth. OpenBOR can run the internal vscreen in PIXEL_8 even while
+    # the display is PIXEL_32 -- passing bytes_per_pixel * 8 would tell
+    # NativeVideoWriter the source is 32bpp when it's actually 8bpp
+    # indexed, so palette indices get interpreted as R/G/B/A bytes and
+    # enemy colours go wrong.
     src = src.replace(
         "int video_copy_screen(s_screen* src)\n{\n\tunsigned char *sp;",
         "int video_copy_screen(s_screen* src)\n{\n#ifdef MISTER_NATIVE_VIDEO\n"
-        "\tNativeVideoWriter_WriteFrame(src->data, src->width, src->height,\n"
-        "\t\tsrc->width * bytes_per_pixel, bytes_per_pixel * 8, src->palette);\n"
-        "\treturn 1;\n"
+        "\t{ int _nv_bpp, _nv_bytes;\n"
+        "\t  switch (src->pixelformat) {\n"
+        "\t    case PIXEL_8:  case PIXEL_x8: _nv_bpp = 8;  _nv_bytes = 1; break;\n"
+        "\t    case PIXEL_16:                _nv_bpp = 16; _nv_bytes = 2; break;\n"
+        "\t    case PIXEL_32:                _nv_bpp = 32; _nv_bytes = 4; break;\n"
+        "\t    default:                      _nv_bpp = bytes_per_pixel * 8;\n"
+        "\t                                  _nv_bytes = bytes_per_pixel; break;\n"
+        "\t  }\n"
+        "\t  NativeVideoWriter_WriteFrame(src->data, src->width, src->height,\n"
+        "\t                               src->width * _nv_bytes, _nv_bpp, src->palette);\n"
+        "\t  return 1;\n"
+        "\t}\n"
         "#endif\n"
         "\tunsigned char *sp;"
     )
