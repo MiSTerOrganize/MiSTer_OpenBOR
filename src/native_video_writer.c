@@ -79,7 +79,7 @@ bool NativeVideoWriter_Init(void) {
     *cart_ctrl = 0;
     frame_counter = 0;
     active_buf = 0;
-    first_frame = 1;
+    first_frame = 3;   /* sample the first three frames */
 
     fprintf(stderr, "NativeVideoWriter: mapped 0x%08X, %dx%d @ %d bytes/frame\n",
             NV_DDR_PHYS_BASE, NV_FRAME_WIDTH, NV_FRAME_HEIGHT, NV_FRAME_BYTES);
@@ -103,11 +103,56 @@ void NativeVideoWriter_WriteFrame(const void* pixels, int width, int height,
                                   int pitch, int bpp, const void* palette) {
     if (!ddr_base || !pixels) return;
 
-    /* Debug: log first frame's format info */
-    if (first_frame) {
-        fprintf(stderr, "NativeVideoWriter: first frame %dx%d pitch=%d bpp=%d\n",
-                width, height, pitch, bpp);
-        first_frame = 0;
+    /* Debug: dump format + raw byte samples from a handful of pixels for
+     * the first 3 frames. Gives us enough signal to tell whether colors
+     * look wrong because of byte-order (we extract wrong channels), a
+     * palette issue (8bpp path with bad palette), or because OpenBOR
+     * already produced wrong colors before reaching us. */
+    if (first_frame > 0) {
+        int frame_no = 4 - first_frame;   /* 1,2,3 */
+        const uint8_t *src = (const uint8_t *)pixels;
+        fprintf(stderr,
+            "NativeVideoWriter[F%d]: %dx%d pitch=%d bpp=%d palette=%p\n",
+            frame_no, width, height, pitch, bpp, palette);
+
+        /* Sample three points: top-left, center, bottom-right. */
+        int samples[3][2] = {
+            {0, 0},
+            {width / 2, height / 2},
+            {width - 1, height - 1},
+        };
+        int bypp = bpp / 8;
+        for (int i = 0; i < 3; i++) {
+            int sx = samples[i][0], sy = samples[i][1];
+            const uint8_t *p = src + sy * pitch + sx * bypp;
+            if (bpp == 32) {
+                fprintf(stderr,
+                    "  px(%3d,%3d) raw=%02X %02X %02X %02X "
+                    "-> assumed RGBA r=%02X g=%02X b=%02X\n",
+                    sx, sy, p[0], p[1], p[2], p[3], p[0], p[1], p[2]);
+            } else if (bpp == 16) {
+                uint16_t px = ((const uint16_t *)p)[0];
+                fprintf(stderr,
+                    "  px(%3d,%3d) raw=%04X (LE bytes %02X %02X)\n",
+                    sx, sy, px, p[0], p[1]);
+            } else if (bpp == 8) {
+                uint8_t idx = p[0];
+                if (palette) {
+                    const uint8_t *pal = (const uint8_t *)palette;
+                    fprintf(stderr,
+                        "  px(%3d,%3d) idx=%02X -> pal r=%02X g=%02X b=%02X\n",
+                        sx, sy, idx, pal[idx*3+0], pal[idx*3+1], pal[idx*3+2]);
+                } else {
+                    fprintf(stderr,
+                        "  px(%3d,%3d) idx=%02X (no palette!)\n",
+                        sx, sy, idx);
+                }
+            } else {
+                fprintf(stderr, "  px(%3d,%3d) bpp=%d unhandled\n", sx, sy, bpp);
+            }
+        }
+        fflush(stderr);
+        first_frame--;
     }
 
     /* Clamp to frame dimensions */
