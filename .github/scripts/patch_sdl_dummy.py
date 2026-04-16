@@ -179,7 +179,7 @@ def main():
     update_new = (
         "static void DUMMY_UpdateRects(_THIS, int numrects, SDL_Rect *rects)\n"
         "{\n"
-        "\textern SDL_Surface *SDL_VideoSurface;\n"
+        "\t/* SDL_VideoSurface is a macro expanding to (current_video->screen). */\n"
         "\tmister_present(SDL_VideoSurface);\n"
         "}"
     )
