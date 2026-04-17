@@ -223,7 +223,7 @@ assign LED_POWER[0]= FB ? led[2] : act_cnt2[26] ? act_cnt2[25:18] > act_cnt2[7:0
 `include "build_id.v" 
 localparam CONF_STR = {
 	"OpenBOR_4086;;",
-	"FC0,PAK,Load PAK;",
+	"F0,PAK,Load PAK;",
 	"-;",
 	"J1,Attack,Jump,Special,Attack2,Start;",
 	"jn,A,B,X,Y,Start;",
