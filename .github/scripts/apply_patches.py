@@ -135,17 +135,46 @@ endif
     write(os.path.join(obor, 'openbor.c'), src)
     print("  pausemenu() replaced.")
 
-    # ── 3. sdl/video.c -- NO LONGER PATCHED ────────────────────────
-    # We previously intercepted video_copy_screen() to grab OpenBOR's
-    # vscreen and convert it ourselves. That tripped over OpenBOR's
-    # PIXEL_32 blend bugs (R/B swap in some inline blends) which only
-    # bit certain enemy sprites. Now we let video_copy_screen run
-    # untouched -- OpenBOR's normal SDL pipeline (vscreen -> bscreen
-    # -> SDL_BlitSurface -> screen surface) handles all format
-    # conversion via SDL's well-tested code. Our patched dummy video
-    # driver (see patch_sdl_dummy.py) reads screen->pixels in its
-    # UpdateRects hook and writes RGB565 to DDR3.
-    print("Skipping sdl/video.c -- using SDL dummy-driver DDR3 bridge instead.")
+    # ── 3. sdl/video.c -- stub SDL 2 API for SDL 1.2 build ─────────
+    # r4086+ added unguarded SDL 2 calls (SDL_AllocPalette,
+    # SDL_GetDesktopDisplayMode, etc.) in video init. Since we use
+    # SDL_VIDEODRIVER=dummy and our DDR3 bridge, video.c's init just
+    # needs to compile -- it doesn't have to produce real output.
+    # Guard the SDL 2 calls so they're skipped on SDL 1.2.
+    print("Patching sdl/video.c (SDL 1.2 compat stubs)...")
+    vid_path = os.path.join(obor, 'sdl/video.c')
+    vid = read(vid_path)
+    # Add compat header after includes
+    compat_block = """
+/* MiSTer SDL 1.2 compat -- stub SDL 2 functions that r4086+ uses
+   outside of #ifdef SDL2 guards. Our DDR3 bridge handles all real
+   video output; these stubs just prevent link/compile errors. */
+#ifndef SDL2
+#include <stdlib.h>
+typedef struct { int ncolors; SDL_Color *colors; } MiSTer_Palette;
+static inline MiSTer_Palette *SDL_AllocPalette(int n) {
+    MiSTer_Palette *p = (MiSTer_Palette*)malloc(sizeof(MiSTer_Palette));
+    if(p) { p->ncolors = n; p->colors = (SDL_Color*)calloc(n, sizeof(SDL_Color)); }
+    return p;
+}
+static inline void SDL_FreePalette(MiSTer_Palette *p) { if(p) { free(p->colors); free(p); } }
+static inline int SDL_SetPaletteColors(MiSTer_Palette *p, const SDL_Color *c, int f, int n) {
+    if(p && c) { int i; for(i=0;i<n&&(f+i)<p->ncolors;i++) p->colors[f+i]=c[i]; } return 0;
+}
+static inline int SDL_SetSurfacePalette(SDL_Surface *s, MiSTer_Palette *p) { (void)s;(void)p; return 0; }
+typedef struct { int w, h, refresh_rate; unsigned format; } SDL_DisplayMode;
+static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
+    if(m){m->w=320;m->h=240;m->refresh_rate=60;m->format=0;} return 0;
+}
+#define SDL_Palette MiSTer_Palette
+#endif
+"""
+    # Insert after the last #include line
+    last_include = vid.rfind('#include')
+    eol = vid.index('\n', last_include) + 1
+    vid = vid[:eol] + compat_block + vid[eol:]
+    write(vid_path, vid)
+    print("  SDL 1.2 compat stubs injected.")
 
     # ── 4. Patch sdl/control.c — replace control_update() ────────────
     print("Patching sdl/control.c (input mapping)...")

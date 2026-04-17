@@ -105,16 +105,17 @@ CPPFLAGS="-I$SDL_PREFIX/include" LDFLAGS="-L$SDL_PREFIX/lib" \
 make -j$(nproc) --quiet
 make install --quiet
 
-# ── Checkout OpenBOR r4086 from SourceForge SVN ──────────────────
+# ── Clone exact OpenBOR r4086 from DCurrent's GitHub ─────────────
 # r4086 is the most popular build for the ~300-game community packs.
-# Not available in any git mirror — pull directly from SourceForge's
-# SVN at the exact revision. Same flat source layout as r3979, still
-# uses SDL 1.2 with #ifdef SDL2 guards.
-echo "=== Checking out OpenBOR r4086 from SourceForge SVN ==="
-apt-get install -y -qq subversion >/dev/null 2>&1
+# SourceForge SVN is frozen; DCurrent/openbor on GitHub has the full
+# history. r4086 = 52 commits after r4034 ("Removed vaulting code")
+# = commit af23dc9c. Source lives under engine/ subdirectory.
+echo "=== Cloning OpenBOR r4086 ==="
 cd /tmp
-svn checkout -r 4086 svn://svn.code.sf.net/p/openbor/engine/trunk openbor
+git clone --filter=blob:none https://github.com/DCurrent/openbor.git
 cd openbor
+git checkout af23dc9c
+cd engine
 
 # ── Set version ──────────────────────────────────────────────────
 cat > version.h << 'VERSIONEOF'
