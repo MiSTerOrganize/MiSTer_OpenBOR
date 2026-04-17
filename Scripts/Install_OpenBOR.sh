@@ -31,9 +31,10 @@ echo "Downloading OpenBOR..."
 
 mkdir -p /media/fat/_Console
 mkdir -p /media/fat/games/OpenBOR_4086/Paks
-mkdir -p /media/fat/saves/OpenBOR
+mkdir -p /media/fat/games/OpenBOR_4086/Logs
+mkdir -p /media/fat/saves/OpenBOR_4086
 mkdir -p /media/fat/config/inputs
-mkdir -p /media/fat/docs/OpenBOR
+mkdir -p /media/fat/docs/OpenBOR_4086
 
 FAIL=0
 
@@ -48,7 +49,7 @@ echo "  Downloading daemon..."
 wget -q --show-progress -O /media/fat/games/OpenBOR_4086/openbor_4086_daemon.sh "$BASE_URL/games/OpenBOR_4086/openbor_4086_daemon.sh" || FAIL=1
 
 echo "  Downloading README..."
-wget -q --show-progress -O /media/fat/docs/OpenBOR/README.md "$BASE_URL/docs/OpenBOR/README.md" || FAIL=1
+wget -q --show-progress -O /media/fat/docs/OpenBOR_4086/README.md "$BASE_URL/docs/OpenBOR_4086/README.md" || FAIL=1
 
 if [ "$FAIL" -ne 0 ]; then
     echo ""
