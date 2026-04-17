@@ -7,7 +7,7 @@
 
 LOCKDIR="/tmp/openbor_daemon.lock"
 PIDFILE="/tmp/openbor_arm.pid"
-GAMEDIR="/media/fat/games/OpenBOR"
+GAMEDIR="/media/fat/games/OpenBOR_4086"
 BINARY="$GAMEDIR/OpenBOR"
 
 # Prevent multiple daemon instances
@@ -34,7 +34,7 @@ FIRST_LOAD=1
 while true; do
     CUR=$(cat /tmp/CORENAME 2>/dev/null)
 
-    if [ "$CUR" = "OpenBOR" ] && [ -z "$CHILD" ]; then
+    if [ "$CUR" = "OpenBOR_4086" ] && [ -z "$CHILD" ]; then
         # No binary running — start one
         if [ "$FIRST_LOAD" = "1" ]; then
             sleep 1  # FPGA settle on first load only
@@ -62,7 +62,7 @@ while true; do
             # Don't sleep — restart fast on next iteration
             continue
         fi
-        if [ "$CUR" != "OpenBOR" ]; then
+        if [ "$CUR" != "OpenBOR_4086" ]; then
             # User left the core -- kill binary and clear cached state
             # so the next entry goes through MiSTer's OSD picker instead
             # of auto-loading the previous PAK.
@@ -75,14 +75,14 @@ while true; do
             # Reset MiSTer's options state, but rewrite the file-loader
             # state so the OSD picker opens INSIDE games/OpenBOR/Paks
             # next time -- MiSTer derives its browser starting folder
-            # from the parent of the last-loaded path in OpenBOR.f0.
+            # from the parent of the last-loaded path in OpenBOR_4086.f0.
             # A non-existent filename means MiSTer fails the auto-load
             # and falls through to the picker at that dir.
-            rm -f /media/fat/config/OpenBOR.cfg \
-                  /media/fat/config/OpenBOR.s0
+            rm -f /media/fat/config/OpenBOR_4086.cfg \
+                  /media/fat/config/OpenBOR_4086.s0
             mkdir -p /media/fat/config
             printf 'games/OpenBOR/Paks/.placeholder.pak' \
-                > /media/fat/config/OpenBOR.f0
+                > /media/fat/config/OpenBOR_4086.f0
         fi
     fi
 

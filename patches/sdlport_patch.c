@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 
     /* Create MiSTer save directory */
     mkdir("/media/fat/saves", 0755);
-    mkdir("/media/fat/saves/OpenBOR", 0755);
+    mkdir("/media/fat/saves/OpenBOR_4086", 0755);
 #endif
 
     packfile_mode(0);
@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
 #endif
     dirExists(paksDir, 1);
 #ifdef MISTER_NATIVE_VIDEO
-    /* Saves go to /media/fat/saves/OpenBOR/ (redirected in utils.c).
+    /* Saves go to /media/fat/saves/OpenBOR_4086/ (redirected in utils.c).
      * ScreenShots not used (no button mapped to FLAG_SCREENSHOT).
      * Don't create local Saves/ or ScreenShots/ folders. */
     dirExists(logsDir, 1);

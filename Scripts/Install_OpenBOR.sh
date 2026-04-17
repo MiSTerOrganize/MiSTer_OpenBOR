@@ -20,17 +20,17 @@ echo ""
 
 # ── Kill ALL existing OpenBOR processes and daemons ─────────────────
 killall OpenBOR 2>/dev/null
-killall openbor_daemon.sh 2>/dev/null
+killall openbor_4086_daemon.sh 2>/dev/null
 kill $(cat /tmp/openbor_arm.pid 2>/dev/null) 2>/dev/null
 rm -f /tmp/openbor_arm.pid
-rm -rf /tmp/openbor_daemon.lock
+rm -rf /tmp/openbor_4086_daemon.lock
 sleep 1
 
 # ── Download files from GitHub repo ───────────────────────────────
 echo "Downloading OpenBOR..."
 
 mkdir -p /media/fat/_Console
-mkdir -p /media/fat/games/OpenBOR/Paks
+mkdir -p /media/fat/games/OpenBOR_4086/Paks
 mkdir -p /media/fat/saves/OpenBOR
 mkdir -p /media/fat/config/inputs
 mkdir -p /media/fat/docs/OpenBOR
@@ -42,10 +42,10 @@ rm -f /media/fat/_Console/OpenBOR_*.rbf /media/fat/_Console/OpenBOR.rbf
 wget -q --show-progress -O "/media/fat/_Console/$RBF_NAME" "$BASE_URL/_Console/$RBF_NAME" || FAIL=1
 
 echo "  Downloading ARM binary..."
-wget -q --show-progress -O /media/fat/games/OpenBOR/OpenBOR "$BASE_URL/games/OpenBOR/OpenBOR" || FAIL=1
+wget -q --show-progress -O /media/fat/games/OpenBOR_4086/OpenBOR "$BASE_URL/games/OpenBOR_4086/OpenBOR" || FAIL=1
 
 echo "  Downloading daemon..."
-wget -q --show-progress -O /media/fat/games/OpenBOR/openbor_daemon.sh "$BASE_URL/games/OpenBOR/openbor_daemon.sh" || FAIL=1
+wget -q --show-progress -O /media/fat/games/OpenBOR_4086/openbor_4086_daemon.sh "$BASE_URL/games/OpenBOR_4086/openbor_4086_daemon.sh" || FAIL=1
 
 echo "  Downloading README..."
 wget -q --show-progress -O /media/fat/docs/OpenBOR/README.md "$BASE_URL/docs/OpenBOR/README.md" || FAIL=1
@@ -57,41 +57,41 @@ if [ "$FAIL" -ne 0 ]; then
 fi
 
 # Make files executable
-chmod +x /media/fat/games/OpenBOR/OpenBOR
-chmod +x /media/fat/games/OpenBOR/openbor_daemon.sh
+chmod +x /media/fat/games/OpenBOR_4086/OpenBOR
+chmod +x /media/fat/games/OpenBOR_4086/openbor_4086_daemon.sh
 
 # ── Install daemon into user-startup.sh ───────────────────────────
 STARTUP=/media/fat/linux/user-startup.sh
 
 # Remove ALL old OpenBOR daemon entries
 if [ -f "$STARTUP" ]; then
-    sed -i '/openbor_daemon\.sh/d' "$STARTUP"
+    sed -i '/openbor_4086_daemon\.sh/d' "$STARTUP"
     sed -i '/OpenBOR auto-launch/d' "$STARTUP"
 fi
 
 # Add single launcher line
 echo "" >> "$STARTUP"
 echo "# OpenBOR auto-launch daemon" >> "$STARTUP"
-echo "/media/fat/games/OpenBOR/openbor_daemon.sh &" >> "$STARTUP"
+echo "/media/fat/games/OpenBOR_4086/openbor_4086_daemon.sh &" >> "$STARTUP"
 
 echo "Auto-launcher installed."
 
-# ── Pre-seed MiSTer's file picker to land in games/OpenBOR/Paks ──
+# ── Pre-seed MiSTer's file picker to land in games/OpenBOR_4086/Paks ──
 # MiSTer derives the OSD browser starting folder from the parent of
 # the last-loaded path in <CoreName>.f0. A placeholder filename in
 # the right directory forces the picker to open inside Paks/ on
 # first core launch -- otherwise it lands at SD root or, if a
 # legacy /media/fat/OpenBOR/ folder exists, on that legacy folder.
 mkdir -p /media/fat/config
-printf 'games/OpenBOR/Paks/.placeholder.pak' \
+printf 'games/OpenBOR_4086/Paks/.placeholder.pak' \
     > /media/fat/config/OpenBOR.f0
 
 # ── Start daemon now ──────────────────────────────────────────────
-/media/fat/games/OpenBOR/openbor_daemon.sh &
+/media/fat/games/OpenBOR_4086/openbor_4086_daemon.sh &
 
 echo ""
 echo "=== OpenBOR installed successfully! ==="
 echo ""
 echo "Load the OpenBOR core from the console menu to play."
-echo "Place .pak game modules in: games/OpenBOR/Paks/"
+echo "Place .pak game modules in: games/OpenBOR_4086/Paks/"
 echo ""

@@ -10,7 +10,7 @@ Applies:
   3. sdl/video.c: intercepts SDL_Flip with NativeVideoWriter
   4. sdl/control.c: replaces control_update() with DDR3 joystick reading
   5. sdl/sdlport.c: replaces main() with NativeVideoWriter init + OSD PAK loading
-  6. source/utils.c: redirects save path to /media/fat/saves/OpenBOR/
+  6. source/utils.c: redirects save path to /media/fat/saves/OpenBOR_4086/
 """
 
 import sys
@@ -233,7 +233,7 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
 #define COPY_ROOT_PATH(buf, name) \\
     do { \\
         if (strcmp(name, "Saves") == 0) { \\
-            strcpy(buf, "/media/fat/saves/OpenBOR/"); \\
+            strcpy(buf, "/media/fat/saves/OpenBOR_4086/"); \\
         } else { \\
             strncpy(buf, "./", 2); strncat(buf, name, strlen(name)); strncat(buf, "/", 1); \\
         } \\
