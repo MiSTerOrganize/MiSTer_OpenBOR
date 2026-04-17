@@ -187,19 +187,53 @@ def main():
         sys.exit(2)
     src = src.replace(inject_after, inject_after + INJECT_INCLUDES, 1)
 
-    # 2) Init the DDR3 mapping when the dummy video subsystem boots.
-    init_anchor = "/* We're done!"
-    if init_anchor in src:
-        src = src.replace(init_anchor, "mister_ddr_init();\n\t" + init_anchor, 1)
+    # 2) Init the DDR3 mapping and force 32bpp in VideoInit.
+    #    The dummy driver defaults to 8bpp, but OpenBOR renders at PIXEL_32.
+    #    If the driver reports 8bpp, OpenBOR creates an 8bpp surface and then
+    #    tries to write 32bpp data into it → segfault.
+    vinit_old = (
+        '\tvformat->BitsPerPixel = 8;\n'
+        '\tvformat->BytesPerPixel = 1;'
+    )
+    vinit_new = (
+        '\tmister_ddr_init();\n'
+        '\tvformat->BitsPerPixel = 32;\n'
+        '\tvformat->BytesPerPixel = 4;\n'
+        '\tvformat->Rmask = 0x00FF0000;\n'
+        '\tvformat->Gmask = 0x0000FF00;\n'
+        '\tvformat->Bmask = 0x000000FF;'
+    )
+    if vinit_old in src:
+        src = src.replace(vinit_old, vinit_new, 1)
     else:
-        # SDL 1.2.15 wording -- fall back to "DUMMY_VideoInit" body end.
-        src = src.replace(
-            "static int DUMMY_VideoInit(_THIS, SDL_PixelFormat *vformat)\n{",
-            "static int DUMMY_VideoInit(_THIS, SDL_PixelFormat *vformat)\n{\n\tmister_ddr_init();",
-            1
-        )
+        init_anchor = "/* We're done!"
+        if init_anchor in src:
+            src = src.replace(init_anchor, "mister_ddr_init();\n\t" + init_anchor, 1)
+        else:
+            src = src.replace(
+                "static int DUMMY_VideoInit(_THIS, SDL_PixelFormat *vformat)\n{",
+                "static int DUMMY_VideoInit(_THIS, SDL_PixelFormat *vformat)\n{\n\tmister_ddr_init();",
+                1
+            )
 
-    # 3) Make UpdateRects actually push the screen surface to DDR3.
+    # 3) Force DUMMY_SetVideoMode to always create 32bpp surfaces.
+    setmode_old = (
+        "SDL_Surface *DUMMY_SetVideoMode(_THIS, SDL_Surface *current,\n"
+        "\t\t\t\tint width, int height, int bpp, Uint32 flags)\n"
+        "{"
+    )
+    setmode_new = (
+        "SDL_Surface *DUMMY_SetVideoMode(_THIS, SDL_Surface *current,\n"
+        "\t\t\t\tint width, int height, int bpp, Uint32 flags)\n"
+        "{\n"
+        "\tif (bpp < 32) { fprintf(stderr, \"MiSTer SDL: forcing bpp %d -> 32\\n\", bpp); bpp = 32; }"
+    )
+    if setmode_old in src:
+        src = src.replace(setmode_old, setmode_new, 1)
+    else:
+        print("WARN: couldn't patch DUMMY_SetVideoMode bpp override", file=sys.stderr)
+
+    # 4) Make UpdateRects actually push the screen surface to DDR3.
     update_old = "static void DUMMY_UpdateRects(_THIS, int numrects, SDL_Rect *rects)\n{\n\t/* do nothing. */\n}"
     update_new = (
         "static void DUMMY_UpdateRects(_THIS, int numrects, SDL_Rect *rects)\n"
