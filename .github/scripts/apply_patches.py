@@ -107,11 +107,22 @@ endif
         "ifdef BUILD_SDL\nCFLAGS \t       += -DSDL\nendif\n\n\nifdef BUILD_MISTER\nCFLAGS         += -DMISTER_NATIVE_VIDEO -fcommon -Wno-error\nendif"
     )
 
-    # Add native_video_writer.o and native_audio_writer.o to objects
-    mf = mf.replace(
-        "sdl/menu.o                                                                        \nendif",
-        "sdl/menu.o                                                                        \nendif\n\n\nifdef BUILD_MISTER\nGAME_CONSOLE   += native_video_writer.o native_audio_writer.o\nendif"
-    )
+    # Add native_video_writer.o and native_audio_writer.o to objects.
+    # r3979 has trailing spaces after menu.o; r4086 doesn't. Match both.
+    menu_anchor = None
+    for pattern in ["sdl/menu.o                                                                        \nendif",
+                     "sdl/menu.o\nendif"]:
+        if pattern in mf:
+            menu_anchor = pattern
+            break
+    if menu_anchor:
+        mf = mf.replace(
+            menu_anchor,
+            menu_anchor + "\n\n\nifdef BUILD_MISTER\nGAME_CONSOLE   += native_video_writer.o native_audio_writer.o\nendif",
+            1
+        )
+    else:
+        print("  WARN: sdl/menu.o endif pattern not found for object injection")
 
     # Add strip rule
     mf = mf.replace(
