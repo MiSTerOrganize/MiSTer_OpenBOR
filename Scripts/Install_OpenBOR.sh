@@ -31,7 +31,7 @@ echo "Downloading OpenBOR..."
 
 mkdir -p /media/fat/_Console
 mkdir -p /media/fat/games/OpenBOR_4086/Paks
-mkdir -p /media/fat/games/OpenBOR_4086/Logs
+mkdir -p /media/fat/games/OpenBOR_4086/.Logs
 mkdir -p /media/fat/saves/OpenBOR_4086
 mkdir -p /media/fat/config/inputs
 mkdir -p /media/fat/docs/OpenBOR_4086

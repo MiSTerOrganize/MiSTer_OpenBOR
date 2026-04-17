@@ -49,9 +49,9 @@ while true; do
         # what NativeVideoWriter / NativeAudioWriter reported and which
         # PAK path was chosen (stderr has "first frame %dx%d bpp=%d",
         # "MiSTer OSD: cached PAK", etc).
-        mkdir -p Logs
-        mv -f Logs/OpenBOR.log Logs/OpenBOR.prev.log 2>/dev/null
-        ./OpenBOR > Logs/OpenBOR.log 2>&1 &
+        mkdir -p .Logs
+        mv -f .Logs/OpenBOR.log .Logs/OpenBOR.prev.log 2>/dev/null
+        ./OpenBOR > .Logs/OpenBOR.log 2>&1 &
         CHILD=$!
         echo $CHILD > "$PIDFILE"
     fi
