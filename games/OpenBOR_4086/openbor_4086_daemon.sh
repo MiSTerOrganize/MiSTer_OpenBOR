@@ -72,11 +72,9 @@ while true; do
             FIRST_LOAD=1
             rm -f "$PIDFILE"
             rm -f /tmp/openbor_current.pak
-            # Clear all MiSTer state for this core so next load opens
-            # the OSD picker fresh (no auto-load of previous PAK).
-            rm -f /media/fat/config/OpenBOR_4086.cfg \
-                  /media/fat/config/OpenBOR_4086.f0 \
-                  /media/fat/config/OpenBOR_4086.s0
+            # Delete .f0 so MiSTer doesn't auto-load the previous PAK.
+            # Keep .cfg (user's OSD video settings like scanlines).
+            rm -f /media/fat/config/OpenBOR_4086.f0
         fi
     fi
 
