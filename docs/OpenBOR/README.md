@@ -1,15 +1,15 @@
-# MiSTer_OpenBOR
+# MiSTer OpenBOR (Build 4086)
 
-Hybrid ARM+FPGA OpenBOR core for MiSTer FPGA with native video output. Inspired by the work of [SumolX](https://github.com/SumolX), who created the [first OpenBOR port for MiSTer](https://github.com/SumolX/MiSTer_OpenBOR).
+Hybrid ARM+FPGA OpenBOR beat-em-up engine for MiSTer FPGA with native video and audio output. Runs the ~300-game community PAK collections. Inspired by [SumolX](https://github.com/SumolX/MiSTer_OpenBOR)'s original MiSTer OpenBOR port.
 
 ## Features
 
+- **OpenBOR Build 4086** — the most compatible build for community PAK packs (~200+ games)
 - **Native FPGA video output** — 320×240 @ ~59.45Hz through MiSTer's native video pipeline
+- **Native FPGA audio output** — 48 kHz stereo via DDR3 ring buffer, no ALSA
 - **CRT support** — scanlines, shadow masks, and analog video output for CRT displays
 - **MiSTer OSD integration** — load PAK files from the file browser
-- **Hot-swap PAKs** — load a new PAK from the OSD while a game is playing
 - **4-player support** — connect up to 4 controllers, add players by pressing START
-- **Controller support** — d-pad, analog stick, and button mapping through MiSTer's input system
 - **Custom pause menu** — Continue / Options / Reset Pak / Quit
 - **Auto-launch** — OpenBOR starts automatically when the core is loaded
 
@@ -17,80 +17,77 @@ Hybrid ARM+FPGA OpenBOR core for MiSTer FPGA with native video output. Inspired 
 
 1. Copy `Scripts/Install_OpenBOR.sh` to `/media/fat/Scripts/` on your MiSTer SD card
 2. From the MiSTer main menu, go to Scripts and run **Install_OpenBOR**
-3. Done — load **OpenBOR** from the console menu to play
+3. Place your `.pak` game modules in `games/OpenBOR_4086/Paks/`
+4. Load **OpenBOR_4086** from the console menu to play
 
-The install script downloads and installs everything: the FPGA core, ARM binary, and controller mapping.
+The install script downloads and installs everything: the FPGA core, ARM binary, daemon, and documentation.
 
 ## Manual Install
 
-Extract the release zip to the root of your MiSTer SD card (`/media/fat/`). The folder structure mirrors the SD card layout:
+Extract the release zip to the root of your MiSTer SD card (`/media/fat/`):
 
 ```
 /media/fat/
 ├── _Console/
-│   └── OpenBOR_YYYYMMDD.rbf               FPGA core (dated build)
-├── config/
-│   └── inputs/
-│       └── OpenBOR_input_045e_0b12_v3.map  Controller map (generated from OSD)
+│   └── OpenBOR_4086_YYYYMMDD.rbf          FPGA core (dated build)
 ├── docs/
-│   └── OpenBOR/
-│       └── README.md                       Documentation
+│   └── OpenBOR_4086/
+│       └── README.md                      Documentation
 ├── games/
-│   └── OpenBOR/
-│       ├── OpenBOR                         ARM binary (engine)
-│       ├── openbor_daemon.sh               Auto-launch daemon
-│       └── Paks/                           Place your .pak game modules here
+│   └── OpenBOR_4086/
+│       ├── OpenBOR                        ARM binary (engine)
+│       ├── openbor_4086_daemon.sh         Auto-launch daemon
+│       ├── Paks/                          Place your .pak game modules here
+│       └── Logs/                          Engine logs (created at startup)
 ├── saves/
-│   └── OpenBOR/                            Game saves (created automatically)
+│   └── OpenBOR_4086/                      Game saves (created automatically)
 └── Scripts/
-    └── Install_OpenBOR.sh                  Install script
+    └── Install_OpenBOR.sh                 Install script
 ```
 
 ## Game Modules (PAK Files)
 
-Place your OpenBOR PAK files in `/media/fat/games/OpenBOR/Paks/`.
+Place your OpenBOR PAK files in `/media/fat/games/OpenBOR_4086/Paks/`.
 
-Build 3979 runs the vast majority of OpenBOR mods, including Streets of Rage Remake, Final Fight LNS, Golden Axe Remake, Turtles Ninjas and Battletoads, Simpsons Treehouse of Horror, and most of the LaunchBox OpenBOR collection.
+Build 4086 is the most popular build for the large community PAK collections (~300 games on Archive.org, Retrobat, Batocera, Launchbox). Older PAKs built for 3366–3979 are backward-compatible.
 
 ## Controls
 
 | Button          | Action                  |
 |-----------------|-------------------------|
-| A               | Attack / confirm        |
-| B               | Jump                    |
-| X               | Special / back          |
+| A               | Jump                    |
+| B               | Attack (primary)        |
+| X               | Special / pause back    |
 | Y               | Attack2                 |
 | D-pad / Analog  | Move                    |
 | Start           | Pause / add player      |
 | Menu button     | MiSTer OSD menu         |
 
-All 4 players use the same button layout. Remap buttons from the MiSTer OSD (press F12 on keyboard, or the OSD button on your IO board).
+All 4 players use the same button layout. Remap buttons from the MiSTer OSD (press F12 or the OSD button on your IO board).
 
 ## Pause Menu
 
 Press START during gameplay:
 
 - **Continue** — resume gameplay
-- **Options** — adjust Music Volume and SFX Volume with D-pad left/right, select Back to return
+- **Options** — adjust Music Volume and SFX Volume with D-pad left/right
 - **Reset Pak** — restart the current PAK fresh
 - **Quit** — exit to PAK browser
 
-Navigate with D-pad up/down. Press Attack to choose, Special to go back.
+Navigate with D-pad up/down. Press A to confirm, X to go back.
 
 ## FPGA Technical Details
 
 - Resolution: 320×240 active, 500×263 total
-- Refresh: 7,812,500 / (500×263) = ~59.45 Hz
-- H-sync: 7,812,500 / 500 = 15,625 Hz (NTSC-compatible)
+- Refresh: ~59.45 Hz (NTSC-compatible)
 - Pixel clock: 31.25 MHz CLK_VIDEO / 4 = 7.8125 MHz effective
 - Pixel format: RGB565 (16 bits per pixel)
-- Frame size: 320 × 240 × 2 = 153,600 bytes
-- DDR3 bandwidth: 153,600 × 60 = ~9.2 MB/s
-- Double-buffered via DDR3 with ARM writing one buffer while FPGA reads the other
+- Audio: 48 kHz stereo S16 PCM via DDR3 ring buffer → I2S/SPDIF/DAC
+- Double-buffered video via DDR3
 
 ## OpenBOR Build Info
 
-This core runs OpenBOR Build 3979, cross-compiled for MiSTer's ARM Cortex-A9 from the [rofl0r/openbor](https://github.com/rofl0r/openbor) SVN branch (commit 3b0a718). Built with arm-linux-gnueabihf-gcc 13.3.0, SDL 1.2.15, libvorbis/libogg statically linked.
+This core runs OpenBOR v3.0 Build 4086 from [DCurrent/openbor](https://github.com/DCurrent/openbor) (commit af23dc9c). Cross-compiled for MiSTer's ARM Cortex-A9 with SDL 1.2.15 and static linking. Video output goes through a patched SDL dummy driver that writes RGB565 directly to DDR3 for the FPGA to read.
 
 ## Credits
 
