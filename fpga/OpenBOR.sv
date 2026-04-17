@@ -225,11 +225,8 @@ localparam CONF_STR = {
 	"OpenBOR_4086;;",
 	"FC0,PAK,Load PAK;",
 	"-;",
-	// Six buttons so MiSTer emits joystick bits 4..9. The 6th slot is
-	// a diagnostic hook -- it produces no OpenBOR gameplay flag, but
-	// control_patch reads its bit to trigger Select-press debug dumps.
-	"J1,Attack,Jump,Special,Attack2,Start,Debug;",
-	"jn,A,B,X,Y,Start,Select;",
+	"J1,Attack,Jump,Special,Attack2,Start;",
+	"jn,A,B,X,Y,Start;",
 	"-;",
 	"V,v",`BUILD_DATE 
 };
