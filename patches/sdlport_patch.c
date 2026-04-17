@@ -117,8 +117,29 @@ int main(int argc, char *argv[])
      * fresh. */
     #define MISTER_PAK_CACHE "/tmp/openbor_current.pak"
     {
-        /* 1) Fresh OSD cart? Overwrite the cache. */
-        uint32_t pak_size = NativeVideoWriter_CheckCart();
+        /* 1) Wait for OSD cart to arrive. MiSTer streams the PAK via
+         * ioctl_download which can take 10+ seconds for large files
+         * (146 MB @ ~15 MB/s). Poll cart_ctrl with a timeout instead
+         * of checking once — otherwise ARM races ahead and opens the
+         * builtin browser before the PAK finishes transferring. */
+        uint32_t pak_size = 0;
+        {
+            struct timespec ts;
+            clock_gettime(CLOCK_MONOTONIC, &ts);
+            long start_ms = ts.tv_sec * 1000 + ts.tv_nsec / 1000000;
+            long timeout_ms = 15000;  /* 15 seconds max wait */
+            while (1) {
+                pak_size = NativeVideoWriter_CheckCart();
+                if (pak_size > 0) break;
+                clock_gettime(CLOCK_MONOTONIC, &ts);
+                long now_ms = ts.tv_sec * 1000 + ts.tv_nsec / 1000000;
+                if (now_ms - start_ms > timeout_ms) {
+                    fprintf(stderr, "MiSTer: no OSD cart after %ld ms, opening browser\n", timeout_ms);
+                    break;
+                }
+                usleep(100000);  /* poll every 100ms */
+            }
+        }
         if (pak_size > 0) {
             void *pak_buf = malloc(pak_size);
             if (pak_buf) {
