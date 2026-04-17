@@ -24,7 +24,6 @@
  *   bit 6  = Xbox Y (top)    -> FLAG_ATTACK2 (Attack2)
  *   bit 7  = Xbox X (left)   -> FLAG_SPECIAL (Special -- AND pause menu back)
  *   bit 8  = Start           -> FLAG_START
- *   bit 9  = Select          -> unmapped
  *
  * Copyright (C) 2026 MiSTer Organize — GPL-3.0
  */
@@ -49,8 +48,6 @@ void control_update(s_playercontrols ** playercontrols, int numplayers)
 #ifdef MISTER_NATIVE_VIDEO
         {
             uint32_t joy = NativeVideoWriter_ReadJoystick(player);
-
-            /* Select (bit 9) intentionally unmapped. */
 
             /* Map MiSTer joystick bits to OpenBOR flags */
             if (joy & 0x001) k |= FLAG_MOVERIGHT;
