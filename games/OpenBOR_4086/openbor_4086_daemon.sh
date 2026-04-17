@@ -81,7 +81,7 @@ while true; do
             rm -f /media/fat/config/OpenBOR_4086.cfg \
                   /media/fat/config/OpenBOR_4086.s0
             mkdir -p /media/fat/config
-            printf 'games/OpenBOR/Paks/.placeholder.pak' \
+            printf 'games/OpenBOR_4086/Paks/.placeholder.pak' \
                 > /media/fat/config/OpenBOR_4086.f0
         fi
     fi

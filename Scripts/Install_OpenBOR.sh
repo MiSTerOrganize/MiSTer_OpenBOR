@@ -85,7 +85,7 @@ echo "Auto-launcher installed."
 # legacy /media/fat/OpenBOR/ folder exists, on that legacy folder.
 mkdir -p /media/fat/config
 printf 'games/OpenBOR_4086/Paks/.placeholder.pak' \
-    > /media/fat/config/OpenBOR.f0
+    > /media/fat/config/OpenBOR_4086.f0
 
 # ── Start daemon now ──────────────────────────────────────────────
 /media/fat/games/OpenBOR_4086/openbor_4086_daemon.sh &
