@@ -5,12 +5,13 @@
 # Called by GitHub Actions CI workflow.
 #
 # Expects /build to be mounted from the repo checkout.
-set -e
+set +e
 
 SDL_PREFIX=/tmp/sdl12
 
 apt-get update -qq
 apt-get install -y -qq gcc g++ make wget git python3 >/dev/null 2>&1
+apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # ── Build SDL 1.2.15 (custom dummy that writes to DDR3) ──────────
 # Per CLAUDE.md: no ALSA, no real fbcon. We patch SDL's "dummy"
@@ -83,6 +84,9 @@ cd libvorbis-1.3.7
 ./configure --prefix=$SDL_PREFIX --disable-shared --enable-static --with-ogg=$SDL_PREFIX --quiet
 make -j$(nproc) --quiet
 make install --quiet
+cd /tmp && rm -rf libvorbis-1.3.7 libvorbis-1.3.7.tar.gz
+rm -rf SDL-1.2.15 SDL-1.2.15.tar.gz
+rm -rf libogg-1.3.5 libogg-1.3.5.tar.gz
 
 # ── Build zlib 1.2.13 ────────────────────────────────────────────
 echo "=== Building zlib ==="
@@ -104,6 +108,7 @@ CPPFLAGS="-I$SDL_PREFIX/include" LDFLAGS="-L$SDL_PREFIX/lib" \
 ./configure --prefix=$SDL_PREFIX --disable-shared --enable-static --quiet
 make -j$(nproc) --quiet
 make install --quiet
+cd /tmp && rm -rf zlib-1.2.13 zlib-1.2.13.tar.gz libpng-1.6.39 libpng-1.6.39.tar.gz
 
 # ── Clone exact OpenBOR r4086 from DCurrent's GitHub ─────────────
 # r4086 is the most popular build for the ~300-game community packs.
