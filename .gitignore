@@ -7,3 +7,4 @@ fpga/*.qws
 fpga/*.bak
 fpga/build_*.log
 fpga/build_id.v
+__pycache__/
