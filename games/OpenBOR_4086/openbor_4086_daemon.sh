@@ -10,6 +10,11 @@ PIDFILE="/tmp/openbor_arm.pid"
 GAMEDIR="/media/fat/games/OpenBOR_4086"
 BINARY="$GAMEDIR/OpenBOR"
 
+# Delete stale .f0 immediately at daemon startup to prevent
+# MiSTer from auto-loading the previous PAK on core load
+# (FC0 auto-load streams entire 146MB PAK via ioctl = 2 min black screen)
+rm -f /media/fat/config/OpenBOR_4086.f0
+
 # Prevent multiple daemon instances
 if ! mkdir "$LOCKDIR" 2>/dev/null; then
     OLDPID=$(cat "$LOCKDIR/pid" 2>/dev/null)
