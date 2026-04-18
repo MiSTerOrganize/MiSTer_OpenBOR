@@ -91,7 +91,8 @@ rm -rf libogg-1.3.5 libogg-1.3.5.tar.gz
 # ── Build zlib 1.2.13 ────────────────────────────────────────────
 echo "=== Building zlib ==="
 cd /tmp
-wget -q https://zlib.net/fossils/zlib-1.2.13.tar.gz
+wget -q https://zlib.net/fossils/zlib-1.2.13.tar.gz || wget -q https://github.com/madler/zlib/releases/download/v1.2.13/zlib-1.2.13.tar.gz
+if [ ! -f zlib-1.2.13.tar.gz ]; then echo "ERROR: zlib download failed"; exit 1; fi
 tar xzf zlib-1.2.13.tar.gz
 cd zlib-1.2.13
 ./configure --prefix=$SDL_PREFIX --static
