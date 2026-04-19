@@ -156,6 +156,11 @@ int main(int argc, char *argv[])
                         /* Build absolute path and set as packfile */
                         snprintf(packfile, sizeof(packfile), "/media/fat/%s", f0_path);
                         remove(MISTER_F0_PATH);
+                        /* Free kernel buffer cache — FC0 ioctl just
+                         * streamed the entire PAK through SPI, filling
+                         * hundreds of MB of cache. Without this, OpenBOR
+                         * segfaults during init from RAM exhaustion. */
+                        system("echo 3 > /proc/sys/vm/drop_caches");
                         fprintf(stderr, "MiSTer: OSD selected: %s\n", packfile);
                         break;
                     }
