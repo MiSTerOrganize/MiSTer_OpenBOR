@@ -211,13 +211,20 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
         '#include "menu.h"\n#ifdef MISTER_NATIVE_VIDEO\n#include "native_video_writer.h"\n#include "native_audio_writer.h"\n#include <sys/stat.h>\n#include <stdlib.h>\n#include <time.h>\n#include <unistd.h>\n#include <pthread.h>\n#endif'
     )
 
-    # Replace main() — it's the last function in the file
+    # Replace main() and inject any code above it (swap thread, etc.)
     main_sig = "int main(int argc, char *argv[])"
     start = src.find(main_sig)
     if start >= 0:
         patch = read(os.path.join(patches, 'sdlport_patch.c'))
-        func_start = patch.find(main_sig)
-        replacement = patch[func_start:]
+        # Find the first #ifdef MISTER_NATIVE_VIDEO before main() —
+        # that's where our pre-main code starts (swap thread, globals)
+        premain_marker = "#ifdef MISTER_NATIVE_VIDEO\n/* PAK swap"
+        premain_start = patch.find(premain_marker)
+        if premain_start >= 0:
+            replacement = patch[premain_start:]
+        else:
+            func_start = patch.find(main_sig)
+            replacement = patch[func_start:]
         src = src[:start] + replacement + "\n"
 
     write(os.path.join(obor, 'sdl/sdlport.c'), src)
