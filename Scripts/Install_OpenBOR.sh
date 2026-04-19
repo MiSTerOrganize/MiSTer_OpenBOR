@@ -10,10 +10,12 @@ REPO="MiSTerOrganize/MiSTer_OpenBOR"
 BRANCH="main"
 BASE_URL="https://raw.githubusercontent.com/$REPO/$BRANCH"
 
-# Bump this when a new RBF is committed to _Console/.
-# Kept as a hardcoded constant so the installer never calls api.github.com
-# (rate-limited, and violates CLAUDE.md "ALL downloads from raw.githubusercontent.com").
-RBF_NAME="OpenBOR_4086_20260417.rbf"
+# Read current RBF name from version.txt manifest
+RBF_NAME=$(wget -q -O - "$BASE_URL/version.txt" | tr -d '\r\n')
+if [ -z "$RBF_NAME" ]; then
+    echo "Error: Could not fetch version.txt"
+    exit 1
+fi
 
 echo "=== OpenBOR Installer for MiSTer ==="
 echo ""
