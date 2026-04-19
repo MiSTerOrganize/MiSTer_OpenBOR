@@ -361,7 +361,7 @@ always @(posedge ddr_clk) begin
         end
 
         // Collect bytes — cap DDR3 writes at 256KB to prevent overflow
-        // (MiSTer streams entire PAK via ioctl even though we only need the .f0 path)
+        // (SC0 mount — ARM reads PAK path from .s0, loads from SD directly)
         if (ioctl_download && ioctl_wr && !cart_write_pending) begin
             cart_total_bytes <= ioctl_addr + 27'd1;
 

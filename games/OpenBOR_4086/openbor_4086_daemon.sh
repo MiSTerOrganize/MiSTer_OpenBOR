@@ -41,8 +41,8 @@ while true; do
     if [ "$CUR" = "OpenBOR_4086" ] && [ -z "$CHILD" ]; then
         # No binary running — start one
         if [ "$FIRST_LOAD" = "1" ]; then
-            # Clear stale .f0 so MiSTer doesn't auto-load previous PAK.
-            # Survives reboots since .f0 is on SD, not /tmp.
+            # Clear stale .s0 so MiSTer doesn't auto-mount previous PAK.
+            # Survives reboots since .s0 is on SD, not /tmp.
             rm -f /media/fat/config/OpenBOR_4086.s0
             sleep 1  # FPGA settle on first load only
             FIRST_LOAD=0
@@ -81,7 +81,7 @@ while true; do
             FIRST_LOAD=1
             rm -f "$PIDFILE"
             rm -f /tmp/openbor_current.pak
-            # Delete .f0 so MiSTer doesn't auto-load the previous PAK.
+            # Delete .s0 so MiSTer doesn't auto-mount the previous PAK.
             # Keep .cfg (user's OSD video settings like scanlines).
             rm -f /media/fat/config/OpenBOR_4086.s0
         fi
