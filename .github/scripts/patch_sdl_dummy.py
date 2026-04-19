@@ -187,36 +187,15 @@ def main():
         sys.exit(2)
     src = src.replace(inject_after, inject_after + INJECT_INCLUDES, 1)
 
-    # 2) Init the DDR3 mapping and force 32bpp in VideoInit.
-    #    The dummy driver defaults to 8bpp, but OpenBOR renders at PIXEL_32.
-    #    If the driver reports 8bpp, OpenBOR creates an 8bpp surface and then
-    #    tries to write 32bpp data into it → segfault.
-    vinit_old = (
-        '\tvformat->BitsPerPixel = 8;\n'
-        '\tvformat->BytesPerPixel = 1;'
-    )
-    vinit_new = (
-        '\tmister_ddr_init();\n'
-        '\tvformat->BitsPerPixel = 32;\n'
-        '\tvformat->BytesPerPixel = 4;\n'
-        '\tvformat->Rmask = 0x00FF0000;\n'
-        '\tvformat->Gmask = 0x0000FF00;\n'
-        '\tvformat->Bmask = 0x000000FF;'
-    )
-    if vinit_old in src:
-        src = src.replace(vinit_old, vinit_new, 1)
-        print("  VideoInit: 32bpp vformat override applied.")
+    # 2) Init the DDR3 mapping in VideoInit.
+    #    Keep default 8bpp — mister_present() handles 8/16/32bpp surfaces.
+    #    DO NOT override to 32bpp: causes OpenBOR to allocate 4x larger
+    #    internal buffers, exhausting RAM during model loading → segfault.
+    init_anchor = "/* We're done!"
+    if init_anchor in src:
+        src = src.replace(init_anchor, "mister_ddr_init();\n\t" + init_anchor, 1)
+        print("  VideoInit: mister_ddr_init() injected (8bpp default kept).")
     else:
-        print("  WARN: vformat pattern not found, trying fallback...")
-        # Debug: show what's actually around BitsPerPixel
-        idx = src.find('BitsPerPixel')
-        if idx >= 0:
-            print(f"  Context around BitsPerPixel: {repr(src[max(0,idx-40):idx+80])}")
-        init_anchor = "/* We're done!"
-        if init_anchor in src:
-            src = src.replace(init_anchor, "mister_ddr_init();\n\t" + init_anchor, 1)
-            print("  Fallback: mister_ddr_init() injected (NO 32bpp override).")
-        else:
             src = src.replace(
                 "static int DUMMY_VideoInit(_THIS, SDL_PixelFormat *vformat)\n{",
                 "static int DUMMY_VideoInit(_THIS, SDL_PixelFormat *vformat)\n{\n\tmister_ddr_init();",
