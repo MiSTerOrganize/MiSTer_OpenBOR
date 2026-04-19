@@ -26,8 +26,8 @@ FILES = [
      "/media/fat/games/OpenBOR_4086/OpenBOR", 0o755),
     (REPO / "games/OpenBOR_4086/openbor_4086_daemon.sh",
      "/media/fat/games/OpenBOR_4086/openbor_4086_daemon.sh", 0o755),
-    (REPO / "_Console/OpenBOR_4086_20260417.rbf",
-     "/media/fat/_Console/OpenBOR_4086_20260417.rbf", 0o644),
+    (REPO / "_Other/OpenBOR_4086_20260417.rbf",
+     "/media/fat/_Other/OpenBOR_4086_20260417.rbf", 0o644),
 ]
 
 
@@ -67,7 +67,7 @@ def main():
     run(client, "rm -rf /tmp/openbor_daemon.lock")
 
     print("\n-- Removing old RBFs --")
-    run(client, "rm -f /media/fat/_Console/OpenBOR_4086_*.rbf")
+    run(client, "rm -f /media/fat/_Other/OpenBOR_4086_*.rbf")
 
     print("\n-- Uploading files --")
     sftp = client.open_sftp()
@@ -88,7 +88,7 @@ def main():
     run(client, "nohup /media/fat/games/OpenBOR_4086/openbor_4086_daemon.sh </dev/null >/dev/null 2>&1 & disown")
 
     print("\n-- Verifying deployed files --")
-    run(client, "ls -lh /media/fat/games/OpenBOR_4086/ /media/fat/_Console/OpenBOR_4086_*.rbf")
+    run(client, "ls -lh /media/fat/games/OpenBOR_4086/ /media/fat/_Other/OpenBOR_4086_*.rbf")
 
     client.close()
     print("\nDone.")

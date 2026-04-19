@@ -31,7 +31,7 @@ sleep 1
 # ── Download files from GitHub repo ───────────────────────────────
 echo "Downloading OpenBOR..."
 
-mkdir -p /media/fat/_Console
+mkdir -p /media/fat/_Other
 mkdir -p /media/fat/games/OpenBOR_4086/Paks
 mkdir -p /media/fat/logs/OpenBOR_4086
 mkdir -p /media/fat/saves/OpenBOR_4086
@@ -44,8 +44,8 @@ rm -rf /media/fat/games/OpenBOR_4086/.Logs /media/fat/games/OpenBOR_4086/Logs
 FAIL=0
 
 echo "  Downloading FPGA core ($RBF_NAME)..."
-rm -f /media/fat/_Console/OpenBOR_*.rbf /media/fat/_Console/OpenBOR.rbf
-wget -q --show-progress -O "/media/fat/_Console/$RBF_NAME" "$BASE_URL/_Console/$RBF_NAME" || FAIL=1
+rm -f /media/fat/_Other/OpenBOR_*.rbf /media/fat/_Other/OpenBOR.rbf
+wget -q --show-progress -O "/media/fat/_Other/$RBF_NAME" "$BASE_URL/_Other/$RBF_NAME" || FAIL=1
 
 echo "  Downloading ARM binary..."
 wget -q --show-progress -O /media/fat/games/OpenBOR_4086/OpenBOR "$BASE_URL/games/OpenBOR_4086/OpenBOR" || FAIL=1

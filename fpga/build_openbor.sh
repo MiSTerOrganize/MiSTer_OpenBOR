@@ -7,7 +7,7 @@
 #  or at the standard Windows location.
 #
 #  Usage: ./build_openbor.sh [output_dir]
-#  Default output: ../_Console/
+#  Default output: ../_Other/
 #
 #  Copyright (C) 2026 MiSTer Organize -- GPL-3.0
 #
@@ -15,7 +15,7 @@
 
 set -e
 
-OUTPUT_DIR="${1:-../_Console}"
+OUTPUT_DIR="${1:-../_Other}"
 PROJECT="OpenBOR"
 DATE=$(date +%Y%m%d)
 

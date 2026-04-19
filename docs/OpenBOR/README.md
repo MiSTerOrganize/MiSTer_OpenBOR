@@ -28,7 +28,7 @@ Extract the release zip to the root of your MiSTer SD card (`/media/fat/`):
 
 ```
 /media/fat/
-├── _Console/
+├── _Other/
 │   └── OpenBOR_4086_YYYYMMDD.rbf          FPGA core (dated build)
 ├── docs/
 │   └── OpenBOR_4086/

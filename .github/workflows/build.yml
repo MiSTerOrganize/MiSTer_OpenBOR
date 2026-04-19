@@ -36,12 +36,12 @@ jobs:
         run: |
           mkdir -p release-staging/games/OpenBOR_4086/Paks
           mkdir -p release-staging/Scripts
-          mkdir -p release-staging/_Console
+          mkdir -p release-staging/_Other
           mkdir -p release-staging/docs/OpenBOR_4086
           cp OpenBOR release-staging/games/OpenBOR_4086/
           cp games/OpenBOR_4086/openbor_4086_daemon.sh release-staging/games/OpenBOR_4086/
           cp Scripts/Install_OpenBOR.sh release-staging/Scripts/
-          test -f _Console/OpenBOR_*.rbf && cp _Console/OpenBOR_*.rbf release-staging/_Console/ || true
+          test -f _Other/OpenBOR_*.rbf && cp _Other/OpenBOR_*.rbf release-staging/_Other/ || true
           cp docs/OpenBOR/README.md release-staging/docs/OpenBOR_4086/
           chmod +x release-staging/games/OpenBOR_4086/OpenBOR
           chmod +x release-staging/games/OpenBOR_4086/openbor_4086_daemon.sh
