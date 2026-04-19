@@ -54,9 +54,9 @@ while true; do
         # what NativeVideoWriter / NativeAudioWriter reported and which
         # PAK path was chosen (stderr has "first frame %dx%d bpp=%d",
         # "MiSTer OSD: cached PAK", etc).
-        mkdir -p .Logs
-        mv -f .Logs/OpenBOR.log .Logs/OpenBOR.prev.log 2>/dev/null
-        ./OpenBOR > .Logs/OpenBOR.log 2>&1 &
+        mkdir -p /media/fat/logs/OpenBOR_4086
+        mv -f /media/fat/logs/OpenBOR_4086/OpenBOR.log /media/fat/logs/OpenBOR_4086/OpenBOR.prev.log 2>/dev/null
+        ./OpenBOR > /media/fat/logs/OpenBOR_4086/OpenBOR.log 2>&1 &
         CHILD=$!
         echo $CHILD > "$PIDFILE"
     fi
@@ -66,7 +66,7 @@ while true; do
             # Process exited (quit, reset pak, or crash) — reap it
             wait $CHILD
             EXIT_CODE=$?
-            echo "OpenBOR exited with code $EXIT_CODE at $(date)" >> .Logs/OpenBOR.log
+            echo "OpenBOR exited with code $EXIT_CODE at $(date)" >> /media/fat/logs/OpenBOR_4086/OpenBOR.log
             CHILD=""
             rm -f "$PIDFILE"
             # Don't sleep — restart fast on next iteration
