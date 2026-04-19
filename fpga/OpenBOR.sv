@@ -223,7 +223,7 @@ assign LED_POWER[0]= FB ? led[2] : act_cnt2[26] ? act_cnt2[25:18] > act_cnt2[7:0
 `include "build_id.v" 
 localparam CONF_STR = {
 	"OpenBOR_4086;;",
-	"FC0,PAK,Load PAK;",
+	"S0,PAK,Mount PAK;",
 	"-;",
 	"J1,Attack,Jump,Special,Attack2,Start;",
 	"jn,A,B,X,Y,Start;",
@@ -239,7 +239,7 @@ wire [31:0] joystick_2;
 wire [31:0] joystick_3;
 wire [15:0] joystick_l_analog_0;
 
-// ioctl signals for cart loading
+// ioctl signals (still needed for core framework, but S0 doesn't stream)
 wire        ioctl_download;
 wire        ioctl_wr;
 wire [26:0] ioctl_addr;
@@ -247,6 +247,12 @@ wire  [7:0] ioctl_dout;
 wire [15:0] ioctl_index;
 wire        ioctl_wait;
 assign ioctl_wait = nv_ioctl_wait;
+
+// S0 mounted image signals — PAK file path stored in .s0 config,
+// no ioctl streaming. ARM reads .s0 to get the path.
+wire        img_mounted;
+wire [63:0] img_size;
+wire        img_readonly;
 
 hps_io #(.CONF_STR(CONF_STR)) hps_io
 (
@@ -265,7 +271,10 @@ hps_io #(.CONF_STR(CONF_STR)) hps_io
 	.ioctl_addr(ioctl_addr),
 	.ioctl_dout(ioctl_dout),
 	.ioctl_index(ioctl_index),
-	.ioctl_wait(ioctl_wait)
+	.ioctl_wait(ioctl_wait),
+	.img_mounted(img_mounted),
+	.img_size(img_size),
+	.img_readonly(img_readonly)
 );
 
 ////////////////////   CLOCKS   ///////////////////

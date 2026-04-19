@@ -118,16 +118,15 @@ int main(int argc, char *argv[])
      * the cart will stream via ioctl into DDR3, and we cache it here
      * fresh. */
     #define MISTER_PAK_CACHE "/tmp/openbor_current.pak"
-    #define MISTER_F0_PATH   "/media/fat/config/OpenBOR_4086.f0"
+    #define MISTER_S0_PATH   "/media/fat/config/OpenBOR_4086.s0"
     {
-        /* OpenBOR PAKs are 50-150+ MB — too large for the 256 KB DDR3
-         * cart buffer. Instead of streaming data through DDR3, we read
-         * the FILE PATH that MiSTer writes to .f0 when user picks a
-         * PAK from the OSD, then load that file directly from SD.
+        /* S0 (mounted image) approach: user selects PAK from OSD,
+         * MiSTer writes the path to .s0 config — INSTANT, no ioctl
+         * streaming. ARM reads .s0 to get path, loads PAK from SD.
          *
-         * Flow: user picks PAK in OSD → MiSTer writes path to .f0 →
-         * ARM polls for .f0 → reads path → deletes .f0 → OpenBOR
-         * loads PAK from SD path. No DDR3 size limit. */
+         * This replaces the old FC0 approach which streamed the entire
+         * PAK (50-150MB) via ioctl before creating the config file,
+         * causing a 2+ minute delay and RAM exhaustion. */
 
         /* 1) Check for Reset Pak cache (in /tmp, survives exit+relaunch) */
         struct stat st;
@@ -137,30 +136,24 @@ int main(int argc, char *argv[])
             fprintf(stderr, "MiSTer: Reset Pak cache found: %s (%ld bytes)\n",
                     packfile, (long)st.st_size);
         }
-        /* 2) Poll for .f0 (MiSTer creates it when user picks from OSD) */
+        /* 2) Poll for .s0 (MiSTer creates it when user mounts PAK from OSD) */
         else {
-            char f0_path[256] = {0};
+            char s0_path[256] = {0};
 
-            fprintf(stderr, "MiSTer: waiting for OSD PAK selection (.f0)...\n");
+            fprintf(stderr, "MiSTer: waiting for OSD PAK selection (.s0)...\n");
             while (1) {
-                FILE *f = fopen(MISTER_F0_PATH, "r");
+                FILE *f = fopen(MISTER_S0_PATH, "r");
                 if (f) {
-                    if (fgets(f0_path, sizeof(f0_path), f)) {
-                        char *nl = strchr(f0_path, '\n');
+                    if (fgets(s0_path, sizeof(s0_path), f)) {
+                        char *nl = strchr(s0_path, '\n');
                         if (nl) *nl = 0;
-                        char *cr = strchr(f0_path, '\r');
+                        char *cr = strchr(s0_path, '\r');
                         if (cr) *cr = 0;
                     }
                     fclose(f);
-                    if (strlen(f0_path) > 0) {
+                    if (strlen(s0_path) > 0) {
                         /* Build absolute path and set as packfile */
-                        snprintf(packfile, sizeof(packfile), "/media/fat/%s", f0_path);
-                        remove(MISTER_F0_PATH);
-                        /* Free kernel buffer cache — FC0 ioctl just
-                         * streamed the entire PAK through SPI, filling
-                         * hundreds of MB of cache. Without this, OpenBOR
-                         * segfaults during init from RAM exhaustion. */
-                        system("echo 3 > /proc/sys/vm/drop_caches");
+                        snprintf(packfile, sizeof(packfile), "/media/fat/%s", s0_path);
                         fprintf(stderr, "MiSTer: OSD selected: %s\n", packfile);
                         break;
                     }

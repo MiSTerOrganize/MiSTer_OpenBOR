@@ -10,10 +10,9 @@ PIDFILE="/tmp/openbor_arm.pid"
 GAMEDIR="/media/fat/games/OpenBOR_4086"
 BINARY="$GAMEDIR/OpenBOR"
 
-# Delete stale .f0 immediately at daemon startup to prevent
-# MiSTer from auto-loading the previous PAK on core load
-# (FC0 auto-load streams entire 146MB PAK via ioctl = 2 min black screen)
-rm -f /media/fat/config/OpenBOR_4086.f0
+# Delete stale .s0 at daemon startup so MiSTer doesn't
+# auto-mount the previous PAK on core load
+rm -f /media/fat/config/OpenBOR_4086.s0
 
 # Prevent multiple daemon instances
 if ! mkdir "$LOCKDIR" 2>/dev/null; then
@@ -44,7 +43,7 @@ while true; do
         if [ "$FIRST_LOAD" = "1" ]; then
             # Clear stale .f0 so MiSTer doesn't auto-load previous PAK.
             # Survives reboots since .f0 is on SD, not /tmp.
-            rm -f /media/fat/config/OpenBOR_4086.f0
+            rm -f /media/fat/config/OpenBOR_4086.s0
             sleep 1  # FPGA settle on first load only
             FIRST_LOAD=0
         fi
@@ -84,7 +83,7 @@ while true; do
             rm -f /tmp/openbor_current.pak
             # Delete .f0 so MiSTer doesn't auto-load the previous PAK.
             # Keep .cfg (user's OSD video settings like scanlines).
-            rm -f /media/fat/config/OpenBOR_4086.f0
+            rm -f /media/fat/config/OpenBOR_4086.s0
         fi
     fi
 
