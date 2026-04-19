@@ -120,13 +120,10 @@ int main(int argc, char *argv[])
     #define MISTER_PAK_CACHE "/tmp/openbor_current.pak"
     #define MISTER_S0_PATH   "/media/fat/config/OpenBOR_4086.s0"
     {
-        /* S0 (mounted image) approach: user selects PAK from OSD,
-         * MiSTer writes the path to .s0 config — INSTANT, no ioctl
-         * streaming. ARM reads .s0 to get path, loads PAK from SD.
-         *
-         * This replaces the old FC0 approach which streamed the entire
-         * PAK (50-150MB) via ioctl before creating the config file,
-         * causing a 2+ minute delay and RAM exhaustion. */
+        /* SC0 (mounted image + config) approach: user selects PAK
+         * from OSD, MiSTer writes path to .s0 config INSTANTLY —
+         * no ioctl streaming, no 2-minute wait, no RAM exhaustion.
+         * ARM reads .s0 to get path, loads PAK from SD directly. */
 
         /* 1) Check for Reset Pak cache (in /tmp, survives exit+relaunch) */
         struct stat st;
@@ -136,7 +133,7 @@ int main(int argc, char *argv[])
             fprintf(stderr, "MiSTer: Reset Pak cache found: %s (%ld bytes)\n",
                     packfile, (long)st.st_size);
         }
-        /* 2) Poll for .s0 (MiSTer creates it when user mounts PAK from OSD) */
+        /* 2) Poll for .s0 (MiSTer creates it instantly when user picks from OSD) */
         else {
             char s0_path[256] = {0};
 
@@ -152,7 +149,7 @@ int main(int argc, char *argv[])
                     }
                     fclose(f);
                     if (strlen(s0_path) > 0) {
-                        /* Build absolute path and set as packfile */
+                        /* .s0 contains full path (not relative like .f0) */
                         snprintf(packfile, sizeof(packfile), "/media/fat/%s", s0_path);
                         fprintf(stderr, "MiSTer: OSD selected: %s\n", packfile);
                         break;

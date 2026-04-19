@@ -223,7 +223,7 @@ assign LED_POWER[0]= FB ? led[2] : act_cnt2[26] ? act_cnt2[25:18] > act_cnt2[7:0
 `include "build_id.v" 
 localparam CONF_STR = {
 	"OpenBOR_4086;;",
-	"S0,PAK,Mount PAK;",
+	"SC0,PAK,Load PAK;",
 	"-;",
 	"J1,Attack,Jump,Special,Attack2,Start;",
 	"jn,A,B,X,Y,Start;",
@@ -248,11 +248,10 @@ wire [15:0] ioctl_index;
 wire        ioctl_wait;
 assign ioctl_wait = nv_ioctl_wait;
 
-// S0 mounted image signals — PAK file path stored in .s0 config,
-// no ioctl streaming. ARM reads .s0 to get the path.
+// SC0 mounted image — config file created instantly, no ioctl streaming.
+// We only need the filename (from .s0 config). No disk I/O needed.
 wire        img_mounted;
 wire [63:0] img_size;
-wire        img_readonly;
 
 hps_io #(.CONF_STR(CONF_STR)) hps_io
 (
@@ -272,9 +271,14 @@ hps_io #(.CONF_STR(CONF_STR)) hps_io
 	.ioctl_dout(ioctl_dout),
 	.ioctl_index(ioctl_index),
 	.ioctl_wait(ioctl_wait),
+	// SC0 mount signals
 	.img_mounted(img_mounted),
 	.img_size(img_size),
-	.img_readonly(img_readonly)
+	// Tie off disk I/O — we never read/write sectors
+	.sd_lba('{32'd0}),
+	.sd_rd(1'b0),
+	.sd_wr(1'b0),
+	.sd_buff_din('{8'd0})
 );
 
 ////////////////////   CLOCKS   ///////////////////
