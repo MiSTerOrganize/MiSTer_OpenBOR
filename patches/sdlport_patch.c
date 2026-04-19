@@ -16,10 +16,51 @@
  *   #include <stdlib.h>
  *   #include <time.h>
  *   #include <unistd.h>
+ *   #include <pthread.h>
  *   #endif
  *
  * Copyright (C) 2026 MiSTer Organize -- GPL-3.0
  */
+
+#ifdef MISTER_NATIVE_VIDEO
+/* PAK swap detection thread — polls .s0 for path changes during gameplay.
+ * When user mounts a new PAK from OSD, .s0 updates instantly. This thread
+ * detects the change and triggers a clean shutdown so the daemon restarts
+ * OpenBOR with the new PAK. */
+static volatile int mister_swap_requested = 0;
+static char mister_loaded_path[256] = {0};
+
+static void *mister_swap_thread(void *arg)
+{
+    (void)arg;
+    char check_path[256];
+
+    while (!mister_swap_requested) {
+        sleep(1);
+        FILE *f = fopen("/media/fat/config/OpenBOR_4086.s0", "r");
+        if (!f) continue;
+        check_path[0] = 0;
+        if (fgets(check_path, sizeof(check_path), f)) {
+            char *nl = strchr(check_path, '\n');
+            if (nl) *nl = 0;
+            char *cr = strchr(check_path, '\r');
+            if (cr) *cr = 0;
+        }
+        fclose(f);
+
+        if (strlen(check_path) > 0 && strlen(mister_loaded_path) > 0) {
+            char full[256];
+            snprintf(full, sizeof(full), "/media/fat/%s", check_path);
+            if (strcmp(full, mister_loaded_path) != 0) {
+                fprintf(stderr, "MiSTer: PAK swap detected: %s\n", full);
+                mister_swap_requested = 1;
+                borExit(1);
+            }
+        }
+    }
+    return NULL;
+}
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -167,9 +208,21 @@ int main(int argc, char *argv[])
     getPakName(pakname, -1);
     video_set_window_title(pakname);
 #endif
+#ifdef MISTER_NATIVE_VIDEO
+    /* Save loaded path for swap detection and start watcher thread */
+    strncpy(mister_loaded_path, packfile, sizeof(mister_loaded_path) - 1);
+    pthread_t swap_tid;
+    pthread_create(&swap_tid, NULL, mister_swap_thread, NULL);
+#endif
+
     fprintf(stderr, "MiSTer: entering openborMain()...\n");
     openborMain(argc, argv);
     fprintf(stderr, "MiSTer: openborMain() returned normally\n");
+
+#ifdef MISTER_NATIVE_VIDEO
+    mister_swap_requested = 1;
+    pthread_join(swap_tid, NULL);
+#endif
 
 #ifdef MISTER_NATIVE_VIDEO
     NativeVideoWriter_Shutdown();
