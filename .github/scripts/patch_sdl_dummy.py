@@ -115,8 +115,11 @@ static void mister_present(SDL_Surface *screen) {
     volatile uint16_t *dst = (volatile uint16_t *)(mister_ddr + buf_off);
     const uint8_t *rows = (const uint8_t *)screen->pixels;
 
-    /* Clear frame buffer first (black bars for letterboxing) */
-    memset((void*)dst, 0, MISTER_FRAME_W * MISTER_FRAME_H * 2);
+    /* Only clear frame buffer when letterboxing is needed.
+     * Clearing every frame causes flicker on full-frame PAKs because
+     * the FPGA reads the zeroed buffer before the game finishes writing. */
+    if (out_w < MISTER_FRAME_W || out_h < MISTER_FRAME_H)
+        memset((void*)dst, 0, MISTER_FRAME_W * MISTER_FRAME_H * 2);
 
     if (bpp == 32) {
         for (int y = 0; y < out_h; y++) {
