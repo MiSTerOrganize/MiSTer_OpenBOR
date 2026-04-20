@@ -241,6 +241,8 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
     do { \\
         if (strcmp(name, "Saves") == 0) { \\
             strcpy(buf, "/media/fat/saves/OpenBOR_4086/"); \\
+        } else if (strcmp(name, "Logs") == 0) { \\
+            strcpy(buf, "/media/fat/logs/OpenBOR_4086/"); \\
         } else { \\
             strncpy(buf, "./", 2); strncat(buf, name, strlen(name)); strncat(buf, "/", 1); \\
         } \\
