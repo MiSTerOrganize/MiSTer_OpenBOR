@@ -84,16 +84,22 @@ static void mister_present(SDL_Surface *screen) {
     int Bloss  = screen->format->Bloss;
     SDL_Palette *pal = screen->format->palette;
 
-    /* Scale factor: if source is larger than 320x240, downsample.
-     * 640x480 -> 2x, 480x272 -> ~1.5x (round to 1), etc. */
-    int sx = (w + MISTER_FRAME_W - 1) / MISTER_FRAME_W;  /* ceil(w/320) */
-    int sy = (h + MISTER_FRAME_H - 1) / MISTER_FRAME_H;  /* ceil(h/240) */
-    if (sx < 1) sx = 1;
-    if (sy < 1) sy = 1;
-    int out_w = w / sx;  /* output width after scaling */
-    int out_h = h / sy;
+    /* Scale to fit entirely within 320x240, no cropping.
+     * Use the larger axis ratio so everything fits.
+     * 640x480 -> /2 -> 320x240, 480x272 -> /1.5 -> 320x181
+     * Output is centered vertically with black bars if needed.
+     * Fixed-point: multiply by 256 to avoid floating point. */
+    int scale256 = 256; /* 256 = 1.0x */
+    if (w > MISTER_FRAME_W || h > MISTER_FRAME_H) {
+        int sx256 = (w * 256 + MISTER_FRAME_W - 1) / MISTER_FRAME_W;
+        int sy256 = (h * 256 + MISTER_FRAME_H - 1) / MISTER_FRAME_H;
+        scale256 = sx256 > sy256 ? sx256 : sy256; /* use larger to fit both */
+    }
+    int out_w = (w * 256) / scale256;
+    int out_h = (h * 256) / scale256;
     if (out_w > MISTER_FRAME_W) out_w = MISTER_FRAME_W;
     if (out_h > MISTER_FRAME_H) out_h = MISTER_FRAME_H;
+    int dst_y0 = (MISTER_FRAME_H - out_h) / 2; /* vertical centering */
 
     if (!mister_logged) {
         fprintf(stderr, "MiSTer SDL: first present %dx%d bpp=%d pitch=%d "
@@ -109,39 +115,48 @@ static void mister_present(SDL_Surface *screen) {
     volatile uint16_t *dst = (volatile uint16_t *)(mister_ddr + buf_off);
     const uint8_t *rows = (const uint8_t *)screen->pixels;
 
+    /* Clear frame buffer first (black bars for letterboxing) */
+    memset((void*)dst, 0, MISTER_FRAME_W * MISTER_FRAME_H * 2);
+
     if (bpp == 32) {
         for (int y = 0; y < out_h; y++) {
-            const uint32_t *row = (const uint32_t *)(rows + (y * sy) * pitch);
-            volatile uint16_t *out = dst + y * MISTER_FRAME_W;
+            int src_y = (y * scale256) / 256;
+            const uint32_t *row = (const uint32_t *)(rows + src_y * pitch);
+            volatile uint16_t *out_row = dst + (dst_y0 + y) * MISTER_FRAME_W;
             for (int x = 0; x < out_w; x++) {
-                uint32_t px = row[x * sx];
+                int src_x = (x * scale256) / 256;
+                uint32_t px = row[src_x];
                 uint8_t r = ((px & screen->format->Rmask) >> Rshift) << Rloss;
                 uint8_t g = ((px & screen->format->Gmask) >> Gshift) << Gloss;
                 uint8_t b = ((px & screen->format->Bmask) >> Bshift) << Bloss;
-                out[x] = ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3);
+                out_row[x] = ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3);
             }
         }
     }
     else if (bpp == 16) {
         for (int y = 0; y < out_h; y++) {
-            const uint16_t *row = (const uint16_t *)(rows + (y * sy) * pitch);
-            volatile uint16_t *out = dst + y * MISTER_FRAME_W;
+            int src_y = (y * scale256) / 256;
+            const uint16_t *row = (const uint16_t *)(rows + src_y * pitch);
+            volatile uint16_t *out_row = dst + (dst_y0 + y) * MISTER_FRAME_W;
             for (int x = 0; x < out_w; x++) {
-                uint16_t px = row[x * sx];
+                int src_x = (x * scale256) / 256;
+                uint16_t px = row[src_x];
                 uint8_t r = ((px & screen->format->Rmask) >> Rshift) << Rloss;
                 uint8_t g = ((px & screen->format->Gmask) >> Gshift) << Gloss;
                 uint8_t b = ((px & screen->format->Bmask) >> Bshift) << Bloss;
-                out[x] = ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3);
+                out_row[x] = ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3);
             }
         }
     }
     else if (bpp == 8 && pal) {
         for (int y = 0; y < out_h; y++) {
-            const uint8_t *row = rows + (y * sy) * pitch;
-            volatile uint16_t *out = dst + y * MISTER_FRAME_W;
+            int src_y = (y * scale256) / 256;
+            const uint8_t *row = rows + src_y * pitch;
+            volatile uint16_t *out_row = dst + (dst_y0 + y) * MISTER_FRAME_W;
             for (int x = 0; x < out_w; x++) {
-                SDL_Color c = pal->colors[row[x * sx]];
-                out[x] = ((c.r >> 3) << 11) | ((c.g >> 2) << 5) | (c.b >> 3);
+                int src_x = (x * scale256) / 256;
+                SDL_Color c = pal->colors[row[src_x]];
+                out_row[x] = ((c.r >> 3) << 11) | ((c.g >> 2) << 5) | (c.b >> 3);
             }
         }
     }
@@ -197,26 +212,12 @@ def main():
         sys.exit(2)
     src = src.replace(inject_after, inject_after + INJECT_INCLUDES, 1)
 
-    # 2) Init the DDR3 mapping and report 32bpp in VideoInit.
-    #    This makes OpenBOR request 32bpp surfaces from SDL, matching
-    #    the PIXEL_32 engine default. All PAKs render with correct colors.
-    #    Previously caused OOM with FC0 (ioctl ate RAM), but SC0 mount
-    #    has no ioctl streaming so full RAM is available.
-    vinit_old = (
-        '\tvformat->BitsPerPixel = 8;\n'
-        '\tvformat->BytesPerPixel = 1;'
-    )
-    vinit_new = (
-        '\tmister_ddr_init();\n'
-        '\tvformat->BitsPerPixel = 32;\n'
-        '\tvformat->BytesPerPixel = 4;\n'
-        '\tvformat->Rmask = 0x00FF0000;\n'
-        '\tvformat->Gmask = 0x0000FF00;\n'
-        '\tvformat->Bmask = 0x000000FF;'
-    )
-    if vinit_old in src:
-        src = src.replace(vinit_old, vinit_new, 1)
-        print("  VideoInit: 32bpp vformat override applied.")
+    # 2) Init the DDR3 mapping in VideoInit. Keep 8bpp default —
+    #    mister_present() handles 8/16/32bpp surfaces via palette/mask conversion.
+    init_anchor = "/* We're done!"
+    if init_anchor in src:
+        src = src.replace(init_anchor, "mister_ddr_init();\n\t" + init_anchor, 1)
+        print("  VideoInit: mister_ddr_init() injected (8bpp default kept).")
     else:
             src = src.replace(
                 "static int DUMMY_VideoInit(_THIS, SDL_PixelFormat *vformat)\n{",
@@ -225,29 +226,7 @@ def main():
             )
             print("  Fallback 2: mister_ddr_init() injected (NO 32bpp override).")
 
-    # 3) Force DUMMY_SetVideoMode to always create 32bpp surfaces.
-    #    OpenBOR ignores SDL_GetVideoInfo and hardcodes 8bpp for Mode 0.
-    #    With PIXEL_32 engine default, the internal rendering is 32bpp
-    #    but the surface is 8bpp → format mismatch → segfault.
-    #    SC0 mount means full RAM available (no FC0 ioctl cache).
-    setmode_old = (
-        "SDL_Surface *DUMMY_SetVideoMode(_THIS, SDL_Surface *current,\n"
-        "\t\t\t\tint width, int height, int bpp, Uint32 flags)\n"
-        "{"
-    )
-    setmode_new = (
-        "SDL_Surface *DUMMY_SetVideoMode(_THIS, SDL_Surface *current,\n"
-        "\t\t\t\tint width, int height, int bpp, Uint32 flags)\n"
-        "{\n"
-        "\tif (bpp < 32) { fprintf(stderr, \"MiSTer SDL: forcing bpp %d -> 32\\n\", bpp); bpp = 32; }"
-    )
-    if setmode_old in src:
-        src = src.replace(setmode_old, setmode_new, 1)
-        print("  SetVideoMode: bpp override to 32 applied.")
-    else:
-        print("  WARN: couldn't patch DUMMY_SetVideoMode", file=sys.stderr)
-
-    # 4) Make UpdateRects actually push the screen surface to DDR3.
+    # 3) Make UpdateRects actually push the screen surface to DDR3.
     update_old = "static void DUMMY_UpdateRects(_THIS, int numrects, SDL_Rect *rects)\n{\n\t/* do nothing. */\n}"
     update_new = (
         "static void DUMMY_UpdateRects(_THIS, int numrects, SDL_Rect *rects)\n"
