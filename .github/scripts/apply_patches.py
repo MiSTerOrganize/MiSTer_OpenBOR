@@ -208,7 +208,7 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
     # Add includes
     src = src.replace(
         '#include "menu.h"',
-        '#include "menu.h"\n#ifdef MISTER_NATIVE_VIDEO\n#include "native_video_writer.h"\n#include "native_audio_writer.h"\n#include <sys/stat.h>\n#include <stdlib.h>\n#include <time.h>\n#include <unistd.h>\n#include <pthread.h>\n#endif'
+        '#include "menu.h"\n#ifdef MISTER_NATIVE_VIDEO\n#include "native_video_writer.h"\n#include "native_audio_writer.h"\n#include <sys/stat.h>\n#include <stdlib.h>\n#include <time.h>\n#include <unistd.h>\n#include <pthread.h>\n#include <signal.h>\n#include <execinfo.h>\n#endif'
     )
 
     # Replace main() and inject any code above it (swap thread, etc.)
@@ -218,7 +218,7 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
         patch = read(os.path.join(patches, 'sdlport_patch.c'))
         # Find the first #ifdef MISTER_NATIVE_VIDEO before main() —
         # that's where our pre-main code starts (swap thread, globals)
-        premain_marker = "#ifdef MISTER_NATIVE_VIDEO\n/* PAK swap"
+        premain_marker = "#ifdef MISTER_NATIVE_VIDEO\n/* Crash handler"
         premain_start = patch.find(premain_marker)
         if premain_start >= 0:
             replacement = patch[premain_start:]
