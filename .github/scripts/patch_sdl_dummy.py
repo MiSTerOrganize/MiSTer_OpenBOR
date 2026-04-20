@@ -197,14 +197,26 @@ def main():
         sys.exit(2)
     src = src.replace(inject_after, inject_after + INJECT_INCLUDES, 1)
 
-    # 2) Init the DDR3 mapping in VideoInit.
-    #    Keep default 8bpp — mister_present() handles 8/16/32bpp surfaces.
-    #    DO NOT override to 32bpp: causes OpenBOR to allocate 4x larger
-    #    internal buffers, exhausting RAM during model loading → segfault.
-    init_anchor = "/* We're done!"
-    if init_anchor in src:
-        src = src.replace(init_anchor, "mister_ddr_init();\n\t" + init_anchor, 1)
-        print("  VideoInit: mister_ddr_init() injected (8bpp default kept).")
+    # 2) Init the DDR3 mapping and report 32bpp in VideoInit.
+    #    This makes OpenBOR request 32bpp surfaces from SDL, matching
+    #    the PIXEL_32 engine default. All PAKs render with correct colors.
+    #    Previously caused OOM with FC0 (ioctl ate RAM), but SC0 mount
+    #    has no ioctl streaming so full RAM is available.
+    vinit_old = (
+        '\tvformat->BitsPerPixel = 8;\n'
+        '\tvformat->BytesPerPixel = 1;'
+    )
+    vinit_new = (
+        '\tmister_ddr_init();\n'
+        '\tvformat->BitsPerPixel = 32;\n'
+        '\tvformat->BytesPerPixel = 4;\n'
+        '\tvformat->Rmask = 0x00FF0000;\n'
+        '\tvformat->Gmask = 0x0000FF00;\n'
+        '\tvformat->Bmask = 0x000000FF;'
+    )
+    if vinit_old in src:
+        src = src.replace(vinit_old, vinit_new, 1)
+        print("  VideoInit: 32bpp vformat override applied.")
     else:
             src = src.replace(
                 "static int DUMMY_VideoInit(_THIS, SDL_PixelFormat *vformat)\n{",

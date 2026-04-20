@@ -310,13 +310,26 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
         else:
             print(f"  WARN: blend fix pattern not found (already patched?):\n    {old[:60]}...")
 
-    # -- Keep default pixelformat as PIXEL_8
-    # DO NOT override to PIXEL_32. The SDL dummy driver creates 8bpp
-    # surfaces. If the engine renders at PIXEL_32 but the surface is
-    # 8bpp, the format mismatch causes segfaults during model loading.
-    # PAKs with data/video.txt can still override to 16bpp/32bpp.
-    # mister_present() handles 8/16/32bpp surfaces correctly.
-    print("  Keeping default pixelformat (PIXEL_8) — matches SDL 8bpp surface.")
+    # -- Default pixelformat to PIXEL_32 for correct per-character colors.
+    # SDL dummy driver now reports 32bpp (VideoInit override), so the
+    # SDL surface matches the engine's internal rendering. No mismatch.
+    pf_variants = [
+        ("int pixelformat = PIXEL_8;\nint screenformat = PIXEL_8;",
+         "int pixelformat = PIXEL_32;\nint screenformat = PIXEL_32;"),
+        ("int pixelformat = PIXEL_x8;",
+         "int pixelformat = PIXEL_32;"),
+        ("int pixelformat = PIXEL_8;",
+         "int pixelformat = PIXEL_32;"),
+    ]
+    override_applied = False
+    for old_defaults, new_defaults in pf_variants:
+        if old_defaults in pf:
+            pf = pf.replace(old_defaults, new_defaults, 1)
+            print(f"  Default pixelformat override applied:\n    - {old_defaults!r}\n    + {new_defaults!r}")
+            override_applied = True
+            break
+    if not override_applied:
+        print("  WARN: no pixelformat default pattern matched")
 
     write(pf_path, pf)
     print(f"  {applied}/{len(fixes)} blend R/B fixes applied.")
