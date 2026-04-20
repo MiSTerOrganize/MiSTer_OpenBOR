@@ -103,9 +103,9 @@ static void mister_present(SDL_Surface *screen) {
 
     if (!mister_logged) {
         fprintf(stderr, "MiSTer SDL: first present %dx%d bpp=%d pitch=%d "
-                "scale=%dx%d -> %dx%d "
+                "scale256=%d -> %dx%d dst_y0=%d "
                 "Rmask=0x%08X Gmask=0x%08X Bmask=0x%08X palette=%p\\n",
-                w, h, bpp, pitch, sx, sy, out_w, out_h,
+                w, h, bpp, pitch, scale256, out_w, out_h, dst_y0,
                 screen->format->Rmask, screen->format->Gmask,
                 screen->format->Bmask, pal);
         mister_logged = 1;
