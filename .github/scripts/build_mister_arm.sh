@@ -10,8 +10,9 @@ set +e
 SDL_PREFIX=/tmp/sdl12
 
 apt-get update -qq
-apt-get install -y -qq gcc g++ make wget git python3 >/dev/null 2>&1
-apt-get clean && rm -rf /var/lib/apt/lists/*
+apt-get install -y -qq gcc g++ make wget git python3
+if ! which wget >/dev/null 2>&1; then echo "ERROR: apt-get install failed — wget not found"; exit 1; fi
+apt-get clean
 
 # ── Build SDL 1.2.15 (custom dummy that writes to DDR3) ──────────
 # Per CLAUDE.md: no ALSA, no real fbcon. We patch SDL's "dummy"
