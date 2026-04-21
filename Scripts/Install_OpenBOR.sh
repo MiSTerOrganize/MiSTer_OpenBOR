@@ -44,7 +44,9 @@ rm -rf /media/fat/games/OpenBOR_4086/.Logs /media/fat/games/OpenBOR_4086/Logs
 FAIL=0
 
 echo "  Downloading FPGA core ($RBF_NAME)..."
+# Remove old RBFs from both _Other and legacy _Console location
 rm -f /media/fat/_Other/OpenBOR_*.rbf /media/fat/_Other/OpenBOR.rbf
+rm -f /media/fat/_Console/OpenBOR_*.rbf /media/fat/_Console/OpenBOR.rbf
 wget -q --show-progress -O "/media/fat/_Other/$RBF_NAME" "$BASE_URL/_Other/$RBF_NAME" || FAIL=1
 
 echo "  Downloading ARM binary..."
