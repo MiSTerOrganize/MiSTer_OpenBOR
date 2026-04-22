@@ -255,6 +255,30 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
     write(os.path.join(obor, 'source/utils.c'), src)
     print("  Save path redirected.")
 
+    # ── 6b. Patch logsDir default to /media/fat/logs/OpenBOR_4086 ────
+    # OpenBOR's logsDir global defaults to "Logs" — change at compile time
+    # so it creates and writes to the correct location directly.
+    print("Patching logsDir default...")
+    openbor_c = read(os.path.join(obor, 'source/openbor.c'))
+    logs_old = 'char logsDir[256] = "Logs"'
+    logs_new = '#ifdef MISTER_NATIVE_VIDEO\nchar logsDir[256] = "/media/fat/logs/OpenBOR_4086"\n#else\nchar logsDir[256] = "Logs"\n#endif'
+    if logs_old in openbor_c:
+        openbor_c = openbor_c.replace(logs_old, logs_new, 1)
+        write(os.path.join(obor, 'source/openbor.c'), openbor_c)
+        print("  logsDir default changed to /media/fat/logs/OpenBOR_4086")
+    else:
+        print("  WARN: logsDir pattern not found — trying alternative")
+        # r4086 might use a different declaration
+        for alt in ['char logsDir[480] = "Logs"', 'logsDir[256] = "Logs"', 'logsDir[] = "Logs"']:
+            if alt in openbor_c:
+                alt_new = alt.replace('"Logs"', '"/media/fat/logs/OpenBOR_4086"')
+                openbor_c = openbor_c.replace(alt, '#ifdef MISTER_NATIVE_VIDEO\n' + alt_new + '\n#else\n' + alt + '\n#endif', 1)
+                write(os.path.join(obor, 'source/openbor.c'), openbor_c)
+                print(f"  logsDir patched via alternative: {alt}")
+                break
+        else:
+            print("  WARN: could not find logsDir declaration")
+
     # -- 7. Replace sdl/sblaster.c with MiSTer DDR3 audio backend --------
     print("Patching sdl/sblaster.c (DDR3 audio backend)...")
     sb = read(os.path.join(patches, 'sblaster_patch.c'))
