@@ -2,22 +2,16 @@
 //
 //  OpenBOR Native Video Timing Generator
 //
-//  320x240 active area @ ~59.45 Hz (500x263 total)
-//  CLK_VIDEO: 31.25 MHz, CE_PIXEL: divide-by-4 (7.8125 MHz effective)
+//  320x240 active area @ 59.92 Hz (420x262 total)
+//  Exact Genesis H40 timing — NTSC-derived MCLK from colorburst crystal.
+//  CLK_VIDEO: 53.693 MHz (exact Genesis MCLK), variable CE_PIXEL for H_TOTAL=420.
 //
-//  H: 320 active +  20 FP +  38 sync + 122 BP = 500 total
-//  V: 240 active +   2 FP +   3 sync +  18 BP = 263 total
+//  H: 320 active + 100 blanking = 420 total (exact Genesis H40)
+//  V: 240 active +   2 FP + 3 sync + 17 BP = 262 total (exact Genesis NTSC)
 //
-//  Refresh: 7,812,500 / (500*263) = 59.45 Hz (close to NTSC 59.94)
-//  H freq:  7,812,500 / 500       = 15,625 Hz (NTSC-compatible, CRT-safe)
-//
-//  This is an unscaled 320x240 framebuffer — same dimensions OpenBOR's
-//  software render path uses for the standard CGA-like resolution. Most
-//  OpenBOR mods (Streets of Rage Remake, Final Fight LNS, the Build 3979
-//  / 4086 era catalog) target 320x240 natively, so source = display and
-//  no scaling is needed in the FPGA.
-//
-//  Reuses the same PLL as PICO-8: 50 MHz * 5/8 = 31.25 MHz, /4 = 7.8125 MHz.
+//  Refresh: 15,700 / 262 = 59.92 Hz (exact Genesis)
+//  H freq:  53,693,182 / 3420 = 15,700 Hz (exact Genesis)
+//  H active time: 320 × 8 / 53.693MHz = 47.68 µs (exact NES/SNES/Genesis)
 //
 //  Adapted from MiSTer_PICO-8 by MiSTer Organize
 //  Copyright (C) 2026 MiSTer Organize -- GPL-3.0
@@ -25,12 +19,12 @@
 //============================================================================
 
 module openbor_video_timing (
-    input  wire        clk,        // CLK_VIDEO (31.25 MHz)
-    input  wire        ce_pix,     // pixel enable (divide-by-4 = 7.8125 MHz)
+    input  wire        clk,        // CLK_VIDEO (53.693 MHz)
+    input  wire        ce_pix,     // pixel enable (variable rate — exact Genesis H40)
     input  wire        reset,
 
     // CRT position offset (signed: -3 to +3, from OSD)
-    input  wire signed [3:0] h_adj,  // horizontal: positive = shift right
+    input  wire signed [4:0] h_adj,  // horizontal: positive = shift right
     input  wire signed [3:0] v_adj,  // vertical: positive = shift down
 
     output reg         hsync,      // active low
@@ -48,19 +42,19 @@ module openbor_video_timing (
 // 320x240 active, centered for 15kHz CRT, NTSC-compatible H rate.
 // CRT-compatible blanking with balanced porches.
 localparam H_ACTIVE = 320;
-localparam H_FP     = 36;
-localparam H_SYNC   = 32;
-localparam H_BP     = 112;
-localparam H_TOTAL  = 500;   // 320+36+32+112
+localparam H_FP     = 17;
+localparam H_SYNC   = 38;
+localparam H_BP     = 45;
+localparam H_TOTAL  = 420;   // 320+17+38+45 (exact Genesis H40)
 
 localparam V_ACTIVE = 240;
 localparam V_FP     = 2;
 localparam V_SYNC   = 3;
-localparam V_BP     = 18;
-localparam V_TOTAL  = 263;   // 240+2+3+18
+localparam V_BP     = 17;
+localparam V_TOTAL  = 262;   // 240+2+3+17 (exact Genesis NTSC)
 
 // Derived boundaries — adjusted by OSD H/V position offset.
-wire [9:0] h_sync_start = H_ACTIVE + H_FP + {{6{h_adj[3]}}, h_adj};
+wire [9:0] h_sync_start = H_ACTIVE + H_FP + {{5{h_adj[4]}}, h_adj};
 wire [9:0] h_sync_end   = h_sync_start + H_SYNC;
 wire [8:0] v_sync_start = V_ACTIVE + V_FP + {{5{v_adj[3]}}, v_adj};
 wire [8:0] v_sync_end   = v_sync_start + V_SYNC;

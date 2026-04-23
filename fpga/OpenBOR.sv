@@ -186,15 +186,45 @@ assign {SD_SCK, SD_MOSI, SD_CS} = 'Z;
 
 assign DDRAM_CLK = clk_sys;
 
-// CE_PIXEL: divide CLK_VIDEO (31.25 MHz) by 4 for ~7.8125 MHz effective pixel rate.
-// Integer divider = zero pixel timing jitter.
-reg [1:0] ce_div;
-wire ce_pix_div4 = (ce_div == 2'd0);
+// CE_PIXEL: exact Genesis H40 timing from CLK_VIDEO (53.693 MHz).
+// Active pixels: /8 (6.712 MHz). Blanking uses variable /8,/9,/10 widths
+// so that total MCLK per line = 3420, matching Genesis exactly (H_TOTAL=420).
+// Pattern per line: 320 active @/8 + blanking @mixed = 3420 MCLK total.
+reg [3:0] ce_cnt;
+reg ce_pix_gen;
+reg [9:0] pix_in_line;
+
+// Blanking pixel width schedule: Genesis uses 28@/10 + 4@/9 + 68@/8 = 100 blanking pixels
+// 28*10 + 4*9 + 68*8 = 280+36+544 = 860 MCLK blanking. 320*8 + 860 = 3420 total.
+wire in_active = (pix_in_line < 10'd320);
+wire in_blank_10 = (pix_in_line >= 10'd320) && (pix_in_line < 10'd348);
+wire in_blank_9  = (pix_in_line >= 10'd348) && (pix_in_line < 10'd352);
+wire [3:0] pix_width = in_active   ? 4'd7 :   // /8: count 0-7
+                        in_blank_10 ? 4'd9 :   // /10: count 0-9
+                        in_blank_9  ? 4'd8 :   // /9: count 0-8
+                                      4'd7;    // /8: remaining blanking
+
 always @(posedge CLK_VIDEO) begin
-	if (RESET) ce_div <= 2'd0;
-	else ce_div <= ce_div + 2'd1;
+	if (RESET) begin
+		ce_cnt <= 4'd0;
+		ce_pix_gen <= 1'b0;
+		pix_in_line <= 10'd0;
+	end
+	else begin
+		ce_pix_gen <= (ce_cnt == 4'd0);
+		if (ce_cnt == pix_width) begin
+			ce_cnt <= 4'd0;
+			if (pix_in_line == 10'd419)
+				pix_in_line <= 10'd0;
+			else
+				pix_in_line <= pix_in_line + 10'd1;
+		end
+		else begin
+			ce_cnt <= ce_cnt + 4'd1;
+		end
+	end
 end
-assign CE_PIXEL = ce_pix_div4;
+assign CE_PIXEL = ce_pix_gen;
 
 assign VGA_SL = 0;
 assign VGA_F1 = 0;
@@ -287,7 +317,7 @@ hps_io #(.CONF_STR(CONF_STR)) hps_io
 ////////////////////   CLOCKS   ///////////////////
 wire locked, clk_sys;
 wire clk_20m;   // PLL outclk_1 (unused, kept for future use)
-wire clk_pix;   // PLL outclk_2: 31.25 MHz (CLK_VIDEO, divided by 4 for 7.8125 MHz pixels)
+wire clk_pix;   // PLL outclk_2: 53.693 MHz (CLK_VIDEO, /8 active — exact Genesis MCLK)
 pll pll
 (
 	.refclk(CLK_50M),
@@ -604,7 +634,7 @@ wire  [5:0] rnd_c = {rnd_reg[0],rnd_reg[1],rnd_reg[2],rnd_reg[2],rnd_reg[2],rnd_
 lfsr #(lfsr_n) random(rnd);
 
 always @(posedge CLK_VIDEO) begin
-	ce_pix <= ce_pix_div4;
+	ce_pix <= ce_pix_gen;
 
 	if(ce_pix) begin
 		if(hc == 499) begin
@@ -671,7 +701,7 @@ openbor_video_top native_video
 (
 	.clk_sys        (clk_sys),
 	.clk_vid        (CLK_VIDEO),
-	.ce_pix         (ce_pix_div4),
+	.ce_pix         (ce_pix_gen),
 	.reset          (RESET),
 
 	// DDR3 interface (directly to mux)

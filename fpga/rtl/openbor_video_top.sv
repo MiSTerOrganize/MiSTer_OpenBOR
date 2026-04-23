@@ -5,8 +5,8 @@
 //  Instantiates the timing generator and DDR3 reader, providing a clean
 //  interface for integration into OpenBOR.sv.
 //
-//  Runs on CLK_VIDEO (31.25 MHz) with integer divide-by-4 ce_pix for
-//  7.8125 MHz effective pixel rate. Same PLL as MiSTer_PICO-8.
+//  Runs on CLK_VIDEO (53.693 MHz) with variable CE_PIXEL for exact
+//  Genesis H40 timing — 47.68 µs active, 15,700 Hz H rate.
 //
 //  Differences from pico8_video_top:
 //    - 320x240 instead of 256x256
@@ -21,8 +21,8 @@
 
 module openbor_video_top (
     input  wire        clk_sys,       // system clock for DDR3
-    input  wire        clk_vid,       // video clock (31.25 MHz, CLK_VIDEO)
-    input  wire        ce_pix,        // pixel enable (divide-by-4 = 7.8125 MHz)
+    input  wire        clk_vid,       // video clock (53.693 MHz, CLK_VIDEO)
+    input  wire        ce_pix,        // pixel enable (variable rate — exact Genesis H40)
     input  wire        reset,
 
     // DDR3 Avalon-MM master
@@ -82,13 +82,13 @@ wire [8:0]  tim_vcount;
 wire        tim_new_frame, tim_new_line;
 
 // Convert OSD 3-bit (0..6) to signed adjustment
-wire signed [3:0] h_adj = (h_offset == 3'd0) ?  4'sd0 :
-                          (h_offset == 3'd1) ?  4'sd4 :
-                          (h_offset == 3'd2) ?  4'sd8 :
-                          (h_offset == 3'd3) ?  4'sd12 :
-                          (h_offset == 3'd4) ? -4'sd12 :
-                          (h_offset == 3'd5) ? -4'sd8 :
-                                               -4'sd4;
+wire signed [4:0] h_adj = (h_offset == 3'd0) ?  5'sd0 :
+                          (h_offset == 3'd1) ?  5'sd4 :
+                          (h_offset == 3'd2) ?  5'sd8 :
+                          (h_offset == 3'd3) ?  5'sd12 :
+                          (h_offset == 3'd4) ? -5'sd12 :
+                          (h_offset == 3'd5) ? -5'sd8 :
+                                               -5'sd4;
 wire signed [3:0] v_adj = (v_offset == 3'd0) ?  4'sd0 :
                           (v_offset == 3'd1) ?  4'sd1 :
                           (v_offset == 3'd2) ?  4'sd2 :
