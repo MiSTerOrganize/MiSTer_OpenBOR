@@ -615,7 +615,7 @@ always @(posedge ddr_clk) begin
                 // Now audio_bytes_avail is valid (audio_wr_ptr just latched).
                 if (audio_bytes_avail == 32'd0) begin
                     // Ring empty -- back off briefly to avoid DDR3 spam.
-                    audio_backoff <= 20'h01000;  // ~41 us at 100 MHz clk_sys
+                    audio_backoff <= 20'h01000;  // ~42 us at 98.44 MHz clk_sys
                     state         <= ST_IDLE;
                 end
                 else if (!audio_fifo_low) begin
