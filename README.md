@@ -5,7 +5,7 @@ Hybrid ARM+FPGA OpenBOR beat-em-up engine for MiSTer FPGA with native video and 
 ## Features
 
 - **OpenBOR Build 4086** — the most compatible build for community PAK packs (~200+ games)
-- **Native FPGA video output** — 320×240 @ ~59.45Hz through MiSTer's native video pipeline
+- **Native FPGA video output** — 320×240 @ 59.92Hz with exact Genesis H40 pixel clock (6.712 MHz from NTSC colorburst crystal). CRT image width matches NES/SNES/Genesis exactly (47.68 µs active time)
 - **Native FPGA audio output** — 48 kHz stereo via DDR3 ring buffer, no ALSA
 - **CRT support** — scanlines, shadow masks, and analog video output for CRT displays
 - **MiSTer OSD integration** — load PAK files from the file browser
@@ -79,9 +79,9 @@ Navigate with D-pad up/down. Press A to confirm, X to go back.
 
 ## FPGA Technical Details
 
-- Resolution: 320×240 active, 500×263 total
-- Refresh: ~59.45 Hz (NTSC-compatible)
-- Pixel clock: 31.25 MHz CLK_VIDEO / 4 = 7.8125 MHz effective
+- Resolution: 320×240 active, 420×262 total (exact Genesis H40)
+- Refresh: 59.92 Hz (exact Genesis NTSC)
+- Pixel clock: 53.693 MHz CLK_VIDEO / 8 = 6.712 MHz (exact Genesis H40, NTSC colorburst-derived)
 - Pixel format: RGB565 (16 bits per pixel)
 - Audio: 48 kHz stereo S16 PCM via DDR3 ring buffer → I2S/SPDIF/DAC
 - Double-buffered video via DDR3
