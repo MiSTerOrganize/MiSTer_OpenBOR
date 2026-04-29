@@ -62,9 +62,9 @@ def main():
     print("\n-- Stopping running OpenBOR + daemon --")
     run(client, "killall -q OpenBOR || true")
     run(client, "killall -q openbor_4086_daemon.sh || true")
-    run(client, "kill $(cat /tmp/openbor_arm.pid 2>/dev/null) 2>/dev/null || true")
-    run(client, "rm -f /tmp/openbor_arm.pid")
-    run(client, "rm -rf /tmp/openbor_daemon.lock")
+    run(client, "kill $(cat /tmp/openbor_4086_arm.pid 2>/dev/null) 2>/dev/null || true")
+    run(client, "rm -f /tmp/openbor_4086_arm.pid")
+    run(client, "rm -rf /tmp/openbor_4086_daemon.lock")
 
     print("\n-- Removing old RBFs --")
     run(client, "rm -f /media/fat/_Other/OpenBOR_4086_*.rbf")

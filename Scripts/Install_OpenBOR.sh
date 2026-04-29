@@ -23,8 +23,8 @@ echo ""
 # ── Kill ALL existing OpenBOR processes and daemons ─────────────────
 killall OpenBOR 2>/dev/null
 killall openbor_4086_daemon.sh 2>/dev/null
-kill $(cat /tmp/openbor_arm.pid 2>/dev/null) 2>/dev/null
-rm -f /tmp/openbor_arm.pid
+kill $(cat /tmp/openbor_4086_arm.pid 2>/dev/null) 2>/dev/null
+rm -f /tmp/openbor_4086_arm.pid
 rm -rf /tmp/openbor_4086_daemon.lock
 sleep 1
 

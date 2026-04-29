@@ -5,8 +5,8 @@
 # Uses wait to guarantee only ONE binary runs at a time.
 # No race conditions — process must fully exit before next spawn.
 
-LOCKDIR="/tmp/openbor_daemon.lock"
-PIDFILE="/tmp/openbor_arm.pid"
+LOCKDIR="/tmp/openbor_4086_daemon.lock"
+PIDFILE="/tmp/openbor_4086_arm.pid"
 GAMEDIR="/media/fat/games/OpenBOR_4086"
 BINARY="$GAMEDIR/OpenBOR"
 
