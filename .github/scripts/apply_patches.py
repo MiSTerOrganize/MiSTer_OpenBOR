@@ -522,14 +522,16 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
     )
 
     # Insert helpers AFTER the full #include block — _mister_hermite_s16_swap
-    # uses SwapLSB16 from borendian.h. Anchor on last include for dependency
-    # resolution. (Mirror of the fix from MiSTer_OpenBOR_7533 commit b12c556.)
-    helper_anchor = '#include "List.h"'
+    # uses SwapLSB16 from borendian.h. 4086's soundmix.c (upstream commit
+    # af23dc9c) ends its include block at "borendian.h" — there's no
+    # "List.h" include (which is a 7533-era addition). Anchor on borendian.h
+    # so helpers land immediately after the dependency it needs.
+    helper_anchor = '#include "borendian.h"'
     if helper_anchor in sm:
         sm = sm.replace(helper_anchor, helper_anchor + hermite_helpers, 1)
         print("  Hermite helpers injected (s16, s16_swap, u8) — post-borendian.h.")
     else:
-        print("  WARN: List.h include anchor not found — Hermite helpers skipped")
+        print("  WARN: borendian.h include anchor not found — Hermite helpers skipped")
 
     # 10c — Site 1 (music ch 16-bit):
     s1_old = ('            // Mix a sample\n'
