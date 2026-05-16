@@ -35,6 +35,7 @@
 #include "sdlport.h"
 #include "native_audio_writer.h"
 
+#include <math.h>
 #include <pthread.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -75,6 +76,18 @@ static void *audio_thread_fn(void *arg) {
      * Cast to uint64_t before shift to avoid the int32 overflow trap. */
     const uint32_t STEP = (uint32_t)(((uint64_t)ENGINE_AUDIO_RATE << 16) / MISTER_AUDIO_RATE);
 
+    /* Soft-limiter state — envelope-following stereo-linked design (mirrored
+     * from MiSTer_OpenBOR_7533). Applied after the zero-order-hold resample
+     * to catch multi-voice mixer sums that exceed [-32768, 32767]. Same
+     * limiter design across both cores even though Stage 2 method differs
+     * (4086 = zero-order hold per SDL 1.2 PC reference; 7533 = polyphase
+     * windowed-sinc per SDL 2 PC reference). */
+    const float ATTACK_COEFF  = expf(-1.0f / (0.001f * (float)MISTER_AUDIO_RATE));
+    const float RELEASE_COEFF = expf(-1.0f / (0.100f * (float)MISTER_AUDIO_RATE));
+    const float THRESHOLD     = 27852.0f;  /* -1.5 dBFS */
+    float lim_env  = 0.0f;
+    float lim_gain = 1.0f;
+
     while (audio_thread_run) {
         size_t free_frames = NativeAudioWriter_FreeFrames();
 
@@ -85,19 +98,42 @@ static void *audio_thread_fn(void *arg) {
 
         update_sample((unsigned char *)in_buf, IN_FRAMES_PER_TICK * 4);
 
-        /* Zero-order hold 44.1 → 48 kHz, per channel. Matches SDL 1.2's
-         * SDL_RateMUL behavior: each output sample equals the input
-         * sample at floor(phase) — fractional bits discarded, no
-         * interpolation. Drift per tick: ~0.84 input frame unused →
-         * 0.05% pitch downward (~6 cents, below audible threshold). */
+        /* Zero-order hold 44.1 → 48 kHz + soft-limiter, per stereo frame.
+         * Zero-order hold matches SDL 1.2's SDL_RateMUL behavior. */
         uint32_t accum = 0;
         int i;
         for (i = 0; i < MISTER_AUDIO_CHUNK; i++) {
             int ip = (int)(accum >> 16);
             if (ip >= IN_FRAMES_PER_TICK) ip = IN_FRAMES_PER_TICK - 1;
 
-            out_buf[2 * i + 0] = in_buf[2 * ip + 0];
-            out_buf[2 * i + 1] = in_buf[2 * ip + 1];
+            int16_t l = in_buf[2 * ip + 0];
+            int16_t r = in_buf[2 * ip + 1];
+
+            /* Soft-limiter: envelope follower + smoothed stereo-linked gain. */
+            float L = (float)l, R = (float)r;
+            float aL = L < 0.0f ? -L : L;
+            float aR = R < 0.0f ? -R : R;
+            float peak = aL > aR ? aL : aR;
+
+            if (peak > lim_env) lim_env = peak;
+            else                lim_env = lim_env * RELEASE_COEFF + peak * (1.0f - RELEASE_COEFF);
+
+            float target_gain = (lim_env > THRESHOLD) ? (THRESHOLD / lim_env) : 1.0f;
+
+            if (target_gain < lim_gain)
+                lim_gain = lim_gain * ATTACK_COEFF + target_gain * (1.0f - ATTACK_COEFF);
+            else
+                lim_gain = lim_gain * RELEASE_COEFF + target_gain * (1.0f - RELEASE_COEFF);
+
+            int Lo = (int)(L * lim_gain);
+            int Ro = (int)(R * lim_gain);
+            if (Lo > 32767)  Lo = 32767;
+            if (Lo < -32768) Lo = -32768;
+            if (Ro > 32767)  Ro = 32767;
+            if (Ro < -32768) Ro = -32768;
+
+            out_buf[2 * i + 0] = (int16_t)Lo;
+            out_buf[2 * i + 1] = (int16_t)Ro;
 
             accum += STEP;
         }
