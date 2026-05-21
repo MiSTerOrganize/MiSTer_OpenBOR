@@ -90,6 +90,14 @@ static void *mister_swap_thread(void *arg)
             if (nl) *nl = 0;
             char *cr = strchr(check_path, '\r');
             if (cr) *cr = 0;
+            /* Same MiSTer write-without-truncate workaround as the
+             * initial reader — trim at first .pak + strip trailing space. */
+            char *pakext = strstr(check_path, ".pak");
+            if (pakext) pakext[4] = 0;
+            int pl = (int)strlen(check_path);
+            while (pl > 0 && (check_path[pl-1] == ' ' || check_path[pl-1] == '\t')) {
+                check_path[--pl] = 0;
+            }
         }
         fclose(f);
 
@@ -104,9 +112,24 @@ static void *mister_swap_thread(void *arg)
             else
                 snprintf(full, sizeof(full), "/media/fat/%s", check_path);
             if (strcmp(full, mister_loaded_path) != 0) {
+                FILE *mf;
                 fprintf(stderr, "MiSTer: PAK swap detected: %s\n", full);
+                fflush(stderr);
                 mister_swap_requested = 1;
-                borExit(1);
+                /* Hot-swap marker: tell _handler.sh to PRESERVE the
+                 * freshly-written .s0 (which MiSTer Main just populated
+                 * with the new PAK path the user picked). Without this,
+                 * handler's else-branch wipes the new path → binary
+                 * respawns into wait-for-OSD-pick → black screen until
+                 * user picks the same PAK a second time. Same shape as
+                 * the Reset-Pak marker (pausemenu_patch.c case 2). */
+                mf = fopen("/tmp/openbor_hotswap_marker", "w");
+                if (mf) fclose(mf);
+                /* Use _exit instead of borExit. borExit() calls SDL_Quit()
+                 * which is not safe from a non-main thread. The process
+                 * is terminating anyway — daemon will relaunch cleanly
+                 * and pick up the new .s0 path. */
+                _exit(1);
             }
         }
     }
@@ -164,6 +187,12 @@ int main(int argc, char *argv[])
     setenv("SDL_VIDEODRIVER", "dummy",  1);
     setenv("SDL_AUDIODRIVER", "dummy",  1);
 #endif
+
+    /* Disable stdio buffering so OpenBOR's printf calls appear in
+     * the log immediately. Without this, a crash mid-init swallows
+     * up to 4KB of pending output (including the version banner). */
+    setvbuf(stdout, NULL, _IONBF, 0);
+    setvbuf(stderr, NULL, _IONBF, 0);
 
     setSystemRam();
     initSDL();
@@ -241,6 +270,18 @@ int main(int argc, char *argv[])
         else {
             char s0_path[256] = {0};
 
+            /* Clear DDR3 framebuffer so the screen goes black during the wait
+             * loop instead of showing the previous binary's last frame (which
+             * happens because the FPGA keepalive keeps reading the last
+             * written buffer). User-reported 2026-05-17: re-entering OpenBOR
+             * after a PAK quit shows stale gameplay frames until a new PAK
+             * picks. Writing one black frame fixes this. */
+            {
+                static unsigned char _black[NV_WIDTH * NV_HEIGHT * 2] = {0};
+                NativeVideoWriter_WriteFrame(_black, NV_WIDTH, NV_HEIGHT,
+                                              NV_WIDTH * 2, 16, NULL);
+            }
+
             fprintf(stderr, "MiSTer: waiting for OSD PAK selection (.s0)...\n");
             while (1) {
                 FILE *f = fopen(MISTER_S0_PATH, "r");
@@ -250,6 +291,17 @@ int main(int argc, char *argv[])
                         if (nl) *nl = 0;
                         char *cr = strchr(s0_path, '\r');
                         if (cr) *cr = 0;
+                        /* MiSTer's OSD writes .s0 without truncating, so when
+                         * a shorter PAK path overwrites a longer one, trailing
+                         * bytes of the previous filename remain. Truncate at
+                         * the first ".pak" extension to recover the real path. */
+                        char *pakext = strstr(s0_path, ".pak");
+                        if (pakext) pakext[4] = 0;
+                        /* Strip trailing whitespace (some writers pad with spaces). */
+                        int pl = (int)strlen(s0_path);
+                        while (pl > 0 && (s0_path[pl-1] == ' ' || s0_path[pl-1] == '\t')) {
+                            s0_path[--pl] = 0;
+                        }
                     }
                     fclose(f);
                     if (strlen(s0_path) > 0) {
