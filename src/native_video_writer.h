@@ -1,5 +1,5 @@
 //
-//  Native Video DDR3 Writer — OpenBOR MiSTer
+//  Native Video DDR3 Writer — OpenBOR MiSTer (4086 — legacy core)
 //
 //  API for writing frames from ARM to DDR3 for FPGA native video output.
 //  Also provides joystick reading and cart loading via DDR3 shared memory.
@@ -14,7 +14,7 @@
 #include <stdint.h>
 
 #define NV_WIDTH   320
-#define NV_HEIGHT  240
+#define NV_HEIGHT  224   /* Sega CD V28 NTSC active area — matches FPGA + 7533 */
 
 /// Initialize DDR3 native video writer. Maps /dev/mem at 0x3A000000.
 bool NativeVideoWriter_Init(void);
@@ -23,17 +23,27 @@ bool NativeVideoWriter_Init(void);
 void NativeVideoWriter_Shutdown(void);
 
 /// Write one frame to DDR3 double-buffer, converting to RGB565.
-/// @param pixels   Source pixel data from SDL_Surface->pixels
-/// @param width    Surface width (must be <= 320)
-/// @param height   Surface height (must be <= 240)
-/// @param pitch    Source row stride in BYTES (SDL_Surface->pitch)
+/// Source W×H is anisotropically squished to 320×224 via NN.
+/// @param pixels   Source pixel data from s_screen->data
+/// @param width    Source width (PAK-native, e.g., 320 / 480 / 640 / 960)
+/// @param height   Source height (PAK-native)
+/// @param pitch    Source row stride in BYTES (typically width*bytes_per_pixel)
 /// @param bpp      Bits per pixel (8, 16, or 32)
-/// @param palette  Palette data for 8bpp (SDL_Color array), NULL otherwise
+/// @param palette  Palette data for 8bpp (RGB triplet array, 3 bytes/entry), NULL otherwise
 void NativeVideoWriter_WriteFrame(const void* pixels, int width, int height,
                                   int pitch, int bpp, const void* palette);
 
 /// True if DDR3 writer is initialized and ready.
 bool NativeVideoWriter_IsActive(void);
+
+/// Keepalive tick — increments frame counter pointing at the last-written
+/// buffer. Called by a 150ms-interval thread elsewhere (typically the SDL
+/// dummy driver's mister_keepalive_fn) to prevent the FPGA's 30-vblank
+/// staleness blank-out during idle (wait-for-PAK, pause menu, etc.).
+/// Shares state with NativeVideoWriter_WriteFrame — using a separate
+/// keepalive counter caused loading-bar jitter on 7533 (fixed 2026-05-22,
+/// mirrored to 4086 same day for architectural parity).
+void NativeVideoWriter_KeepaliveTick(void);
 
 /// Read joystick state for player 0-3 from DDR3 (written by FPGA).
 uint32_t NativeVideoWriter_ReadJoystick(int player);

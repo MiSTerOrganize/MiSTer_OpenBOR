@@ -17,12 +17,37 @@ import sys
 import os
 
 def read(path):
-    with open(path, 'r') as f:
+    # Explicit UTF-8 encoding — Windows defaults to cp1252 which mangles
+    # any non-ASCII byte in patch content (mid-dash, em-dash, arrow, etc.).
+    # Linux CI defaults to UTF-8 already; this just makes Windows
+    # dry-runs match CI behavior.
+    with open(path, 'r', encoding='utf-8', errors='replace') as f:
         return f.read()
 
 def write(path, content):
-    with open(path, 'w') as f:
+    with open(path, 'w', encoding='utf-8', newline='\n') as f:
         f.write(content)
+
+def strict_replace(content, old, new, label):
+    """Replace `old` with `new` in content; RAISE if `old` not found.
+
+    Use this instead of `content.replace(old, new)` for patches where a
+    silent no-op would corrupt the build. Mirrored from 7533 2026-05-22
+    (was originally added there 2026-05-19 after the ATOV palette session
+    surfaced multiple silent `.replace()` no-ops that masked the fix for
+    two deploys + a wasted hardware test cycle). 4086 didn't have this
+    helper until now — every existing `.replace()` was vulnerable to
+    silent pattern-drift if upstream changed. Migrating those is a
+    future cleanup task; for now use this helper on all NEW patches.
+    """
+    if old not in content:
+        raise RuntimeError(
+            f"strict_replace failed for '{label}': pattern not found.\n"
+            f"  First 80 chars of expected: {old[:80]!r}\n"
+            f"  Verify the pattern matches PRISTINE upstream at "
+            f"https://raw.githubusercontent.com/DCurrent/openbor/af23dc9c/engine/..."
+        )
+    return content.replace(old, new)
 
 def extract_function(source, func_sig):
     """Extract a C function body starting from its signature."""
@@ -184,8 +209,82 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
     last_include = vid.rfind('#include')
     eol = vid.index('\n', last_include) + 1
     vid = vid[:eol] + compat_block + vid[eol:]
+
+    # ── 3b. sdl/video.c — bypass SDL 1.2 surface chain in video_copy_screen ─
+    # Architectural parity with 7533 (commit f1773f7, 2026-05-22). Stock
+    # 4086 video_copy_screen does: memcpy(src->data -> screen->pixels) +
+    # (bscreen path if 2x video mode) + SDL_Flip(screen). SDL_Flip in our
+    # SDL 1.2 dummy driver triggers DUMMY_UpdateRects -> mister_present ->
+    # DDR3 — that's TWO passes over the pixel data (memcpy then read+convert).
+    # Direct write skips the wasted memcpy and gives ONE pass: src->data
+    # -> NativeVideoWriter_WriteFrame -> DDR3 with anisotropic NN squish.
+    #
+    # Per the engine-function-replacement meta-rule
+    # (feedback_engine_function_replacement_audit_side_effects.md): audited
+    # pristine af23dc9c sdl/video.c::video_copy_screen for side-effects via
+    # `grep -nE "sound_|music_|audio_|input_|render_|save_|net_|joy_|kbd_"
+    # inside the function body` — ZERO matches. Only SDL_Lock/Unlock,
+    # SDL_BlitSurface, SDL_Flip, SDL_framerateDelay. The framerate cap
+    # (SDL_framerateDelay) is the one side-effect we MUST preserve in the
+    # direct-write path. Other SDL calls are bypassed safely.
+    #
+    # Include native_video_writer.h via a separate guarded block.
+    vid = strict_replace(
+        vid,
+        '#include "openbor.h"\n'
+        '#include "gfxtypes.h"',
+        '#include "openbor.h"\n'
+        '#include "gfxtypes.h"\n'
+        '#ifdef MISTER_NATIVE_VIDEO\n'
+        '#include "native_video_writer.h"\n'
+        '/* bytes_per_pixel is a file-scope static int defined later in\n'
+        ' * this same file (line ~85 upstream af23dc9c). No extern needed. */\n'
+        '#endif',
+        'sdl/video.c include native_video_writer.h'
+    )
+
+    # Inject direct-write early-return inside video_copy_screen, right
+    # after the width/height clamp and BEFORE the bscreen check.
+    # bscreen is the 2x video mode buffer — NOT exposed on MiSTer (no UI
+    # to select 2x mode), so the !bscreen fast-path covers 100% of frames
+    # we currently ship. Keep stock bscreen path as a fallback in case a
+    # future feature exposes 2x mode.
+    vid = strict_replace(
+        vid,
+        '\tif(!width || !height) return 0;\n'
+        '\th = height;\n'
+        '\n'
+        '\tif(bscreen)',
+        '\tif(!width || !height) return 0;\n'
+        '\th = height;\n'
+        '\n'
+        '#ifdef MISTER_NATIVE_VIDEO\n'
+        '\t/* Direct DDR3 write -- bypass SDL 1.2 surface chain (memcpy +\n'
+        '\t * SDL_BlitSurface + SDL_Flip -> DUMMY_UpdateRects -> mister_present).\n'
+        '\t * WriteFrame does anisotropic NN squish src WxH -> 320x224 Sega CD\n'
+        '\t * V28 NTSC. Architectural parity with 7533 (2026-05-22). 2x video\n'
+        '\t * mode (bscreen) is NOT exposed on MiSTer; stock path kept as\n'
+        '\t * fallback. SDL_framerateDelay() preserved per engine-function-\n'
+        '\t * replacement meta-rule (engine framerate cap is a side-effect we\n'
+        '\t * mirror; other SDL_* calls are framework calls safe to bypass). */\n'
+        '\tif (!bscreen) {\n'
+        '\t\tNativeVideoWriter_WriteFrame(src->data, src->width, src->height,\n'
+        '\t\t                              src->width * bytes_per_pixel,\n'
+        '\t\t                              bytes_per_pixel * 8,\n'
+        '\t\t                              NULL);\n'
+        '#if WIN || LINUX\n'
+        '\t\tSDL_framerateDelay(&framerate_manager);\n'
+        '#endif\n'
+        '\t\treturn 1;\n'
+        '\t}\n'
+        '#endif\n'
+        '\n'
+        '\tif(bscreen)',
+        'sdl/video.c video_copy_screen direct-write fast path'
+    )
+
     write(vid_path, vid)
-    print("  SDL 1.2 compat stubs injected.")
+    print("  SDL 1.2 compat stubs + direct-write fast path injected.")
 
     # ── 4. Patch sdl/control.c — replace control_update() ────────────
     print("Patching sdl/control.c (input mapping)...")
@@ -284,28 +383,28 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
     print("Patching openbor.c (split save directories)...")
     obor_c = read(os.path.join(obor, 'openbor.c'))
 
-    # .cfg files: savesettings/loadsettings → "Config"
+    # .cfg files: savesettings/loadsettings -> "Config"
     # These have: getBasePath(path, "Saves", 0); getPakName(tmpname, 4);
     obor_c = obor_c.replace(
         'getBasePath(path, "Saves", 0);\n    getPakName(tmpname, 4);',
         '#ifdef MISTER_NATIVE_VIDEO\n    getBasePath(path, "Config", 0);\n#else\n    getBasePath(path, "Saves", 0);\n#endif\n    getPakName(tmpname, 4);'
     )
 
-    # default.cfg: saveasdefault/loadfromdefault → "Config"
+    # default.cfg: saveasdefault/loadfromdefault -> "Config"
     # These have: getBasePath(path, "Saves", 0); strncat(path, "default.cfg", 128);
     obor_c = obor_c.replace(
         'getBasePath(path, "Saves", 0);\n    strncat(path, "default.cfg", 128);',
         '#ifdef MISTER_NATIVE_VIDEO\n    getBasePath(path, "Config", 0);\n#else\n    getBasePath(path, "Saves", 0);\n#endif\n    strncat(path, "default.cfg", 128);'
     )
 
-    # .hi files: saveHighScoreFile/loadHighScoreFile → "Config"
+    # .hi files: saveHighScoreFile/loadHighScoreFile -> "Config"
     # These have: getBasePath(path, "Saves", 0); getPakName(tmpname, 1);
     obor_c = obor_c.replace(
         'getBasePath(path, "Saves", 0);\n    getPakName(tmpname, 1);',
         '#ifdef MISTER_NATIVE_VIDEO\n    getBasePath(path, "Config", 0);\n#else\n    getBasePath(path, "Saves", 0);\n#endif\n    getPakName(tmpname, 1);'
     )
 
-    # .s00 save states: saveScriptFile/loadScriptFile → "SaveStates"
+    # .s00 save states: saveScriptFile/loadScriptFile -> "SaveStates"
     # These have: getBasePath(path, "Saves", 0); getPakName(tmpvalue, 2);//.scr
     obor_c = obor_c.replace(
         'getBasePath(path, "Saves", 0);\n    getPakName(tmpvalue, 2);//.scr',
@@ -318,7 +417,7 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
     )
 
     write(os.path.join(obor, 'openbor.c'), obor_c)
-    print("  .cfg/.hi → /media/fat/config/, .s00 → /media/fat/savestates/OpenBOR_4086/")
+    print("  .cfg/.hi -> /media/fat/config/, .s00 -> /media/fat/savestates/OpenBOR_4086/")
 
     # ── 6b. Patch logsDir default to /media/fat/logs/OpenBOR_4086 ────
     # logsDir is declared in sdl/sdlport.c as: char logsDir[128] = {"Logs"};
@@ -402,7 +501,7 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
     #
     # Engine runs at UPSTREAM NATIVE 44.1 kHz (Sega CD Red Book CDDA rate).
     # Sample reads use upstream FIX_TO_INT(fp_pos) nearest-neighbor.
-    # Our sblaster_patch.c glue layer handles 44.1 → 48 kHz conversion via
+    # Our sblaster_patch.c glue layer handles 44.1 -> 48 kHz conversion via
     # linear interpolation before DDR3 submission — same architectural
     # pattern as PICO-8. Matches the NTSC-region-match rule.
     #
@@ -428,10 +527,10 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
     #         continue;
     #     }
     # On heavy-scene PAKs (e.g. MvC-style, ATOV boss fights), eviction
-    # cascades → all voices deactivated → engine emits silence. When a
+    # cascades -> all voices deactivated -> engine emits silence. When a
     # NEW audio event later triggers reload, the limiter envelope has
     # decayed to zero; sudden large samples bypass the limiter's attack
-    # → audible buzz/click on resume.
+    # -> audible buzz/click on resume.
     #
     # Fix: lazy-reload evicted samples via sound_reload_sample() before
     # deactivating. Only deactivate if reload also fails. Matches the
@@ -446,7 +545,7 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
     # HISTORY: previously this step was a dead-fire-in-hotpath diagnostic
     # logger (fprintf + fflush per silent-window transition) that may
     # have contributed to the user-reported "silence then loud buzz" by
-    # causing SD-card I/O storms → ring buffer underruns. Removing it
+    # causing SD-card I/O storms -> ring buffer underruns. Removing it
     # AND applying the real fix in one commit.
     OLD_NULL_CHECK = (
         '            if(!soundcache[snum].sample.sampleptr)\n'

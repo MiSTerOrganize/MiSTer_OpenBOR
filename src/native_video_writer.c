@@ -1,5 +1,5 @@
 //
-//  Native Video DDR3 Writer — OpenBOR MiSTer
+//  Native Video DDR3 Writer — OpenBOR MiSTer (4086 — legacy core)
 //
 //  Writes 320x224 RGB565 frames to DDR3 at 0x3A000000 for FPGA native
 //  video output. Double-buffered with control word handshake.
@@ -14,6 +14,14 @@
 //    0x3A000000 + 0x040     : Buffer 0 (320*224*2 = 143,360 bytes)
 //    0x3A000000 + 0x40040   : Buffer 1 (153,600 bytes)
 //    0x3A000000 + 0x80000   : Cart data (PAK file from OSD)
+//
+//  Architectural parity with MiSTer_OpenBOR_7533 (post-2026-05-22):
+//    direct DDR3 write from engine's video_copy_screen via WriteFrame,
+//    bypassing the SDL 1.2 surface chain (SDL_BlitSurface + SDL_Flip).
+//    Saves the wasted memcpy(src->data → screen->pixels) and the
+//    DUMMY_UpdateRects → mister_present detour. Anisotropic NN squish
+//    matches engine character (engine renders pixel-exact, no AA).
+//    Shared keepalive state via NativeVideoWriter_KeepaliveTick().
 //
 //  Copyright (C) 2026 MiSTer Organize — GPL-3.0
 //
@@ -71,9 +79,9 @@ bool NativeVideoWriter_Init(void) {
 
     /* Clear both buffers, control words, AND all per-player joystick
      * offsets. Cart's frame-0 reads stale DDR3 from previous core if
-     * Init doesn't zero everything the engine polls. OpenBOR currently
-     * uses btn() (held state) more than btn_pressed() so the symptom
-     * doesn't surface, but matches the universal hybrid-core rule. */
+     * Init doesn't zero everything the engine polls. OpenBOR uses btn()
+     * (held state) more than btn_pressed() so the symptom doesn't
+     * surface, but matches the universal hybrid-core rule. */
     memset((void*)(ddr_base + NV_BUF0_OFFSET), 0, NV_FRAME_BYTES);
     memset((void*)(ddr_base + NV_BUF1_OFFSET), 0, NV_FRAME_BYTES);
     volatile uint32_t* ctrl = (volatile uint32_t*)(ddr_base + NV_CTRL_OFFSET);
@@ -107,26 +115,36 @@ void NativeVideoWriter_Shutdown(void) {
 void NativeVideoWriter_WriteFrame(const void* pixels, int width, int height,
                                   int pitch, int bpp, const void* palette) {
     if (!ddr_base || !pixels) return;
-
-    /* Clamp to frame dimensions */
-    if (width > NV_FRAME_WIDTH) width = NV_FRAME_WIDTH;
-    if (height > NV_FRAME_HEIGHT) height = NV_FRAME_HEIGHT;
     if (width <= 0 || height <= 0) return;
+
+    /* Anisotropic nearest-neighbor squish: source W×H → NV_FRAME_WIDTH×HEIGHT.
+     * Sega CD V28 NTSC active area = 320×224. 320×240 4086-era PAKs get
+     * ~7% Y compress; sub-native PAKs (480×272, 640×480, 960×480) get
+     * larger downscale. Aspect distortion intentional — matches Sega CD
+     * displayed area edge-to-edge per NTSC region match rule. NN avoids
+     * the per-pixel cost of bilinear (~4× faster on Cortex-A9 — 2026-05-22
+     * 7533 measurement, mirrored to 4086 2026-05-22). */
+    int sx256 = (width * 256) / NV_FRAME_WIDTH;
+    int sy256 = (height * 256) / NV_FRAME_HEIGHT;
+    if (sx256 == 0) sx256 = 1;
+    if (sy256 == 0) sy256 = 1;
 
     uint32_t buf_offset = (active_buf == 0) ? NV_BUF0_OFFSET : NV_BUF1_OFFSET;
     volatile uint16_t* dst = (volatile uint16_t*)(ddr_base + buf_offset);
-    int src_bpp_bytes = bpp / 8;
 
     if (bpp == 16) {
         /* OpenBOR's 16bpp surfaces are BGR565 (B in high bits). The FPGA
-         * decoder expects RGB565 (R in high bits). Swap the R and B
-         * 5-bit fields per pixel while preserving the 6-bit G channel. */
+         * decoder expects RGB565. Swap R and B 5-bit fields per pixel. */
         const uint8_t* src = (const uint8_t*)pixels;
-        for (int y = 0; y < height; y++) {
-            const uint16_t* src_row = (const uint16_t*)(src + y * pitch);
+        for (int y = 0; y < NV_FRAME_HEIGHT; y++) {
+            int src_y = (y * sy256) / 256;
+            if (src_y >= height) src_y = height - 1;
+            const uint16_t* src_row = (const uint16_t*)(src + src_y * pitch);
             volatile uint16_t* dst_row = dst + y * NV_FRAME_WIDTH;
-            for (int x = 0; x < width; x++) {
-                uint16_t px = src_row[x];
+            for (int x = 0; x < NV_FRAME_WIDTH; x++) {
+                int src_x = (x * sx256) / 256;
+                if (src_x >= width) src_x = width - 1;
+                uint16_t px = src_row[src_x];
                 uint16_t r5 = px & 0x001F;
                 uint16_t g6 = px & 0x07E0;
                 uint16_t b5 = (px & 0xF800) >> 11;
@@ -139,10 +157,14 @@ void NativeVideoWriter_WriteFrame(const void* pixels, int width, int height,
          * OpenBOR s_screen palette: 3 bytes per entry (R, G, B), 256 entries. */
         const uint8_t* src = (const uint8_t*)pixels;
         const uint8_t* pal = (const uint8_t*)palette;
-        for (int y = 0; y < height; y++) {
-            const uint8_t* row = src + y * pitch;
-            for (int x = 0; x < width; x++) {
-                uint8_t idx = row[x];
+        for (int y = 0; y < NV_FRAME_HEIGHT; y++) {
+            int src_y = (y * sy256) / 256;
+            if (src_y >= height) src_y = height - 1;
+            const uint8_t* row = src + src_y * pitch;
+            for (int x = 0; x < NV_FRAME_WIDTH; x++) {
+                int src_x = (x * sx256) / 256;
+                if (src_x >= width) src_x = width - 1;
+                uint8_t idx = row[src_x];
                 uint8_t r = pal[idx * 3 + 0];
                 uint8_t g = pal[idx * 3 + 1];
                 uint8_t b = pal[idx * 3 + 2];
@@ -152,16 +174,20 @@ void NativeVideoWriter_WriteFrame(const void* pixels, int width, int height,
         }
     }
     else if (bpp == 32) {
-        /* 32bpp -- OpenBOR's SDL 1.2 surface is laid out byte-0=R,
+        /* 32bpp — OpenBOR's SDL 1.2 surface is laid out byte-0=R,
          * byte-1=G, byte-2=B, byte-3=A (RGBA). Extracting r from byte 0
          * and b from byte 2 matches what the FPGA decoder expects in
          * RGB565 (r in high bits). The older BGRA assumption produced
          * a uniform blue tint in gameplay (first reported 2026-04-15). */
         const uint8_t* src = (const uint8_t*)pixels;
-        for (int y = 0; y < height; y++) {
-            const uint8_t* row = src + y * pitch;
-            for (int x = 0; x < width; x++) {
-                int i = x * 4;
+        for (int y = 0; y < NV_FRAME_HEIGHT; y++) {
+            int src_y = (y * sy256) / 256;
+            if (src_y >= height) src_y = height - 1;
+            const uint8_t* row = src + src_y * pitch;
+            for (int x = 0; x < NV_FRAME_WIDTH; x++) {
+                int src_x = (x * sx256) / 256;
+                if (src_x >= width) src_x = width - 1;
+                int i = src_x * 4;
                 uint8_t r = row[i + 0];
                 uint8_t g = row[i + 1];
                 uint8_t b = row[i + 2];
@@ -183,6 +209,22 @@ void NativeVideoWriter_WriteFrame(const void* pixels, int width, int height,
 
 bool NativeVideoWriter_IsActive(void) {
     return ddr_base != NULL;
+}
+
+void NativeVideoWriter_KeepaliveTick(void) {
+    /* Tick frame_counter pointing at the LAST-WRITTEN buffer (not next-
+     * to-write). After WriteFrame's active_buf toggle, the last-written
+     * buffer is (!active_buf). Pointing the FPGA at next-to-write would
+     * flip it to a stale/empty buffer, causing jitter between frames
+     * (verified 2026-05-22 7533 — loading bar jitter root cause was a
+     * separate keepalive thread maintaining its own frame_counter +
+     * active_buf state, racing with WriteFrame's state). Mirroring 7533
+     * to 4086 2026-05-22 architectural-parity update. */
+    if (!ddr_base) return;
+    frame_counter++;
+    int last_written = (!active_buf) & 1;
+    volatile uint32_t* ctrl = (volatile uint32_t*)(ddr_base + NV_CTRL_OFFSET);
+    *ctrl = (frame_counter << 2) | last_written;
 }
 
 uint32_t NativeVideoWriter_CheckCart(void) {

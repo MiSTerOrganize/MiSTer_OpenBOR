@@ -145,8 +145,20 @@ cp /build/src/native_video_writer.h .
 cp /build/src/native_audio_writer.c .
 cp /build/src/native_audio_writer.h .
 
-# ── Apply Makefile patches ───────────────────────────────────────
+# ── Apply Makefile + source patches ──────────────────────────────
+# CRITICAL: hard-fail if apply_patches.py errors. Previously `set +e`
+# at the top let silent patch failures through — CI claimed "success"
+# but shipped a partially-patched binary on 7533's ATOV palette fix
+# (step 4's sprite.c pattern didn't match upstream's `drawmethod->flipx`
+# field; raise was swallowed by set +e). 4086 was vulnerable to the
+# same class of bug — fixed 2026-05-22 to mirror 7533 architectural
+# parity. See feedback_ci_set_minus_e_hides_patch_failures.md.
 python3 /build/.github/scripts/apply_patches.py /tmp/openbor/engine /build/patches
+PATCHES_RC=$?
+if [ $PATCHES_RC -ne 0 ]; then
+    echo "ERROR: apply_patches.py failed with exit code $PATCHES_RC — refusing to ship a partially-patched binary"
+    exit 1
+fi
 
 # ── Build ────────────────────────────────────────────────────────
 echo "=== Building OpenBOR for MiSTer ==="
