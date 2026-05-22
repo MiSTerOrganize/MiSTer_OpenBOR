@@ -35,10 +35,14 @@ def strict_replace(content, old, new, label):
     silent no-op would corrupt the build. Mirrored from 7533 2026-05-22
     (was originally added there 2026-05-19 after the ATOV palette session
     surfaced multiple silent `.replace()` no-ops that masked the fix for
-    two deploys + a wasted hardware test cycle). 4086 didn't have this
-    helper until now — every existing `.replace()` was vulnerable to
-    silent pattern-drift if upstream changed. Migrating those is a
-    future cleanup task; for now use this helper on all NEW patches.
+    two deploys + a wasted hardware test cycle). 4086 reached full
+    strict_replace coverage 2026-05-22 — all 15 unconditional `.replace()`
+    calls migrated. 3 conditional `.replace()` sites remain (menu_anchor
+    loop, logsDir if-guarded, pixelformat blend R/B fixes list) — those
+    handle pattern variability between r3979 and r4086 upstream variants;
+    they're intentionally conditional and use `if pattern in source`
+    guards before the replace, so they CAN'T silently no-op the way
+    bare `.replace()` calls outside guards would.
     """
     if old not in content:
         raise RuntimeError(
@@ -122,14 +126,17 @@ endif
 """
     # Insert after the BUILD_OPENDINGUX endif
     marker = "ifeq ($(BUILD_OPENDINGUX), 0)\nBUILD_DEBUG     = 1\nendif\nendif"
-    mf = mf.replace(marker, marker + "\n" + mister_target)
+    mf = strict_replace(mf, marker, marker + "\n" + mister_target,
+                        'Makefile BUILD_OPENDINGUX marker for BUILD_MISTER target')
 
     # Add MISTER_NATIVE_VIDEO CFLAG + suppress warnings that v4153's
     # older C style triggers under modern GCC (stringop-overflow,
     # multistatement-macros, etc.)
-    mf = mf.replace(
+    mf = strict_replace(
+        mf,
         "ifdef BUILD_SDL\nCFLAGS \t       += -DSDL\nendif",
-        "ifdef BUILD_SDL\nCFLAGS \t       += -DSDL\nendif\n\n\nifdef BUILD_MISTER\nCFLAGS         += -DMISTER_NATIVE_VIDEO -fcommon -Wno-error -O1 -g -rdynamic -funwind-tables -fasynchronous-unwind-tables -mapcs-frame\nendif"
+        "ifdef BUILD_SDL\nCFLAGS \t       += -DSDL\nendif\n\n\nifdef BUILD_MISTER\nCFLAGS         += -DMISTER_NATIVE_VIDEO -fcommon -Wno-error -O1 -g -rdynamic -funwind-tables -fasynchronous-unwind-tables -mapcs-frame\nendif",
+        'Makefile BUILD_SDL CFLAGS append BUILD_MISTER block'
     )
 
     # Add native_video_writer.o and native_audio_writer.o to objects.
@@ -150,15 +157,19 @@ endif
         print("  WARN: sdl/menu.o endif pattern not found for object injection")
 
     # Add strip rule
-    mf = mf.replace(
+    mf = strict_replace(
+        mf,
         "ifdef BUILD_OPENDINGUX\nSTRIP           = $(OPENDINGUX_TOOLCHAIN_PREFIX)/bin/mipsel-linux-strip $(TARGET) -o $(TARGET_FINAL)\nendif",
-        "ifdef BUILD_OPENDINGUX\nSTRIP           = $(OPENDINGUX_TOOLCHAIN_PREFIX)/bin/mipsel-linux-strip $(TARGET) -o $(TARGET_FINAL)\nendif\nifdef BUILD_MISTER\nSTRIP           = strip $(TARGET) -o $(TARGET_FINAL)\nendif"
+        "ifdef BUILD_OPENDINGUX\nSTRIP           = $(OPENDINGUX_TOOLCHAIN_PREFIX)/bin/mipsel-linux-strip $(TARGET) -o $(TARGET_FINAL)\nendif\nifdef BUILD_MISTER\nSTRIP           = strip $(TARGET) -o $(TARGET_FINAL)\nendif",
+        'Makefile BUILD_OPENDINGUX strip rule + BUILD_MISTER strip rule'
     )
 
     # Add -ldl for MiSTer (needed for dlopen/dlsym/dlclose in static SDL)
-    mf = mf.replace(
+    mf = strict_replace(
+        mf,
         "LIBS           += -lpng -lz -lm",
-        "LIBS           += -lpng -lz -lm\n\n\nifdef BUILD_MISTER\nLIBS           += -ldl\nendif"
+        "LIBS           += -lpng -lz -lm\n\n\nifdef BUILD_MISTER\nLIBS           += -ldl\nendif",
+        'Makefile LIBS add -ldl for BUILD_MISTER'
     )
 
     write(os.path.join(obor, 'Makefile'), mf)
@@ -291,9 +302,11 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
     src = read(os.path.join(obor, 'sdl/control.c'))
 
     # Add include
-    src = src.replace(
+    src = strict_replace(
+        src,
         '#include "openbor.h"',
-        '#include "openbor.h"\n#ifdef MISTER_NATIVE_VIDEO\n#include "native_video_writer.h"\n#endif'
+        '#include "openbor.h"\n#ifdef MISTER_NATIVE_VIDEO\n#include "native_video_writer.h"\n#endif',
+        'sdl/control.c include native_video_writer.h'
     )
 
     src = replace_function(src, "void control_update(s_playercontrols ** playercontrols, int numplayers)", "control_patch.c", patches)
@@ -305,9 +318,11 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
     src = read(os.path.join(obor, 'sdl/sdlport.c'))
 
     # Add includes
-    src = src.replace(
+    src = strict_replace(
+        src,
         '#include "menu.h"',
-        '#include "menu.h"\n#ifdef MISTER_NATIVE_VIDEO\n#include "native_video_writer.h"\n#include "native_audio_writer.h"\n#include <sys/stat.h>\n#include <stdlib.h>\n#include <time.h>\n#include <unistd.h>\n#include <pthread.h>\n#include <signal.h>\n#include <execinfo.h>\n#endif'
+        '#include "menu.h"\n#ifdef MISTER_NATIVE_VIDEO\n#include "native_video_writer.h"\n#include "native_audio_writer.h"\n#include <sys/stat.h>\n#include <stdlib.h>\n#include <time.h>\n#include <unistd.h>\n#include <pthread.h>\n#include <signal.h>\n#include <execinfo.h>\n#endif',
+        'sdl/sdlport.c include native_video_writer.h + helpers'
     )
 
     # Replace main() and inject any code above it (swap thread, etc.)
@@ -359,7 +374,8 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
 #define COPY_ROOT_PATH(buf, name) strncpy(buf, "./", 2); strncat(buf, name, strlen(name)); strncat(buf, "/", 1);
 #endif"""
 
-    src = src.replace(old_macro, new_macro)
+    src = strict_replace(src, old_macro, new_macro,
+                         'source/utils.c COPY_ROOT_PATH macro (Saves/Config/SaveStates/Logs redirect)')
 
     # Patch the four LOGFILE macros that hardcode "./Logs/OpenBorLog.txt"
     # and "./Logs/ScriptLog.txt" relative paths. These are used by the
@@ -367,13 +383,17 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
     # so they need their own replacement. Writing to cwd's Logs/ directory
     # violates the canonical single-location log rule
     # (/media/fat/logs/{CoreName}/) — patch to absolute paths.
-    src = src.replace(
+    src = strict_replace(
+        src,
         '"./Logs/OpenBorLog.txt"',
-        '"/media/fat/logs/OpenBOR_4086/OpenBorLog.txt"'
+        '"/media/fat/logs/OpenBOR_4086/OpenBorLog.txt"',
+        'source/utils.c LOGFILE OpenBorLog.txt absolute path'
     )
-    src = src.replace(
+    src = strict_replace(
+        src,
         '"./Logs/ScriptLog.txt"',
-        '"/media/fat/logs/OpenBOR_4086/ScriptLog.txt"'
+        '"/media/fat/logs/OpenBOR_4086/ScriptLog.txt"',
+        'source/utils.c LOGFILE ScriptLog.txt absolute path'
     )
 
     write(os.path.join(obor, 'source/utils.c'), src)
@@ -385,35 +405,45 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
 
     # .cfg files: savesettings/loadsettings -> "Config"
     # These have: getBasePath(path, "Saves", 0); getPakName(tmpname, 4);
-    obor_c = obor_c.replace(
+    obor_c = strict_replace(
+        obor_c,
         'getBasePath(path, "Saves", 0);\n    getPakName(tmpname, 4);',
-        '#ifdef MISTER_NATIVE_VIDEO\n    getBasePath(path, "Config", 0);\n#else\n    getBasePath(path, "Saves", 0);\n#endif\n    getPakName(tmpname, 4);'
+        '#ifdef MISTER_NATIVE_VIDEO\n    getBasePath(path, "Config", 0);\n#else\n    getBasePath(path, "Saves", 0);\n#endif\n    getPakName(tmpname, 4);',
+        'openbor.c getBasePath Saves -> Config (.cfg getPakName 4)'
     )
 
     # default.cfg: saveasdefault/loadfromdefault -> "Config"
     # These have: getBasePath(path, "Saves", 0); strncat(path, "default.cfg", 128);
-    obor_c = obor_c.replace(
+    obor_c = strict_replace(
+        obor_c,
         'getBasePath(path, "Saves", 0);\n    strncat(path, "default.cfg", 128);',
-        '#ifdef MISTER_NATIVE_VIDEO\n    getBasePath(path, "Config", 0);\n#else\n    getBasePath(path, "Saves", 0);\n#endif\n    strncat(path, "default.cfg", 128);'
+        '#ifdef MISTER_NATIVE_VIDEO\n    getBasePath(path, "Config", 0);\n#else\n    getBasePath(path, "Saves", 0);\n#endif\n    strncat(path, "default.cfg", 128);',
+        'openbor.c getBasePath Saves -> Config (default.cfg)'
     )
 
     # .hi files: saveHighScoreFile/loadHighScoreFile -> "Config"
     # These have: getBasePath(path, "Saves", 0); getPakName(tmpname, 1);
-    obor_c = obor_c.replace(
+    obor_c = strict_replace(
+        obor_c,
         'getBasePath(path, "Saves", 0);\n    getPakName(tmpname, 1);',
-        '#ifdef MISTER_NATIVE_VIDEO\n    getBasePath(path, "Config", 0);\n#else\n    getBasePath(path, "Saves", 0);\n#endif\n    getPakName(tmpname, 1);'
+        '#ifdef MISTER_NATIVE_VIDEO\n    getBasePath(path, "Config", 0);\n#else\n    getBasePath(path, "Saves", 0);\n#endif\n    getPakName(tmpname, 1);',
+        'openbor.c getBasePath Saves -> Config (.hi getPakName 1)'
     )
 
     # .s00 save states: saveScriptFile/loadScriptFile -> "SaveStates"
     # These have: getBasePath(path, "Saves", 0); getPakName(tmpvalue, 2);//.scr
-    obor_c = obor_c.replace(
+    obor_c = strict_replace(
+        obor_c,
         'getBasePath(path, "Saves", 0);\n    getPakName(tmpvalue, 2);//.scr',
-        '#ifdef MISTER_NATIVE_VIDEO\n    getBasePath(path, "SaveStates", 0);\n#else\n    getBasePath(path, "Saves", 0);\n#endif\n    getPakName(tmpvalue, 2);//.scr'
+        '#ifdef MISTER_NATIVE_VIDEO\n    getBasePath(path, "SaveStates", 0);\n#else\n    getBasePath(path, "Saves", 0);\n#endif\n    getPakName(tmpvalue, 2);//.scr',
+        'openbor.c getBasePath Saves -> SaveStates (.scr getPakName 2 tmpvalue)'
     )
     # loadScriptFile uses tmpname instead of tmpvalue
-    obor_c = obor_c.replace(
+    obor_c = strict_replace(
+        obor_c,
         'getBasePath(path, "Saves", 0);\n    getPakName(tmpname, 2);//.scr',
-        '#ifdef MISTER_NATIVE_VIDEO\n    getBasePath(path, "SaveStates", 0);\n#else\n    getBasePath(path, "Saves", 0);\n#endif\n    getPakName(tmpname, 2);//.scr'
+        '#ifdef MISTER_NATIVE_VIDEO\n    getBasePath(path, "SaveStates", 0);\n#else\n    getBasePath(path, "Saves", 0);\n#endif\n    getPakName(tmpname, 2);//.scr',
+        'openbor.c getBasePath Saves -> SaveStates (.scr getPakName 2 tmpname)'
     )
 
     write(os.path.join(obor, 'openbor.c'), obor_c)
@@ -570,9 +600,8 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
         '                }\n'
         '            }\n'
     )
-    if OLD_NULL_CHECK not in sm:
-        raise RuntimeError("soundmix.c: mixaudio() null-check block not found (upstream changed?)")
-    sm = sm.replace(OLD_NULL_CHECK, NEW_NULL_CHECK)
+    sm = strict_replace(sm, OLD_NULL_CHECK, NEW_NULL_CHECK,
+                        'soundmix.c mixaudio NULL-check soundcache-reload')
 
     write(sm_path, sm)
     print("  soundmix.c patched (mixaudio cache-reload, NO diagnostic).")
