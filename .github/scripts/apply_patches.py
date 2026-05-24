@@ -471,42 +471,6 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
         'openbor.c getBasePath Saves -> SaveStates (.scr getPakName 2 tmpname)'
     )
 
-    # -- Clamp off-screen / zero-size loading bar to on-screen default
-    # (2026-05-23, sister-core mirror from 7533). User-explicit override
-    # for cart-authored off-screen bars that produce confusing black
-    # screens during long init phases. See 7533 patch for full rationale.
-    loadingbar_old = (
-        "            if(isLoadingScreenTypeBar(s->set))\n"
-        "            {\n"
-        "                loadingbarstatus.size.x = size_x;\n"
-        "                bar(pos_x, pos_y, value, max, &loadingbarstatus);\n"
-        "            }"
-    )
-    loadingbar_new = (
-        "            if(isLoadingScreenTypeBar(s->set))\n"
-        "            {\n"
-        "                /* MiSTer fix 2026-05-23: clamp off-screen or zero-size\n"
-        "                 * bar coords to on-screen bottom-center default. Some\n"
-        "                 * carts (e.g. Double Dragon Reloaded Alternate) declare\n"
-        "                 * set=LS_TYPE_BOTH with bar at (-1000,-1000) bsize=0 --\n"
-        "                 * bar invisible, user sees pure black during long\n"
-        "                 * model-cache init. Override to a visible default. */\n"
-        "                if (pos_x < 0 || pos_y < 0 ||\n"
-        "                    pos_x >= videomodes.hRes || pos_y >= videomodes.vRes ||\n"
-        "                    size_x <= 0)\n"
-        "                {\n"
-        "                    size_x = videomodes.hRes / 3;\n"
-        "                    pos_x = (videomodes.hRes - size_x) / 2;\n"
-        "                    pos_y = videomodes.vRes - 25;\n"
-        "                }\n"
-        "                loadingbarstatus.size.x = size_x;\n"
-        "                bar(pos_x, pos_y, value, max, &loadingbarstatus);\n"
-        "            }"
-    )
-    obor_c = strict_replace(obor_c, loadingbar_old, loadingbar_new,
-                            'clamp off-screen / zero-size loading bar (sister-core mirror)')
-    print("  update_loading(): off-screen/zero-size bar clamps to visible default")
-
     write(os.path.join(obor, 'openbor.c'), obor_c)
     print("  .cfg/.hi -> /media/fat/config/, .s00 -> /media/fat/savestates/OpenBOR_4086/")
 
