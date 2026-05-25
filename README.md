@@ -21,6 +21,7 @@ If a PAK won't run on one build, reload the other RBF and try again — your `Pa
   - Aliens Clash: ~5-15 s estimated → **0.6 s (-95%)** ⭐
   - Smaller legacy PAKs with high sprite-reuse expected to see similar near-instant load times
   - `[LOAD] PAK loaded in N ms` printf retained at end of `load_models()` for tracking — `grep '\[LOAD\]' /media/fat/logs/OpenBOR_4086/OpenBorLog.txt`
+- **Loading bar clamp** (v2.10, sister-core mirror from 7533) — when a PAK declares a loading bar with `bsize=0` (cart-author shortcut meaning "no real bar requested") AND would otherwise show pure black during the model-cache init phase, the engine renders a default on-screen progress bar at the bottom-center. Gated narrowly so PAKs with intentional on-screen bars or per-level `bgPosi` displays are unchanged.
 - **Native FPGA audio output** — 48 kHz stereo via DDR3 ring buffer, no ALSA. Audio kernel: **nearest-neighbor (zero-order hold)** at engine + wrapper (matches upstream OpenBOR `engine/source/gamelib/soundmix.c` FIX_TO_INT shift-truncation kernel at all three sample-read sites — music + 8-bit voice + 16-bit voice; wrapper at `patches/sblaster_patch.c::audio_thread_fn` mirrors the engine character — both stages NN).
 - **CRT support** — scanlines, shadow masks, and analog video output for CRT displays
 - **MiSTer OSD integration** — load PAK files from the file browser
