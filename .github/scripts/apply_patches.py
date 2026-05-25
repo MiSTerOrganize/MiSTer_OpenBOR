@@ -510,6 +510,245 @@ static inline int SDL_GetDesktopDisplayMode(int d, SDL_DisplayMode *m) {
         'openbor.c getBasePath Saves -> SaveStates (.scr getPakName 2 tmpname)'
     )
 
+    # -- Step 13 (2026-05-24, sister-core mirror from 7533): HASH-MAP loadsprite
+    # cache. Same architecture as 7533 commits f8ad483 (hash REPLACES linear
+    # scan) + b2e065a (Phase 1.1 tunes). 4086 has IDENTICAL loadsprite/loadsprite2/
+    # freesprites/prepare_sprite_map structure as 7533, with two minor pattern
+    # differences: (a) 4086 uses `shutdown()` not `borShutdown()` (not in any of
+    # our hash patches' anchors), (b) 4086 uses `bitmap->height` not
+    # `bitmap->clipped_height` in the sprite_list->sprite->srcheight assignment
+    # (affects only Patch 13d — adjusted below).
+    #
+    # 7533 measured gains (Phase 1 + Phase 1.1):
+    #   ATOV 1.87s (-80%+), JL Legacy 69.1s (-68%), DD 34.9s (-52%)
+    # 4086 expected similar % reductions on legacy PAKs.
+
+    # Patch 13a: hash globals + helpers before loadsprite2() definition.
+    hash_globals_old = (
+        "s_sprite *loadsprite2(char *filename, int *width, int *height)\n"
+        "{\n"
+        "    size_t size;"
+    )
+    hash_globals_new = (
+        "/* MiSTer 2026-05-24 hash-map cache for loadsprite (replaces O(N) linear scan).\n"
+        " * Sister-core mirror from 7533 commits f8ad483 + b2e065a Phase 1.1 tunes.\n"
+        " * Separate-chaining hash; bucket count power-of-2 for fast mask.\n"
+        " * Bucket holds indices into sprite_map[] (not pointers, so realloc-safe). */\n"
+        "#define MISTER_SPRITE_HASH_SIZE 262144  /* Phase 1.1: 4x buckets, ~2MB RAM, lower collision rate */\n"
+        "typedef struct mister_sprite_hash_bucket_s {\n"
+        "    int *indices;\n"
+        "    int count;\n"
+        "    int capacity;\n"
+        "} mister_sprite_hash_bucket;\n"
+        "static mister_sprite_hash_bucket mister_sprite_hash[MISTER_SPRITE_HASH_SIZE];\n"
+        "\n"
+        "static unsigned int mister_hash_string_lower(const char *s) {\n"
+        "    /* DJB2 with inline lowercasing for case-insensitive match. */\n"
+        "    unsigned int h = 5381;\n"
+        "    while (*s) {\n"
+        "        unsigned int c = (unsigned char)*s++;\n"
+        "        if (c >= 'A' && c <= 'Z') c += 32;\n"
+        "        h = ((h << 5) + h) + c;\n"
+        "    }\n"
+        "    return h;\n"
+        "}\n"
+        "\n"
+        "static void mister_sprite_hash_insert(int index) {\n"
+        "    if (!sprite_map || !sprite_map[index].node || !sprite_map[index].node->filename) return;\n"
+        "    unsigned int h = mister_hash_string_lower(sprite_map[index].node->filename) & (MISTER_SPRITE_HASH_SIZE - 1);\n"
+        "    mister_sprite_hash_bucket *b = &mister_sprite_hash[h];\n"
+        "    if (b->count >= b->capacity) {\n"
+        "        int new_cap = b->capacity ? b->capacity * 2 : 16;  /* Phase 1.1: skip early reallocs */\n"
+        "        int *new_idx = realloc(b->indices, sizeof(int) * new_cap);\n"
+        "        if (!new_idx) return;  /* OOM: hash insert fails silently; loadsprite still works */\n"
+        "        b->indices = new_idx;\n"
+        "        b->capacity = new_cap;\n"
+        "    }\n"
+        "    b->indices[b->count++] = index;\n"
+        "}\n"
+        "\n"
+        "s_sprite *loadsprite2(char *filename, int *width, int *height)\n"
+        "{\n"
+        "    size_t size;"
+    )
+    obor_c = strict_replace(obor_c, hash_globals_old, hash_globals_new,
+                            'Step 13a (4086): hash-map globals + helpers')
+
+    # Patch 13b: REPLACE the linear scan entirely with hash-map lookup.
+    hash_lookup_old = (
+        "    for(i = 0; i < sprites_loaded; i++)\n"
+        "    {\n"
+        "        if(sprite_map && sprite_map[i].node)\n"
+        "        {\n"
+        "            if(stricmp(sprite_map[i].node->filename, filename) == 0)\n"
+        "            {\n"
+        "                if(!sprite_map[i].node->sprite)\n"
+        "                {\n"
+        "                    sprite_map[i].node->sprite = loadsprite2(filename, NULL, NULL);\n"
+        "                }\n"
+        "                if(sprite_map[i].centerx + sprite_map[i].node->sprite->offsetx == ofsx &&\n"
+        "                        sprite_map[i].centery + sprite_map[i].node->sprite->offsety == ofsy)\n"
+        "                {\n"
+        "                    return i;\n"
+        "                }\n"
+        "                else\n"
+        "                {\n"
+        "                    toshare = sprite_map[i].node;\n"
+        "                }\n"
+        "            }\n"
+        "        }\n"
+        "    }\n"
+        "\n"
+        "    if(toshare)"
+    )
+    hash_lookup_new = (
+        "    /* MiSTer 2026-05-24 hash-map cache lookup (REPLACES O(N) linear scan). */\n"
+        "    {\n"
+        "        unsigned int _mister_h = mister_hash_string_lower(filename) & (MISTER_SPRITE_HASH_SIZE - 1);\n"
+        "        mister_sprite_hash_bucket *_mister_b = &mister_sprite_hash[_mister_h];\n"
+        "        int _mister_j;\n"
+        "        for (_mister_j = 0; _mister_j < _mister_b->count; _mister_j++) {\n"
+        "            int _mister_i = _mister_b->indices[_mister_j];\n"
+        "            if (sprite_map && sprite_map[_mister_i].node) {\n"
+        "                if (stricmp(sprite_map[_mister_i].node->filename, filename) == 0) {\n"
+        "                    if (!sprite_map[_mister_i].node->sprite) {\n"
+        "                        sprite_map[_mister_i].node->sprite = loadsprite2(filename, NULL, NULL);\n"
+        "                    }\n"
+        "                    if (sprite_map[_mister_i].centerx + sprite_map[_mister_i].node->sprite->offsetx == ofsx &&\n"
+        "                            sprite_map[_mister_i].centery + sprite_map[_mister_i].node->sprite->offsety == ofsy) {\n"
+        "                        return _mister_i;\n"
+        "                    } else {\n"
+        "                        toshare = sprite_map[_mister_i].node;\n"
+        "                    }\n"
+        "                }\n"
+        "            }\n"
+        "        }\n"
+        "    }\n"
+        "    (void)i;  /* Suppress unused-variable warning since linear scan removed. */\n"
+        "\n"
+        "    if(toshare)"
+    )
+    obor_c = strict_replace(obor_c, hash_lookup_old, hash_lookup_new,
+                            'Step 13b (4086): REPLACE linear scan with hash-map lookup')
+
+    # Patch 13c: hash insert after toshare path's ++sprites_loaded.
+    hash_insert_toshare_old = (
+        "        sprite_map[sprites_loaded].centery = ofsy - toshare->sprite->offsety;\n"
+        "        ++sprites_loaded;\n"
+        "        return sprites_loaded - 1;\n"
+        "    }"
+    )
+    hash_insert_toshare_new = (
+        "        sprite_map[sprites_loaded].centery = ofsy - toshare->sprite->offsety;\n"
+        "        ++sprites_loaded;\n"
+        "        mister_sprite_hash_insert(sprites_loaded - 1);  /* MiSTer 2026-05-24 hash-map insert (toshare path) */\n"
+        "        return sprites_loaded - 1;\n"
+        "    }"
+    )
+    obor_c = strict_replace(obor_c, hash_insert_toshare_old, hash_insert_toshare_new,
+                            'Step 13c (4086): hash-map insert in loadsprite toshare path')
+
+    # Patch 13d: hash insert after main path's ++sprites_loaded.
+    # 4086 difference: uses bitmap->height (not bitmap->clipped_height as 7533).
+    hash_insert_main_old = (
+        "    sprite_list->sprite->srcheight = bitmap->height;\n"
+        "    freebitmap(bitmap);\n"
+        "    ++sprites_loaded;\n"
+        "    return sprites_loaded - 1;\n"
+        "}"
+    )
+    hash_insert_main_new = (
+        "    sprite_list->sprite->srcheight = bitmap->height;\n"
+        "    freebitmap(bitmap);\n"
+        "    ++sprites_loaded;\n"
+        "    mister_sprite_hash_insert(sprites_loaded - 1);  /* MiSTer 2026-05-24 hash-map insert (main path) */\n"
+        "    return sprites_loaded - 1;\n"
+        "}"
+    )
+    obor_c = strict_replace(obor_c, hash_insert_main_old, hash_insert_main_new,
+                            'Step 13d (4086): hash-map insert in loadsprite main path')
+
+    # Patch 13e: hash-table reset in freesprites().
+    hash_reset_old = (
+        "    if(sprite_map != NULL)\n"
+        "    {\n"
+        "        free(sprite_map);\n"
+        "        sprite_map = NULL;\n"
+        "    }\n"
+        "    sprites_loaded = 0;\n"
+        "}"
+    )
+    hash_reset_new = (
+        "    if(sprite_map != NULL)\n"
+        "    {\n"
+        "        free(sprite_map);\n"
+        "        sprite_map = NULL;\n"
+        "    }\n"
+        "    sprites_loaded = 0;\n"
+        "    /* MiSTer 2026-05-24 hash-map reset: clear bucket contents on PAK switch. */\n"
+        "    {\n"
+        "        int _mister_b;\n"
+        "        for (_mister_b = 0; _mister_b < MISTER_SPRITE_HASH_SIZE; _mister_b++) {\n"
+        "            if (mister_sprite_hash[_mister_b].indices) {\n"
+        "                free(mister_sprite_hash[_mister_b].indices);\n"
+        "                mister_sprite_hash[_mister_b].indices = NULL;\n"
+        "            }\n"
+        "            mister_sprite_hash[_mister_b].count = 0;\n"
+        "            mister_sprite_hash[_mister_b].capacity = 0;\n"
+        "        }\n"
+        "    }\n"
+        "}"
+    )
+    obor_c = strict_replace(obor_c, hash_reset_old, hash_reset_new,
+                            'Step 13e (4086): hash-map reset in freesprites()')
+
+    # Patch 13f: load-time diagnostic timer start in load_models().
+    load_timer_start_old = (
+        "    free_modelcache();\n"
+        "\n"
+        "    if(isLoadingScreenTypeBg(loadingbg[0].set))"
+    )
+    load_timer_start_new = (
+        "    free_modelcache();\n"
+        "    /* MiSTer 2026-05-24 load-time diagnostic: track total PAK load wall-clock */\n"
+        "    unsigned int _mister_load_t0 = timer_gettick();\n"
+        "\n"
+        "    if(isLoadingScreenTypeBg(loadingbg[0].set))"
+    )
+    obor_c = strict_replace(obor_c, load_timer_start_old, load_timer_start_new,
+                            'Step 13f (4086): load-time timer start in load_models()')
+
+    # Patch 13g: load-time diagnostic timer end in load_models().
+    load_timer_end_old = (
+        '    printf("\\nLoading models...............\\tDone!\\n");\n'
+        "\n"
+        "\n"
+        "    if(buf)"
+    )
+    load_timer_end_new = (
+        '    printf("\\nLoading models...............\\tDone!\\n");\n'
+        '    /* MiSTer 2026-05-24 load-time diagnostic */\n'
+        '    printf("[LOAD] PAK loaded in %u ms\\n", (unsigned int)(timer_gettick() - _mister_load_t0));\n'
+        "\n"
+        "\n"
+        "    if(buf)"
+    )
+    obor_c = strict_replace(obor_c, load_timer_end_old, load_timer_end_new,
+                            'Step 13g (4086): load-time timer end + printf in load_models()')
+
+    # Patch 13h (Phase 1.1): prepare_sprite_map growth chunk 256 -> 4096.
+    sprite_map_growth_old = (
+        "        sprite_map_max_items = (((size + 1) >> 8) + 1) << 8;"
+    )
+    sprite_map_growth_new = (
+        "        /* MiSTer 2026-05-24 Phase 1.1: 256-chunk -> 4096-chunk growth (16x fewer reallocs) */\n"
+        "        sprite_map_max_items = (((size + 1) >> 12) + 1) << 12;"
+    )
+    obor_c = strict_replace(obor_c, sprite_map_growth_old, sprite_map_growth_new,
+                            'Step 13h (4086, Phase 1.1): prepare_sprite_map growth 256 -> 4096 chunks')
+
+    print("  Step 13 (4086 sister-core mirror): hash-map cache for loadsprite (8 patches: hash + linear-scan replace + reset + load-time diagnostic + sprite_map growth tuning)")
+
     # -- Clamp off-screen / zero-size loading bar to on-screen default
     # (2026-05-23, sister-core mirror from 7533). User-explicit override
     # for cart-authored off-screen bars that produce confusing black
